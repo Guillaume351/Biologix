@@ -4,6 +4,7 @@ public abstract class Organe {
     double taille0;
     double tailleMax;
     double TempsCroissance;
+    double densite;
 
     public double getTaille(double t) {
         if (t < TempsCroissance) {
@@ -12,5 +13,9 @@ public abstract class Organe {
         } else {
             return tailleMax;
         }
+    }
+
+    public double getMasse(double t) {
+        return getTaille(t) * densite;
     }
 }
