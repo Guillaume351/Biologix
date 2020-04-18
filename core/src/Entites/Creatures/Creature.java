@@ -46,6 +46,13 @@ public class Creature extends Entite {
         return somme;
     }
 
+    /**
+     * Deplace la créature suivant son vecteur direction et avec sa vitesse, renvoie l'énergie dépensée
+     *
+     * @param dt      : delta de temps de simulation
+     * @param terrain : terrain sur lequel évolue la créature
+     * @return Energie dépensée pour le déplacement réalisé
+     */
     public double deplacer(double dt, Terrain terrain) {
         //deplace la creature et renvoie l'energie dépensee
         double z0 = terrain.getAltitudes().getValeur(getPosition());
