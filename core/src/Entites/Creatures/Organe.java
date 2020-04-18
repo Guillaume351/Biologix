@@ -18,4 +18,36 @@ public abstract class Organe {
     public double getMasse(double t) {
         return getTaille(t) * densite;
     }
+
+    public double getTaille0() {
+        return taille0;
+    }
+
+    public void setTaille0(double taille0) {
+        this.taille0 = taille0;
+    }
+
+    public double getTailleMax() {
+        return tailleMax;
+    }
+
+    public void setTailleMax(double tailleMax) {
+        this.tailleMax = tailleMax;
+    }
+
+    public double getTempsCroissance() {
+        return TempsCroissance;
+    }
+
+    public void setTempsCroissance(double tempsCroissance) {
+        TempsCroissance = tempsCroissance;
+    }
+
+    public double getDensite() {
+        return densite;
+    }
+
+    public void setDensite(double densite) {
+        this.densite = densite;
+    }
 }
