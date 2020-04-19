@@ -7,11 +7,11 @@ public class Mouvement extends Organe {
     double coeffFrottement;
 
     /**
-     * Renvoie l'energie depensee par unité de masse pour réaliser un déplacement a la vitesse dionnee durant un temps dt
+     * Calcule l'energie depensee pour réaliser un déplacement (par unité de masse)
      *
-     * @param dt      : temps durant lequel le mouvement est realise
-     * @param vitesse : vitesse de deplacement de la creature
-     * @return energie depensee par unite de masse
+     * @param dt      : Temps durant lequel le mouvement est realise
+     * @param vitesse : Vitesse de deplacement de la creature
+     * @return Energie dépensée par unité de masse
      */
     public double getEnergieDepenseeParUniteMasse(double dt, double vitesse) {
         //Energie = puissance*dt

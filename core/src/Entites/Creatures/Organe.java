@@ -16,8 +16,8 @@ public abstract class Organe {
     /**
      * Taille de l'organe pour un age donne
      *
-     * @param t : age de la creature
-     * @return taille de l'organe pour l'age donné
+     * @param t : Age de la creature
+     * @return Taille de l'organe pour l'age donné
      */
     public double getTaille(double t) {
         if (t < TempsCroissance) {
@@ -30,8 +30,9 @@ public abstract class Organe {
 
     /**
      * Masse de l'organe pour un age donné
-     * @param t : age de la créature
-     * @return masse de la creature
+     *
+     * @param t : Age de la créature
+     * @return Masse de la creature
      */
     public double getMasse(double t) {
         return getTaille(t) * densite;
@@ -39,7 +40,7 @@ public abstract class Organe {
 
     /**
      * Indique le cout de subsistance par unité de temps de la créature
-     * @param t : age de la creature
+     * @param t : Age de la creature
      * @return Energie dediee a la subsistance de l'organe par unite de temps
      */
     public double getCoutSubsistance(double t) {
