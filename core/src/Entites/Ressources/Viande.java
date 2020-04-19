@@ -1,4 +1,4 @@
 package Entites.Ressources;
 
-public class Viande {
+public class Viande extends Ressource {
 }
