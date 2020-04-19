@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.List;
 
 public class Creature extends Entite {
-    public Vector2 orientation;
+    Vector2 orientation;
     double vitesse;
     double age;
 
@@ -29,7 +29,11 @@ public class Creature extends Entite {
     Mouvement mouvement;
     List<Organe> organes;
 
-
+    /**
+     * Masse de la créature
+     *
+     * @return Masse de la créature, dépend de l'age
+     */
     public double getMasse() {
         double somme = 0;
         for (Organe or : organes) {
@@ -38,7 +42,11 @@ public class Creature extends Entite {
         return somme;
     }
 
-    public double getCoutSubsistance() {
+    /**
+     * @param dt : delta de temps de simulation
+     * @return Energie dépensée pour la subsistance (rester en vie) durant le laps de temps dt
+     */
+    public double getCoutSubsistance(double dt) {
         double somme = 0;
         for (Organe or : organes) {
             somme += or.getCoutSubsistance(age);

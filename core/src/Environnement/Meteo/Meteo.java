@@ -6,6 +6,12 @@ public class Meteo {
     double DureeJour;
     double DureeNuit;
 
+    /**
+     * Indique la luminosité entre 0 et 1 en fonction du temps depuis le debut de la simulation
+     *
+     * @param temps : temps depuis le debut de la simulation
+     * @return Luminosite entre 0 et 1
+     */
     public double getLuminosite(double temps) {
         //Part du cycle jour nuit parcouru
         double tempsCycle = (temps % (DureeJour + DureeNuit));
