@@ -1,6 +1,7 @@
 package Entites.Creatures;
 
 import Entites.Creatures.Organes.*;
+import Entites.Creatures.Organes.Cerveau.Cerveau;
 import Entites.Entite;
 import Environnement.Terrain.Terrain;
 import com.badlogic.gdx.math.Vector2;
