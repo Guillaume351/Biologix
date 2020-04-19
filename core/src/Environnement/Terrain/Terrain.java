@@ -1,6 +1,7 @@
 package Environnement.Terrain;
 
 import Entites.Entite;
+import Environnement.ConstantesBiologiques;
 import Environnement.Meteo.Meteo;
 
 import java.util.List;
@@ -10,6 +11,7 @@ public class Terrain {
     List<Entite> entites;
     AltitudeMap altitudes;
     double gravite;
+    ConstantesBiologiques constantesBio;
 
     public Meteo getMeteo() {
         return meteo;
