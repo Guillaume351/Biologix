@@ -9,19 +9,14 @@ import com.badlogic.gdx.math.Vector2;
 import java.util.List;
 
 public class Creature extends Entite {
+
     Vector2 orientation;
+
     double vitesse;
     double age;
-
     double temperatureInterne;
 
-    public double getTemperatureInterne() {
-        return temperatureInterne;
-    }
-
-
     Cerveau cerveau;
-
 
     AppareilRespiratoire appareilRespiratoire;
     Bouche bouche;
@@ -47,6 +42,15 @@ public class Creature extends Entite {
             somme += or.getMasse(age);
         }
         return somme;
+    }
+
+    /**
+     * Température interne de la créature
+     *
+     * @return Température Interne
+     */
+    public double getTemperatureInterne() {
+        return temperatureInterne;
     }
 
     /**
@@ -82,11 +86,11 @@ public class Creature extends Entite {
     }
 
     /**
-     * Pertes d'energie dues aux echanges thermiques avec l'exterieur
+     * Pertes d'énergie dues aux échanges thermiques avec l'exterieur
      *
-     * @param tempExterieure : temperature exterieure
-     * @param dt             : temps durant lequel la perte est appliquee
-     * @return energie perdue durant le temps dt
+     * @param tempExterieure : Température exterieure
+     * @param dt             : Temps durant lequel la perte est appliquee
+     * @return Energie perdue durant le temps dt
      */
     public double getPertesThermiques(double tempExterieure, double dt) {
         double rth = ecailles.getResistanceThermique(tempExterieure) + fourrure.getResistanceThermique(tempExterieure) + graisse.getResistanceThermique(tempExterieure);
@@ -97,6 +101,12 @@ public class Creature extends Entite {
         return age;
     }
 
+    /**
+     * Obtenir la taille de la créature
+     * Se base sur la taille de l'organe le plus gros
+     *
+     * @return Taille de la créature
+     */
     public double getTaille() {
         double result = 0;
         for (Organe or : organes) {
