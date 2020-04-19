@@ -7,6 +7,12 @@ public abstract class Organe {
     double densite;
     double coutSubsistanceRelatif;
 
+    Creature creatureHote;
+
+    public Creature getCreatureHote() {
+        return creatureHote;
+    }
+
     /**
      * Taille de l'organe pour un age donne
      *

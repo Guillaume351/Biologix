@@ -1,9 +1,7 @@
 package Entites.Creatures.Organes;
 
-import Entites.Creatures.Organe;
-
 //Stocker l'énergie
-public class Graisse extends Organe {
+public class Graisse extends OrganeThermique {
     double energie;
     double efficaciteEnergetique;
 
@@ -41,6 +39,7 @@ public class Graisse extends Organe {
      * @return Taille max de l'organe pour un age donné
      */
     public double getTailleMaxActuel(double t) {
+        //TODO doit remonter jusqu a organe, a verifier !
         return super.getTaille(t);
     }
 
@@ -112,5 +111,11 @@ public class Graisse extends Organe {
             energie -= nrj;
             return true;
         }
+    }
+
+
+    @Override
+    public double getResistanceThermique(double tempExterieure) {
+        return Isolation * this.getMasse(getCreatureHote().getAge()) / Math.pow(getCreatureHote().getTaille(), 2.0);
     }
 }

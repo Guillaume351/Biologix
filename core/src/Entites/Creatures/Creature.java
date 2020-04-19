@@ -13,6 +13,12 @@ public class Creature extends Entite {
     double vitesse;
     double age;
 
+    double temperatureInterne;
+
+    public double getTemperatureInterne() {
+        return temperatureInterne;
+    }
+
 
     Cerveau cerveau;
 
@@ -72,6 +78,30 @@ public class Creature extends Entite {
         double Epot = masse * (z1 - z0) * terrain.getGravite();
         //Energie Cinetique
         double Ecin = mouvement.getEnergieDepenseeParUniteMasse(dt, vitesse);
-        return masse * (Epot + Ecin);
+        return masse * Math.min(0, Epot + Ecin);
+    }
+
+    /**
+     * Pertes d'energie dues aux echanges thermiques avec l'exterieur
+     *
+     * @param tempExterieure : temperature exterieure
+     * @param dt             : temps durant lequel la perte est appliquee
+     * @return energie perdue durant le temps dt
+     */
+    public double getPertesThermiques(double tempExterieure, double dt) {
+        double rth = ecailles.getResistanceThermique(tempExterieure) + fourrure.getResistanceThermique(tempExterieure) + graisse.getResistanceThermique(tempExterieure);
+        return dt * Math.abs(tempExterieure - getTemperatureInterne()) / rth;
+    }
+
+    public double getAge() {
+        return age;
+    }
+
+    public double getTaille() {
+        double result = 0;
+        for (Organe or : organes) {
+            result = Math.max(result, or.getTaille(age));
+        }
+        return result;
     }
 }
