@@ -97,6 +97,11 @@ public class Creature extends Entite {
         return dt * Math.abs(tempExterieure - getTemperatureInterne()) / rth;
     }
 
+    /**
+     * Obtenir l'âge de la créature
+     *
+     * @return Age de la créature
+     */
     public double getAge() {
         return age;
     }
