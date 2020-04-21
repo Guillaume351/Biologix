@@ -22,19 +22,26 @@ public class MyGdxGame extends ApplicationAdapter {
 	public void create() {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		testmap = new MeteoMap(new PerlinParams(1, 1, 0.3, 666, 50), 0, 1);
+		testmap = new MeteoMap(new PerlinParams(2, 0.01, 0.5, 1, 1), 0, 1);
 
 		this.camera = new OrthographicCamera();
 		this.viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		this.viewport.setCamera(this.camera);
 
-		int res = 500;
+		int res = 800;
 
 		this.map = new Pixmap(res, res, Pixmap.Format.RGBA8888);
 
+		float niveauMer = (float) 0.4;
 		for (int i = 0; i < res; i++) {
 			for (int k = 0; k < res; k++) {
-				this.map.drawPixel(i, k, Color.rgba8888((float) testmap.getValeur(i, k), (float) testmap.getValeur(i, k), (float) testmap.getValeur(i, k), 1));
+				float valeur = (float) testmap.getValeur(i, k);
+				if (valeur > niveauMer) {
+					this.map.drawPixel(i, k, Color.rgba8888(valeur * 2, valeur, 0.0F, 1));
+				} else {
+					this.map.drawPixel(i, k, Color.rgba8888(0.0F, 0.0F, valeur, 1));
+				}
+
 			}
 		}
 	}
