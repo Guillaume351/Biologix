@@ -1,6 +1,6 @@
 package com.mygdx.game;
 
-import Environnement.Meteo.MeteoMap;
+import Environnement.HeightMap;
 import Utils.Perlin.PerlinParams;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -9,20 +9,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.Random;
+
 public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 
-	MeteoMap testmap;
+	HeightMap testmap;
 	Pixmap map;
 	private Viewport viewport;
 	private Camera camera;
+
+	Texture worldTexture;
+
 
 	@Override
 	public void create() {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		testmap = new MeteoMap(new PerlinParams(2, 0.01, 0.5, 1, 1), 0, 1);
+		testmap = new HeightMap(new PerlinParams(2, 0.01, 0.5, new Random().nextInt(1000), 1), 0, 1);
 
 		this.camera = new OrthographicCamera();
 		this.viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -44,6 +49,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
 			}
 		}
+		this.worldTexture = new Texture(map);
 	}
 
 	@Override
@@ -54,7 +60,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		//Gdx.gl.glClearColor(1, 0, 0, 1);
 		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
-		batch.draw(new Texture(map), 0, 0, this.viewport.getWorldWidth(), this.viewport.getWorldHeight());
+		batch.draw(worldTexture, 0, 0, this.viewport.getWorldWidth(), this.viewport.getWorldHeight());
 		batch.end();
 	}
 	
