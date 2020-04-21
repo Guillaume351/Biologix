@@ -1,9 +1,15 @@
 package Environnement.Terrain;
 
 import Environnement.HeightMap;
+import Utils.Perlin.PerlinParams;
 import com.badlogic.gdx.math.Vector2;
 
 public class AltitudeMap extends HeightMap {
+
+    public AltitudeMap(PerlinParams params, double min, double max) {
+        super(params, min, max);
+    }
+
     public boolean LigneDeVue(Vector2 A, Vector2 B, double delta, double h0) {
         //delta : taille d'un pas
         //h0 : elevation de la ligne de vue

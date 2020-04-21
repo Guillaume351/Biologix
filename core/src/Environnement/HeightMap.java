@@ -9,6 +9,12 @@ public class HeightMap {
     double min;
     double max;
 
+    public HeightMap(PerlinParams params, double min, double max) {
+        this.params = params;
+        this.min = min;
+        this.max = max;
+    }
+
     public double getValeur(double x, double y) {
         return min + (max - min) * (1.0 + PerlinGenerator.perlin2D(x, y, params)) / 2.0;
     }

@@ -9,6 +9,11 @@ public class MeteoMap extends HeightMap {
     PerlinParams paramsTemporel;
     double variabilite;
 
+    public MeteoMap(PerlinParams params, double min, double max) {
+        super(params, min, max);
+    }
+
+
     public double getTemp(double x, double y, double t) {
         return moyennes.getValeur(x, y) + variabilite * PerlinGenerator.perlin1D(t, paramsTemporel);
     }
