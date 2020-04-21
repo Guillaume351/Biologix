@@ -1,10 +1,15 @@
 package Environnement.Meteo;
 
 public class Meteo {
-    TemperatureMap temp;
-    TemperatureMap humidite;
+    MeteoMap temp;
+    MeteoMap humidite;
     double DureeJour;
     double DureeNuit;
+
+    /**
+     * Densité des nuages (dépend de la météo : ensoleillé 0, très nuageux 1)
+     */
+    double densiteNuages;
 
     /**
      * Indique la luminosité entre 0 et 1 en fonction du temps depuis le debut de la simulation
@@ -18,7 +23,7 @@ public class Meteo {
         if (tempsCycle < DureeJour) {
             //Jour
             double k = tempsCycle / DureeJour;
-            return (1.0 - Math.cos(Math.PI * 2.0 * k)) / 2.0;
+            return ((1.0 - Math.cos(Math.PI * 2.0 * k)) / 2.0) * (1 - densiteNuages);
         } else {
             //nuit
             return 0;

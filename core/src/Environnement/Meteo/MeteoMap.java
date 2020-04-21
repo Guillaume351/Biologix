@@ -4,7 +4,7 @@ import Environnement.HeightMap;
 import Utils.Perlin.PerlinGenerator;
 import Utils.Perlin.PerlinParams;
 
-public class TemperatureMap extends HeightMap {
+public class MeteoMap extends HeightMap {
     HeightMap moyennes;
     PerlinParams paramsTemporel;
     double variabilite;
