@@ -1,7 +1,9 @@
 package Entites.Creatures.Organes;
 
+import Entites.Creatures.Organe;
+
 //Se guérir et se soigner
-public class Foie {
+public class Foie extends Organe {
 
     private double pointsDeVie;
     private double pointsDeVieMax;
