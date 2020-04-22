@@ -53,16 +53,15 @@ public class Viande extends Ressource {
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
-        return this.tauxDePourriture <= 0.5;        //valeur à discuter
+        return this.tauxDePourriture >= 0.5;        //valeur à discuter
     }
 
     /**
      * La viande pourrit dans le temps... et perd donc de l'énergie
      */
     void evoluer() {
-        while ((tauxDePourriture <= 1) && (quantiteEnergie >= 0)) {
+        //if il fait froid/ chaud... TODO
             ajouterPourriture(0.1);
             retirerEnergie(0.1);
-        }
     }
 }
