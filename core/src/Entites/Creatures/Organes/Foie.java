@@ -9,14 +9,14 @@ public class Foie extends Organe {
     private double pointsDeVieMax;
     private double coeffDeBlessure;
     private double capaciteDeSoin;
+    private double densitePv;
 
     public double getPointsDeVie(){
         return this.pointsDeVie;
     }
 
-    public double getPointsDeVieMax(double age){
-        // TODO comment on calcule ça en fonction de l'age et de la capacite de soin
-        return 0;
+    public double getPointsDeVieMax() {
+        return this.getMasse(this.getCreatureHote().getAge()) * densitePv;
     }
 
     public double getCoeffDeBlessure(){
@@ -27,9 +27,15 @@ public class Foie extends Organe {
         return this.capaciteDeSoin;
     }
 
-    public boolean addVie(double vie, double age){
-        if (this.pointsDeVie + vie > getPointsDeVieMax(age)){
-            this.pointsDeVie = getPointsDeVieMax(age);
+    /**
+     * Ajoute une quantite de vie a une creature
+     *
+     * @param vie : quantite de vie a ajouter
+     * @return return false si tous les points de vie n'ont pas pu etre ajoutés
+     */
+    public boolean addVie(double vie) {
+        if (this.pointsDeVie + vie > getPointsDeVieMax()) {
+            this.pointsDeVie = getPointsDeVieMax();
             return false;
         } else {
             this.pointsDeVie = this.pointsDeVie + vie;
@@ -37,6 +43,15 @@ public class Foie extends Organe {
         }
     }
 
+    public void soigner() {
+        this.pointsDeVie = this.getPointsDeVieMax();
+    }
+
+    /**
+     * Soustrait une quantite de vie a la creature
+     * @param vie : vie perdue
+     * @return retourne false si tous les points de vie n'ont pas pu etre retires
+     */
     public boolean subVie(double vie) {
         if (this.pointsDeVie - vie < 0) {
             this.pointsDeVie = 0;
@@ -56,18 +71,16 @@ public class Foie extends Organe {
                 perteDeVie = 0;
             }
             return subVie(perteDeVie);
-    }
+     }
 
-    public void soin(){
+    public void soin(double dt){
         double deltaPDV = this.pointsDeVieMax - this.pointsDeVie;
-        if (this.capaciteDeSoin < deltaPDV){
-            this.pointsDeVie = this.pointsDeVie + this.capaciteDeSoin;
+        if (this.capaciteDeSoin < deltaPDV) {
+            this.pointsDeVie = this.pointsDeVie + this.capaciteDeSoin*dt;
         } else {
-            this.pointsDeVie = this.pointsDeVieMax;
+            this.pointsDeVie = this.pointsDeVieMax*dt;
         }
     }
-
-
 
 
 }
