@@ -20,6 +20,14 @@ public class Viande extends Ressource {
     }
 
     /**
+     * La viande perd de l'énergie dans le temps
+     * @param retrait
+     */
+    void retirerEnergie(double retrait) {
+        this.quantiteEnergie = quantiteEnergie - retrait;
+    }
+
+    /**
      * Constructeur de l'objet viade
      * @param quantiteEnergie
      */
@@ -33,10 +41,28 @@ public class Viande extends Ressource {
     }
 
     /**
+     * Ajouter de la pourriture
+     * @param ajout
+     */
+    void ajouterPourriture(double ajout) {
+        this.tauxDePourriture = tauxDePourriture + ajout;
+    }
+
+    /**
      * Savoir si une viande est pourrie ou non
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
         return this.tauxDePourriture <= 0.5;        //valeur à discuter
+    }
+
+    /**
+     * La viande pourrit dans le temps... et perd donc de l'énergie
+     */
+    void evoluer() {
+        while ((tauxDePourriture <= 1) && (quantiteEnergie >= 0)) {
+            ajouterPourriture(0.1);
+            retirerEnergie(0.1);
+        }
     }
 }
