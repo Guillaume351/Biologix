@@ -82,5 +82,9 @@ public class Foie extends Organe {
         }
     }
 
+    public double getProportionPv() {
+        return this.getPointsDeVie() / this.getPointsDeVieMax();
+    }
+
 
 }

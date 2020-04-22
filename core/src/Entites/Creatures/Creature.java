@@ -2,6 +2,7 @@ package Entites.Creatures;
 
 import Entites.Creatures.Organes.*;
 import Entites.Creatures.Organes.Cerveau.Cerveau;
+import Entites.Creatures.Organes.sexe.Sexe;
 import Entites.Entite;
 import Environnement.Terrain.Terrain;
 import com.badlogic.gdx.math.Vector2;
@@ -118,5 +119,65 @@ public class Creature extends Entite {
             result = Math.max(result, or.getTaille(age));
         }
         return result;
+    }
+
+    public Vector2 getOrientation() {
+        return orientation;
+    }
+
+    public double getVitesse() {
+        return vitesse;
+    }
+
+    public Cerveau getCerveau() {
+        return cerveau;
+    }
+
+    public AppareilRespiratoire getAppareilRespiratoire() {
+        return appareilRespiratoire;
+    }
+
+    public Bouche getBouche() {
+        return bouche;
+    }
+
+    public Defensif getDefensif() {
+        return defensif;
+    }
+
+    public Digestion getDigestion() {
+        return digestion;
+    }
+
+    public Ecailles getEcailles() {
+        return ecailles;
+    }
+
+    public Foie getFoie() {
+        return foie;
+    }
+
+    public Fourrure getFourrure() {
+        return fourrure;
+    }
+
+    public Graisse getGraisse() {
+        return graisse;
+    }
+
+    public Offensif getOffensif() {
+        return offensif;
+    }
+
+    public Sexe getSexe() {
+        return sexe;
+    }
+
+    public Mouvement getMouvement() {
+        return mouvement;
+    }
+
+    public List<Organe> getOrganes() {
+        return organes;
     }
 }

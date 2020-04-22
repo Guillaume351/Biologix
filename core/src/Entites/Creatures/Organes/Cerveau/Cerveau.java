@@ -4,6 +4,15 @@ import Entites.Creatures.Organes.Perception;
 
 public class Cerveau {
 
+    double gloutonerie;
+    double peur;
+    double agressivite;
+    double gregarite;
+    double bravoure;
+    double prevoyance;
+    double mobilite;
+    double envie_reproductive;
+
     /**
      * Definit le comportement de la creature en fonction de sa perception et de tous les signaux d'entree
      *

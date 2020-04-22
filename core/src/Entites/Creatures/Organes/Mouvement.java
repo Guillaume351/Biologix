@@ -17,6 +17,6 @@ public class Mouvement extends Organe {
         //Energie = puissance*dt
         //Puissance = force*vitesse
         //force = coeffFrottement*vitesse^2
-        return dt * coeffFrottement * Math.pow(Math.abs(vitesse),3.0);
+        return dt * coeffFrottement * Math.pow(Math.abs(vitesse), 3.0) / this.getMasse(this.getCreatureHote().getAge());
     }
 }

@@ -6,17 +6,12 @@ import Entites.Creatures.Organe;
 public class Defensif extends Organe {
 
     private double puissanceDefense;
-    private double volonteDefense;
-    Foie foie;
 
-    public double getEnergieDepenseeDefense(double PointsDeVie, double PointsDeVieMax, double age, double energie){
-        return getVolonteDefense(age, energie) * this.puissanceDefense * this.foie.getPointsDeVie() / this.foie.getPointsDeVieMax(age);
+
+    public double getEnergieDepenseeDefense(double volonteDefense) {
+        return volonteDefense * this.puissanceDefense * this.getCreatureHote().getFoie().getProportionPv();
     }
 
-    public double getVolonteDefense(double age, double energie){
-        // TODO : trouver un calcul qui prend en compte la puissance de défense, la vie et l'énergie de la créature
-        return this.volonteDefense;
-    }
 
     public double getPuissanceDefense(){
         return this.puissanceDefense;
