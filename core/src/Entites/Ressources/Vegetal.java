@@ -1,10 +1,10 @@
 package Entites.Ressources;
+import java.util.*;
 
 public class Vegetal extends Ressource {
 
     double energieMaxStockable; // l'énergie maximale stockable par la plante
     double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
-    double forcePoison; //les plantes peuvent être empoisonnées, 0 = safe, 0,5 = rend malade, 1 = tue...
 
     @Override
     public double getQuantiteEnergie() {
@@ -31,19 +31,6 @@ public class Vegetal extends Ressource {
     public Vegetal(double energieMaxStockable, double energieVegetal) {
         this.energieVegetal = energieVegetal;
         this.energieMaxStockable = energieMaxStockable;
-        this.forcePoison = 0;
-    }
-
-    /**
-     * Constructeur du Végétal
-     * @param energieMaxStockable
-     * @param energieVegetal
-     * @param forcePoison
-     */
-    public Vegetal(double energieMaxStockable, double energieVegetal, double forcePoison) {
-        this.energieVegetal = energieVegetal;
-        this.energieMaxStockable = energieMaxStockable;
-        this.forcePoison = forcePoison;
     }
 
     /**
