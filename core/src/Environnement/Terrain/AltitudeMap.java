@@ -35,4 +35,15 @@ public class AltitudeMap extends HeightMap {
         }
         return ok;
     }
+
+    /**
+     * Donne le niveau de la mer compris entre les altitudes min et max.
+     * @param min l'altitude minimum de la carte
+     * @param max l'altitude maximum de la carte
+     * @param poucentageEau souhaité sur la carte
+     * @return l'altitude à partir de laquelle on n'est plus sous l'eau
+     */
+    public double hauteurMer(double min, double max, double poucentageEau) {
+        return (1-poucentageEau)*min + poucentageEau*max;
+    }
 }
