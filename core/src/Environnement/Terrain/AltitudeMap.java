@@ -6,6 +6,10 @@ import com.badlogic.gdx.math.Vector2;
 
 public class AltitudeMap extends HeightMap {
 
+    double min;
+    double max;
+
+
     public AltitudeMap(PerlinParams params, double min, double max) {
         super(params, min, max);
     }
@@ -38,12 +42,10 @@ public class AltitudeMap extends HeightMap {
 
     /**
      * Donne le niveau de la mer compris entre les altitudes min et max.
-     * @param min l'altitude minimum de la carte
-     * @param max l'altitude maximum de la carte
-     * @param poucentageEau souhaité sur la carte
+     * @param pourcentageEau que l'on souhaite sur le terrain
      * @return l'altitude à partir de laquelle on n'est plus sous l'eau
      */
-    public double hauteurMer(double min, double max, double poucentageEau) {
-        return (1-poucentageEau)*min + poucentageEau*max;
+    public double hauteurMer(double pourcentageEau) {
+        return (1-pourcentageEau)*this.min + pourcentageEau*this.max;
     }
 }
