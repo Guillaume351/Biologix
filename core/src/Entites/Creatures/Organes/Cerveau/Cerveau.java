@@ -25,6 +25,7 @@ public class Cerveau {
      */
     public OutputsCerveau getComportement(InputsCerveau entrees) {
         OutputsCerveau retour = new OutputsCerveau();
+        retour.setChampVision(creatureHote.getPerception().getAdaptationLumiere() * Math.PI / 2.0);
         Vector2 Vnourriture = entrees.getVecteurNourriture();
         retour.setCoeffVoracite(normer(Vnourriture.len()));
         Vector2 Vgregarite = entrees.getVecteurGregarite();
@@ -45,6 +46,13 @@ public class Cerveau {
         );
         retour.setVitesse(creatureHote.getMouvement().getVitesseMax() * normer(objectif.len()));
         retour.setDirection(objectif.nor());
+        float sgn;
+        if (creatureHote.getSexe().getEnceinte()) {
+            sgn = -1.0f;
+        } else {
+            sgn = 1.0f;
+        }
+        retour.setVolonteReproductive(sgn * envie_reproductive * normer(creatureHote.getSexe().getTempsDerniereReproduction()));
 
         return new OutputsCerveau();
     }
