@@ -1,6 +1,5 @@
 package Entites.Creatures.Organes;
 
-import Entites.Creatures.Creature;
 import Entites.Creatures.Organe;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 import Entites.Ressources.Ressource;
@@ -23,10 +22,12 @@ public class Perception extends Organe {
 
     // TODO : implémenter cette fonction
     public List<Ressource> getRessourcesAccessibles(){
+        return null;
     }
 
     // TODO : implémenter cette fonction
     public List<Localisable> getCreaturesVisibles(){
+        return null;
     }
 
     public void updatePerception(OutputsCerveau sorties, double dt, double luminosite){
