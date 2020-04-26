@@ -8,6 +8,7 @@ import Entites.Creatures.Organes.sexe.Sexe;
 import Entites.Entite;
 import Entites.Ressources.Ressource;
 import Environnement.Terrain.Terrain;
+import Utils.ConstantesBiologiques;
 import Utils.Position.Localisable;
 import Utils.Position.Localisateur;
 import com.badlogic.gdx.math.Vector2;
@@ -185,6 +186,8 @@ public class Creature extends Entite {
         return mouvement;
     }
 
+    public Perception getPerception(){ return this.perception;}
+
     public List<Organe> getOrganes() {
         return organes;
     }
@@ -196,13 +199,13 @@ public class Creature extends Entite {
 
 
     public void updateOrganes(InputsCerveau entrees, double dt){
-        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees, this.perception);
+        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
 
         this.sexe.updateSexe(sortieCerveau, dt);
     }
 
     public void update(InputsCerveau entrees, double dt, Terrain terrain){
-        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees, this.perception);
+        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
 
         // Age
         this.setAge(this.getAge() + dt);
@@ -235,6 +238,10 @@ public class Creature extends Entite {
             this.getSexe().setTempsDerniereReproduction(0);
         } else {
             energiePerdueReproduction = 0;
+        }
+        if (!testReproduction && this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
+            this.getSexe().setEnceinte(false);
+            // TODO : création de la nouvelle créature
         }
 
         // Accouchement
