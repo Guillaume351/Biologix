@@ -207,12 +207,15 @@ public class Creature extends Entite {
     public void update(InputsCerveau entrees, double dt, Terrain terrain){
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
 
+        // Creature la plus proche
+        List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
+        Creature creatureLaPlusProche = (Creature) (Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1)).get(0);
+
         // Age
         this.setAge(this.getAge() + dt);
 
         // Deplacement
-        Vector2 orientation = sortieCerveau.getDirection();
-        this.orientation = orientation;
+        this.orientation = sortieCerveau.getDirection();
         double energiePerdueDeplacement = this.deplacer(dt, terrain);
 
         // Manger
@@ -220,28 +223,48 @@ public class Creature extends Entite {
         List<Ressource> ressourcesAccessibles = this.perception.getRessourcesAccessibles();
         double energieGagneeManger = this.bouche.manger(ressourcesAccessibles, coeffVoracite);
 
-        // Se reproduire
-        double volonteReproductive = sortieCerveau.getVolonteReproductive();
-        List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
-        Creature creatureLaPlusProche = (Creature) (Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1)).get(0);
-        double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
-        Sexe sexeAutre = creatureLaPlusProche.getSexe();
-        boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
-        double energiePerdueReproduction;
-        if (testReproduction){
-            energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
-            this.getSexe().setEnceinte(true);
-            this.getSexe().setTempsDerniereReproduction(0);
-            // TODO : création de la nouvelle créature
-        } else {
-            energiePerdueReproduction = 0;
-        }
-        if (!testReproduction && this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
+        // Accouchement
+        if (this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
             this.getSexe().setEnceinte(false);
             // TODO : ajout de la nouvelle créature
         }
 
+        // Se reproduire
+        double energiePerdueReproduction;
+        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+            double volonteReproductive = sortieCerveau.getVolonteReproductive();
+            double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
+            Sexe sexeAutre = creatureLaPlusProche.getSexe();
+            boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
+            if (testReproduction) {
+                energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
+                this.getSexe().setEnceinte(true);
+                this.getSexe().setTempsDerniereReproduction(0);
+                // TODO : création de la nouvelle créature
+            } else {
+                energiePerdueReproduction = 0;
+            }
+        } else {
+            energiePerdueReproduction = 0;
+        }
+
+
         // Combattre
+        double energiePerdueDefense;
+        double energiePerdueAttaque;
+        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+            boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+            if (!perteDeVieCombat) {
+                // TODO : faire mourir la créature
+            }
+            energiePerdueDefense = this.defensif.getEnergieDepenseeDefense();
+            energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque();
+        } else {
+            energiePerdueDefense = 0;
+            energiePerdueAttaque = 0;
+        }
+
+        // Soin (foie)
     }
 
 

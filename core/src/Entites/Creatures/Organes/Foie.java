@@ -71,6 +71,7 @@ public class Foie extends Organe {
                 perteDeVie = 0;
             }
             return subVie(perteDeVie);
+
      }
 
     public void soin(double dt){
