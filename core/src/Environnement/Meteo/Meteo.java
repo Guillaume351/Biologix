@@ -77,76 +77,13 @@ public class Meteo {
 
 
     /**
-     * Change la meteo de façon fluide entre un etat A et B
-     * @param meteoApres la meteo qu'il fera après
-     * @param deltaT le temps au bout du quel la météo a fini de changer
-     */
-    // la fonction est rappele par elle même pour evoluer entre chaque render
-
-    public void transitionMeteo(TypeMeteo meteoApres, double deltaT) {
-
-        TypeMeteo meteoActuel = getMeteo();
-        double densiteNuageActuel = getDensiteNuages();
-
-        if (meteoActuel != meteoApres)
-            switch (meteoApres) {
-                case SOLEIL :
-                    //Pour moi on change pas la temperature ni l'humidite dans ce cas la
-
-                    changerDensiteNuage(deltaT,densiteNuageActuel,0.0);
-                    // Le -1 correspond au render en moins apres, il faudrait donc convertir deltaT en
-                    // nb de render pendant ce deltaT
-                    transitionMeteo(meteoApres,deltaT-1);
-                    break;
-                case NUAGEUX:
-                    changerDensiteNuage(deltaT,densiteNuageActuel,0.5);
-                    //meme remarque que dans le cas soleil pour le -1
-                    //reste humidite à modifier
-                    transitionMeteo(meteoApres, deltaT-1);
-                    break;
-                case PLUIE:
-                    changerDensiteNuage(deltaT,densiteNuageActuel,0.75);
-                    //meme remarque que dans le cas soleil pour le -1
-                    //reste humidite à modifier
-                    transitionMeteo(meteoApres, deltaT-1);
-                    break;
-                case ORAGE:
-                    changerDensiteNuage(deltaT,densiteNuageActuel,0.9);
-                    //meme remarque que dans le cas soleil pour le -1
-                    //reste humidite à modifier
-                    transitionMeteo(meteoApres, deltaT-1);
-                    break;
-                case TEMPETE:
-                    changerDensiteNuage(deltaT,densiteNuageActuel,1.0);
-                    //meme remarque que dans le cas soleil pour le -1
-                    //reste humidite à modifier
-                    transitionMeteo(meteoApres, deltaT-1);
-                    break;
-                case NEIGE:
-                    changerDensiteNuage(deltaT,densiteNuageActuel,0.75);
-                    //meme remarque que dans le cas soleil pour le -1
-                    //reste temperature à modifier
-                    transitionMeteo(meteoApres, deltaT-1);
-                    break;
-                default:
-                    break;
-            }
-    }
-
-    /**
-     * Change la densite de nuage à chaque render.
-     * @param deltaT periode sur laquelle elle doit modifier la meteo
+     * Change la densite de nuage
      * @param densiteNuagesActuel ce qu'on a en terme de nuage
      * @param densiteNuageVoulue ce qu'on veut en terme de nuage
      */
-    public void changerDensiteNuage(double deltaT,double densiteNuagesActuel, double densiteNuageVoulue) {
+    public void changerDensiteNuage(double densiteNuagesActuel, double densiteNuageVoulue) {
 
         double ecartDensiteNuage = densiteNuageVoulue - densiteNuagesActuel;
-        double evolutionParAppel = ecartDensiteNuage/deltaT;
-
-        //Par rigoureux car la fonction transition meteo va etre rappeler à  chaque render pour faire
-        //evoluer de facon continue donc il faudrait mieux faire
-        //evolutionParAppel = ecartDensiteNuage/(nb de render dans deltaT)
-        setDensiteNuages(densiteNuagesActuel + evolutionParAppel);
+        setDensiteNuages(densiteNuagesActuel + ecartDensiteNuage);
     }
 }
