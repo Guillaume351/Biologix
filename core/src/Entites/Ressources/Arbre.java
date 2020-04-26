@@ -18,4 +18,6 @@ public class Arbre extends Vegetal {
     void setTaille(double taille) {
         this.taille = taille;
     }
+
+    void grandir(double hauteur) { this.taille += hauteur; }
 }
