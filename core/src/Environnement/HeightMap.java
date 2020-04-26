@@ -6,8 +6,17 @@ import com.badlogic.gdx.math.Vector2;
 
 public class HeightMap {
     PerlinParams params;
-    double min;
-    double max;
+
+    private double min;
+    private double max;
+
+    public double getMin() {
+        return min;
+    }
+
+    public double getMax() {
+        return max;
+    }
 
     public HeightMap(PerlinParams params, double min, double max) {
         this.params = params;
