@@ -75,7 +75,7 @@ public class InputsCerveau {
         Vector2 result = new Vector2(0, 0);
         for (Creature crea : creaturesVisibles) {
             Vector2 pointeur = crea.getPosition().sub(getCreatureHote().getPosition());
-            pointeur = pointeur.nor().scl((float) (crea.getOffensif().getPuissanceAttaque() - this.getCreatureHote().getDefensif().getPuissanceDefense());
+            pointeur = pointeur.nor().scl((float) (crea.getOffensif().getPuissanceAttaque() - this.getCreatureHote().getDefensif().getPuissanceDefense()));
             result = result.add(pointeur);
         }
         return result;
