@@ -77,9 +77,9 @@ public class Foie extends Organe {
     public void soin(double dt){
         double deltaPDV = this.pointsDeVieMax - this.pointsDeVie;
         if (this.capaciteDeSoin < deltaPDV) {
-            this.pointsDeVie = this.pointsDeVie + this.capaciteDeSoin*dt;
+            this.pointsDeVie = this.pointsDeVie + this.capaciteDeSoin * dt;
         } else {
-            this.pointsDeVie = this.pointsDeVieMax*dt;
+            this.pointsDeVie = this.pointsDeVieMax * dt;
         }
     }
 

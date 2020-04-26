@@ -202,6 +202,8 @@ public class Creature extends Entite {
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
 
         this.sexe.updateSexe(sortieCerveau, dt);
+        this.offensif.updateOffensif(sortieCerveau, dt);
+        this.defensif.updateDefensif(sortieCerveau, dt);
     }
 
     public void update(InputsCerveau entrees, double dt, Terrain terrain){
@@ -226,7 +228,7 @@ public class Creature extends Entite {
         // Accouchement
         if (this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
             this.getSexe().setEnceinte(false);
-            // TODO : ajout de la nouvelle créature
+            // TODO : ajout de la nouvelle créature sur la map
         }
 
         // Se reproduire
@@ -248,7 +250,6 @@ public class Creature extends Entite {
             energiePerdueReproduction = 0;
         }
 
-
         // Combattre
         double energiePerdueDefense;
         double energiePerdueAttaque;
@@ -264,7 +265,14 @@ public class Creature extends Entite {
             energiePerdueAttaque = 0;
         }
 
-        // Soin (foie)
+        // Soin (Foie)
+        this.foie.soin(dt);
+
+        // Mise à jour de l'énergie (Graisse)
+        double energieGagnee = energieGagneeManger;
+        double energiePerdue = energiePerdueAttaque + energiePerdueDefense + energiePerdueDeplacement + energiePerdueReproduction;
+        this.graisse.addEnergie(energieGagnee);
+        this.graisse.subEnergie(energiePerdue);
     }
 
 

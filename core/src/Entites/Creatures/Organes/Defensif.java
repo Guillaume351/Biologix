@@ -21,7 +21,7 @@ public class Defensif extends Organe {
 
     public double getVolonteDefense(){return this.volonteDefense;}
 
-    public void update(OutputsCerveau sorties, double dt){
+    public void updateDefensif(OutputsCerveau sorties, double dt){
         this.volonteDefense = sorties.getVolonteDefense();
     }
 }
