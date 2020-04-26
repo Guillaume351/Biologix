@@ -7,6 +7,10 @@ import Entites.Ressources.Viande;
 
 //Rendement de la consommation de nourriture, herbivore et carnivore
 public class Digestion extends Organe {
+    public double getRegimeAlimentaire() {
+        return RegimeAlimentaire;
+    }
+
     //0 herbivore, 1 carnivore
     double RegimeAlimentaire;
 
