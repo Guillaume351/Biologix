@@ -1,4 +1,4 @@
-package Environnement;
+package Utils;
 
 public class ConstantesBiologiques {
 }

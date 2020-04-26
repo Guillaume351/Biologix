@@ -1,10 +1,10 @@
 package com.mygdx.game;
 
-import Environnement.ConstantesBiologiques;
 import Environnement.Meteo.Meteo;
 import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.AltitudeMap;
 import Environnement.Terrain.Terrain;
+import Utils.ConstantesBiologiques;
 import Utils.Perlin.PerlinParams;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

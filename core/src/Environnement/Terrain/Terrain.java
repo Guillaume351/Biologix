@@ -1,8 +1,8 @@
 package Environnement.Terrain;
 
 import Entites.Entite;
-import Environnement.ConstantesBiologiques;
 import Environnement.Meteo.Meteo;
+import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
@@ -89,10 +89,11 @@ public class Terrain {
     }
 
     /**
-     * renvoie si une entite est dans l'eau ou non.
-     * @param entite l'entite dont on veut savoir si elle est immergé
-     * @param altitudes la carte d'altitude sur laquelle on joue
-     * @return vrai si on se situe sous l'eau, faux sinon
+     * Renvoie si une entite est dans l'eau ou non.
+     *
+     * @param entite    L'entite dont on veut savoir si elle est immergé
+     * @param altitudes La carte d'altitude sur laquelle on joue
+     * @return Vrai si on se situe sous l'eau, faux sinon
      */
     public boolean estDansEau(Entite entite, AltitudeMap altitudes) {
 

@@ -72,24 +72,22 @@ public class Graisse extends OrganeThermique {
     /**
      * Renvoie la quantite d'energie maximale pouvant etre stockee dans la graisse
      *
-     * @param age : age de la creature
      * @return Quantite max d'energie pouvant etre stockee dans cet organe
      */
-    public double getEnergieMaxStockable(double age) {
-        return getTailleMaxActuel(age) * efficaciteEnergetique;
+    public double getEnergieMaxStockable() {
+        return getTailleMaxActuel(this.getCreatureHote().getAge()) * efficaciteEnergetique;
     }
 
     /**
      * Stocker dans cet organe de l'energie sous forme de graisse
      * @param nrj Energie a stocker
-     * @param age Age de la creature
      * @return Indique si toute l'energie a pu être stockée au vu de la taille max de la graisse
      */
-    public boolean addEnergie(double nrj, double age) {
+    public boolean addEnergie(double nrj) {
         //Stocke de l'energie
-        if (nrj + energie > getEnergieMaxStockable(age)) {
+        if (nrj + energie > getEnergieMaxStockable()) {
             //On ne peut pas stocker toute l'energie, l'organe dépasserait sa taille max;
-            energie = getEnergieMaxStockable(age);
+            energie = getEnergieMaxStockable();
             return false;
         } else {
             energie += nrj;
