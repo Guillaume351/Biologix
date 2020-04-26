@@ -1,20 +1,40 @@
 package Environnement.Meteo;
 
 public class Meteo {
-    MeteoMap temp;
-    MeteoMap humidite;
-    double DureeJour;
-    double DureeNuit;
+    private MeteoMap temp;
+    private MeteoMap humidite;
+    private TypeMeteo meteo;
+    private double DureeJour;
+    private double DureeNuit;
 
-    /**
-     * Densité des nuages (dépend de la météo : ensoleillé 0, très nuageux 1)
-     */
-    double densiteNuages;
+    public MeteoMap getTemp() {
+        return temp;
+    }
+
+    public MeteoMap getHumidite() {
+        return humidite;
+    }
+
+    public TypeMeteo getMeteo() {
+        return meteo;
+    }
+
+    public double getDureeJour() {
+        return DureeJour;
+    }
+
+    public double getDureeNuit() {
+        return DureeNuit;
+    }
+
+    public double getDensiteNuages() {
+        return densiteNuages;
+    }
 
     /**
      * Indique la luminosité entre 0 et 1 en fonction du temps depuis le debut de la simulation
      *
-     * @param temps : temps depuis le debut de la simulation
+     * @param temps : Temps depuis le debut de la simulation
      * @return Luminosite entre 0 et 1
      */
     public double getLuminosite(double temps) {
@@ -28,5 +48,18 @@ public class Meteo {
             //nuit
             return 0;
         }
+    }
+
+
+    /**
+     * Densité des nuages (dépend de la météo : ensoleillé 0, très nuageux 1)
+     */
+    double densiteNuages;
+
+    /**
+     * Différents types de météo possibles
+     */
+    enum TypeMeteo {
+        SOLEIL, NUAGEUX, PLUIE, ORAGE, TEMPETE
     }
 }
