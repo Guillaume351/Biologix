@@ -1,6 +1,10 @@
 package com.mygdx.game;
 
-import Environnement.HeightMap;
+import Environnement.ConstantesBiologiques;
+import Environnement.Meteo.Meteo;
+import Environnement.Meteo.MeteoMap;
+import Environnement.Terrain.AltitudeMap;
+import Environnement.Terrain.Terrain;
 import Utils.Perlin.PerlinParams;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -15,50 +19,61 @@ public class MyGdxGame extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 
-	HeightMap testmap;
-	Pixmap map;
+	Terrain gameWorld;
+
 	private Viewport viewport;
 	private Camera camera;
 
 	Texture worldTexture;
 
+	public Terrain genererMap() {
+		//TODO : pour le test, j'utilise les mêmes perlins params. A changer dans le futur
+		PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(1000), 1);
+
+
+		Meteo meteo = new Meteo(new MeteoMap(perlinParams, -10, 30), new MeteoMap(perlinParams, 0, 100), Meteo.TypeMeteo.SOLEIL, 20, 10, 0.4);
+		AltitudeMap altitudeMap = new AltitudeMap(perlinParams, 0, 1);
+
+		//TODO : replacer les entites par une liste d'entites
+		return new Terrain(meteo, null, altitudeMap, 9.81, 0.4, new ConstantesBiologiques());
+	}
+
+	public Pixmap getMap() {
+		int res = 800;
+
+		Pixmap pixmap = new Pixmap(res, res, Pixmap.Format.RGBA8888);
+
+		float niveauMer = (float) this.gameWorld.getPourcentageEau();
+		for (int i = 0; i < res; i++) {
+			for (int k = 0; k < res; k++) {
+				float valeur = (float) this.gameWorld.getAltitudes().getValeur(i, k);
+				if (valeur > niveauMer) {
+					pixmap.drawPixel(i, k, Color.rgba8888(valeur * 2, valeur, 0.0F, 1));
+				} else {
+					pixmap.drawPixel(i, k, Color.rgba8888(0.0F, 0.0F, valeur, 1));
+				}
+
+			}
+		}
+		return pixmap;
+	}
 
 	@Override
 	public void create() {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		testmap = new HeightMap(new PerlinParams(2, 0.01, 0.5, new Random().nextInt(1000), 1), 0, 1);
+		this.batch = new SpriteBatch();
+		this.gameWorld = genererMap();
 
 		this.camera = new OrthographicCamera();
 		this.viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		this.viewport.setCamera(this.camera);
 
-		int res = 800;
-
-		this.map = new Pixmap(res, res, Pixmap.Format.RGBA8888);
-
-		float niveauMer = (float) 0.4;
-		for (int i = 0; i < res; i++) {
-			for (int k = 0; k < res; k++) {
-				float valeur = (float) testmap.getValeur(i, k);
-				if (valeur > niveauMer) {
-					this.map.drawPixel(i, k, Color.rgba8888(valeur * 2, valeur, 0.0F, 1));
-				} else {
-					this.map.drawPixel(i, k, Color.rgba8888(0.0F, 0.0F, valeur, 1));
-				}
-
-			}
-		}
-		this.worldTexture = new Texture(map);
+		this.worldTexture = new Texture(getMap());
 	}
 
 	@Override
 	public void render () {
 		camera.update();
 
-
-		//Gdx.gl.glClearColor(1, 0, 0, 1);
-		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		batch.begin();
 		batch.draw(worldTexture, 0, 0, this.viewport.getWorldWidth(), this.viewport.getWorldHeight());
 		batch.end();

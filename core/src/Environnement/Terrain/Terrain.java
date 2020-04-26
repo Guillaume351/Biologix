@@ -98,10 +98,18 @@ public class Terrain {
 
         boolean estDansEau;
         Vector2 position = entite.getPosition();
-        double altitude = altitudes.getValeur(position.x,position.y);
+        double altitude = altitudes.getValeur(position.x, position.y);
         double niveauMer = altitudes.hauteurMer(pourcentageEau);
 
         estDansEau = !(altitude >= niveauMer);
         return estDansEau;
+    }
+
+    public double getPourcentageEau() {
+        return pourcentageEau;
+    }
+
+    public ConstantesBiologiques getConstantesBio() {
+        return constantesBio;
     }
 }

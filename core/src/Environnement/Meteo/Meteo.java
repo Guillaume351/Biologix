@@ -67,7 +67,7 @@ public class Meteo {
     /**
      * Différents types de météo possibles
      */
-    enum TypeMeteo {
+    public enum TypeMeteo {
         SOLEIL, NUAGEUX, PLUIE, ORAGE, TEMPETE
     }
 }
