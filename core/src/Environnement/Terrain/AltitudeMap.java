@@ -12,11 +12,12 @@ public class AltitudeMap extends HeightMap {
 
     /**
      * Permet de savoir si une entitée peut voir B depuis A.
-     * @param A le point de vision
-     * @param B le point à voir
-     * @param delta taille d'un pas
-     * @param h0 difference d'altitude entre A et B
-     * @return si il peut voir ou non B
+     *
+     * @param A     Le point de vision
+     * @param B     Le point à voir
+     * @param delta Taille d'un pas
+     * @param h0    Difference d'altitude entre A et B
+     * @return Si il peut voir ou non B
      */
     public boolean LigneDeVue(Vector2 A, Vector2 B, double delta, double h0) {
         //delta : taille d'un pas
