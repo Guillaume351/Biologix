@@ -25,6 +25,11 @@ public class TerrainGenerator {
         this.perlinParams = perlinParams;
     }
 
+    /**
+     * Génère le terrain, lui donne une météo, des populations...
+     *
+     * @return Le terrain généré
+     */
     public Terrain generateTerrain() {
         //TODO : Séparer dans des méthodes avec des paramètres changeable pour rendre la génération modifiable
         Meteo meteo = this.initMeteo();
@@ -45,17 +50,32 @@ public class TerrainGenerator {
         return new Terrain(meteo, entites, altitudeMap, 9.81, 0.4, new ConstantesBiologiques());
     }
 
+    /**
+     * Génère une météo initale pour le monde
+     *
+     * @return La météo initiale
+     */
     public Meteo initMeteo() {
-        //TODO : rendre les parametres modifiables
-        Meteo meteo = new Meteo(new MeteoMap(perlinParams, -10, 30), new MeteoMap(perlinParams, 0, 100), Meteo.TypeMeteo.SOLEIL, 20, 10, 0.4);
-        return meteo;
+        //TODO : rendre les parametres modifiables.
+        //TODO : rendre random la météo iniale
+        return new Meteo(new MeteoMap(perlinParams, -10, 30), new MeteoMap(perlinParams, 0, 100), Meteo.TypeMeteo.SOLEIL, 20, 10, 0.4);
     }
 
+    /**
+     * Génère une population de ressources initiale pour le terrain
+     *
+     * @return : Une liste de ressources initiale
+     */
     public ArrayList<Ressource> resourcePopulate() {
 
         return null;
     }
 
+    /**
+     * Génère une population de créatures initiale pour le terrain
+     *
+     * @return : Une liste de créatures initiale
+     */
     public ArrayList<Creature> creaturesPopulate() {
         return null;
     }
