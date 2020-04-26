@@ -2,9 +2,14 @@ package Entites.Creatures;
 
 import Entites.Creatures.Organes.*;
 import Entites.Creatures.Organes.Cerveau.Cerveau;
+import Entites.Creatures.Organes.Cerveau.InputsCerveau;
+import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 import Entites.Creatures.Organes.sexe.Sexe;
 import Entites.Entite;
+import Entites.Ressources.Ressource;
 import Environnement.Terrain.Terrain;
+import Utils.Position.Localisable;
+import Utils.Position.Localisateur;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
@@ -30,6 +35,7 @@ public class Creature extends Entite {
     Offensif offensif;
     Sexe sexe;
     Mouvement mouvement;
+    Perception perception;
     List<Organe> organes;
 
     /**
@@ -104,8 +110,10 @@ public class Creature extends Entite {
      * @return Age de la créature
      */
     public double getAge() {
-        return age;
+        return this.age;
     }
+
+    public void setAge(double age){this.age = age; }
 
     /**
      * Obtenir la taille de la créature
@@ -180,4 +188,59 @@ public class Creature extends Entite {
     public List<Organe> getOrganes() {
         return organes;
     }
+
+    // TODO : implémenter cette fonction
+    public float getProximiteGenetique(Creature creature) {
+        return 0;
+    }
+
+
+    public void updateOrganes(InputsCerveau entrees, double dt){
+        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees, this.perception);
+
+        this.sexe.updateSexe(sortieCerveau, dt);
+    }
+
+    public void update(InputsCerveau entrees, double dt, Terrain terrain){
+        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees, this.perception);
+
+        // Age
+        this.setAge(this.getAge() + dt);
+
+        // Deplacement
+        Vector2 direction = sortieCerveau.getDirection();
+        float posX = this.getPosition().x + direction.x;
+        float posY = this.getPosition().y + direction.y;
+        Vector2 nouvellePos = new Vector2(posX, posY);
+        this.setPosition(nouvellePos);
+        this.deplacer(dt, terrain);
+        // TODO : gérer la perte d'énergie sur une durée plus longue...
+
+        // Manger
+        double coeffVoracite = sortieCerveau.getCoeffVoracite();
+        List<Ressource> ressourcesAccessibles = this.perception.getRessourcesAccessibles();
+        double energieGagneeManger = this.bouche.manger(ressourcesAccessibles, coeffVoracite);
+
+        // Se reproduire
+        double volonteReproductive = sortieCerveau.getVolonteReproductive();
+        List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
+        Creature creatureLaPlusProche = (Creature) (Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1)).get(0);
+        double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
+        Sexe sexeAutre = creatureLaPlusProche.getSexe();
+        boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
+        double energiePerdueReproduction;
+        if (testReproduction){
+            energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
+            this.getSexe().setEnceinte(true);
+            this.getSexe().setTempsDerniereReproduction(0);
+        } else {
+            energiePerdueReproduction = 0;
+        }
+
+        // Accouchement
+
+        // Combattre
+    }
+
+
 }
