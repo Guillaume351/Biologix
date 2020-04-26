@@ -211,13 +211,9 @@ public class Creature extends Entite {
         this.setAge(this.getAge() + dt);
 
         // Deplacement
-        Vector2 direction = sortieCerveau.getDirection();
-        float posX = this.getPosition().x + direction.x;
-        float posY = this.getPosition().y + direction.y;
-        Vector2 nouvellePos = new Vector2(posX, posY);
-        this.setPosition(nouvellePos);
-        this.deplacer(dt, terrain);
-        // TODO : gérer la perte d'énergie sur une durée plus longue...
+        Vector2 orientation = sortieCerveau.getDirection();
+        this.orientation = orientation;
+        double energiePerdueDeplacement = this.deplacer(dt, terrain);
 
         // Manger
         double coeffVoracite = sortieCerveau.getCoeffVoracite();
@@ -236,15 +232,14 @@ public class Creature extends Entite {
             energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
             this.getSexe().setEnceinte(true);
             this.getSexe().setTempsDerniereReproduction(0);
+            // TODO : création de la nouvelle créature
         } else {
             energiePerdueReproduction = 0;
         }
         if (!testReproduction && this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
             this.getSexe().setEnceinte(false);
-            // TODO : création de la nouvelle créature
+            // TODO : ajout de la nouvelle créature
         }
-
-        // Accouchement
 
         // Combattre
     }
