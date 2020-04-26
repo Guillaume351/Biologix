@@ -16,6 +16,15 @@ public class Terrain {
     private double pourcentageEau;
     private ConstantesBiologiques constantesBio;
 
+    public Terrain(Meteo meteo, List<Entite> entites, AltitudeMap altitudes, double gravite, double pourcentageEau, ConstantesBiologiques constantesBio) {
+        this.meteo = meteo;
+        this.entites = entites;
+        this.altitudes = altitudes;
+        this.gravite = gravite;
+        this.pourcentageEau = pourcentageEau;
+        this.constantesBio = constantesBio;
+    }
+
     /**
      * Renvoie la meteo de la carte
      */
