@@ -118,4 +118,8 @@ public class Graisse extends OrganeThermique {
     public double getResistanceThermique(double tempExterieure) {
         return Isolation * this.getMasse(getCreatureHote().getAge()) / Math.pow(getCreatureHote().getTaille(), 2.0);
     }
+
+    public double getProportionStocks() {
+        return this.getTailleRelle() / this.getTailleMax();
+    }
 }

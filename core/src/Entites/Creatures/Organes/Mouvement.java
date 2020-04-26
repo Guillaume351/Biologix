@@ -6,6 +6,12 @@ public class Mouvement extends Organe {
     //Organe dedié au mouvement de la créature
     double coeffFrottement;
 
+    double vitesseMax;
+
+    public double getVitesseMax() {
+        return vitesseMax;
+    }
+
     /**
      * Calcule l'energie depensee pour réaliser un déplacement (par unité de masse)
      *

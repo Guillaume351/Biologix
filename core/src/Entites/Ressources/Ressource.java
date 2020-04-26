@@ -1,7 +1,8 @@
 package Entites.Ressources;
-import java.util.*;
 
-public abstract class Ressource extends Observable {
+import Entites.Entite;
+
+public abstract class Ressource extends Entite {
     double quantiteEnergie;
 
     public double getQuantiteEnergie() {

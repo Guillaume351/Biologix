@@ -1,6 +1,7 @@
 package Entites.Creatures.Organes.Cerveau;
 
 import Entites.Creatures.Organes.Perception;
+import com.badlogic.gdx.math.Vector2;
 
 public class Cerveau {
 
@@ -12,6 +13,7 @@ public class Cerveau {
     double prevoyance;
     double mobilite;
     double envie_reproductive;
+    Vector2 positionNid;
 
     /**
      * Definit le comportement de la creature en fonction de sa perception et de tous les signaux d'entree
@@ -21,6 +23,16 @@ public class Cerveau {
      * @return ensemble des elements qui decrivent les actions de la creature
      */
     public OutputsCerveau getComportement(InputsCerveau entrees, Perception perception) {
+        Vector2 Vnourriture = entrees.getVecteurNourriture();
+        Vector2 Vgregarite = entrees.getVecteurGregarite();
+        Vector2 VtailleRelative = entrees.getVecteurTailleRelative();
+        Vector2 Vdanger = entrees.getVecteurDanger();
+
+
         return new OutputsCerveau();
+    }
+
+    public void choisirNid(Vector2 position) {
+        positionNid = position;
     }
 }
