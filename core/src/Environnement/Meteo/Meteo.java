@@ -7,6 +7,15 @@ public class Meteo {
     private double DureeJour;
     private double DureeNuit;
 
+    public Meteo(MeteoMap temp, MeteoMap humidite, TypeMeteo meteo, double dureeJour, double dureeNuit, double densiteNuages) {
+        this.temp = temp;
+        this.humidite = humidite;
+        this.meteo = meteo;
+        DureeJour = dureeJour;
+        DureeNuit = dureeNuit;
+        this.densiteNuages = densiteNuages;
+    }
+
     public MeteoMap getTemp() {
         return temp;
     }
@@ -49,7 +58,6 @@ public class Meteo {
             return 0;
         }
     }
-
 
     /**
      * Densité des nuages (dépend de la météo : ensoleillé 0, très nuageux 1)
