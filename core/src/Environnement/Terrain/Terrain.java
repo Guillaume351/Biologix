@@ -9,12 +9,12 @@ import java.util.List;
 
 
 public class Terrain {
-    Meteo meteo;
-    List<Entite> entites;
-    AltitudeMap altitudes;
-    double gravite;
-    double pourcentageEau;
-    ConstantesBiologiques constantesBio;
+    private Meteo meteo;
+    private List<Entite> entites;
+    private AltitudeMap altitudes;
+    private double gravite;
+    private double pourcentageEau;
+    private ConstantesBiologiques constantesBio;
 
     /**
      * Renvoie la meteo de la carte
