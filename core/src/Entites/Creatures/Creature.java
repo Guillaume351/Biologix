@@ -17,6 +17,8 @@ import java.util.List;
 
 public class Creature extends Entite {
 
+    Creature embryon;
+
     Vector2 orientation;
 
     double vitesse;
@@ -38,6 +40,10 @@ public class Creature extends Entite {
     Mouvement mouvement;
     Perception perception;
     List<Organe> organes;
+
+    public Creature(){
+
+    }
 
     /**
      * Masse de la créature
@@ -206,31 +212,45 @@ public class Creature extends Entite {
         this.defensif.updateDefensif(sortieCerveau, dt);
     }
 
-    public void update(InputsCerveau entrees, double dt, Terrain terrain){
-        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
-
-        // Creature la plus proche
-        List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
-        Creature creatureLaPlusProche = (Creature) (Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1)).get(0);
-
+    public void update_age(OutputsCerveau sortieCerveau, double dt){
         // Age
         this.setAge(this.getAge() + dt);
+    }
 
+    public double update_deplacement(Terrain terrain, OutputsCerveau sortieCerveau, double dt){
         // Deplacement
         this.orientation = sortieCerveau.getDirection();
         double energiePerdueDeplacement = this.deplacer(dt, terrain);
+        return energiePerdueDeplacement;
+    }
 
+    public double update_combat(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau, double dt){
+        // Combattre
+        double energiePerdueDefense;
+        double energiePerdueAttaque;
+        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+            boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+            if (!perteDeVieCombat) {
+                // TODO : faire mourir la créature
+            }
+            energiePerdueDefense = this.defensif.getEnergieDepenseeDefense();
+            energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque();
+        } else {
+            energiePerdueDefense = 0;
+            energiePerdueAttaque = 0;
+        }
+        return energiePerdueAttaque + energiePerdueDefense;
+    }
+
+    public double update_manger(OutputsCerveau sortieCerveau, double dt){
         // Manger
         double coeffVoracite = sortieCerveau.getCoeffVoracite();
         List<Ressource> ressourcesAccessibles = this.perception.getRessourcesAccessibles();
         double energieGagneeManger = this.bouche.manger(ressourcesAccessibles, coeffVoracite);
+        return energieGagneeManger;
+    }
 
-        // Accouchement
-        if (this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
-            this.getSexe().setEnceinte(false);
-            // TODO : ajout de la nouvelle créature sur la map
-        }
-
+    public double update_reproduction(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau, double dt){
         // Se reproduire
         double energiePerdueReproduction;
         if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
@@ -249,30 +269,53 @@ public class Creature extends Entite {
         } else {
             energiePerdueReproduction = 0;
         }
+        return energiePerdueReproduction;
+    }
 
-        // Combattre
-        double energiePerdueDefense;
-        double energiePerdueAttaque;
-        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-            boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
-            if (!perteDeVieCombat) {
-                // TODO : faire mourir la créature
-            }
-            energiePerdueDefense = this.defensif.getEnergieDepenseeDefense();
-            energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque();
-        } else {
-            energiePerdueDefense = 0;
-            energiePerdueAttaque = 0;
+    public void update_accouchement(OutputsCerveau sortieCerveau, double dt){
+        // Accouchement
+        if (this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
+            this.getSexe().setEnceinte(false);
+            // TODO : perte d'énergie
+            // TODO : ajout de la nouvelle créature sur la map
         }
+    }
 
+    public void update_foie(OutputsCerveau sortieCerveau, double dt){
         // Soin (Foie)
         this.foie.soin(dt);
+    }
 
+    public void update_graisse(double energieGagnee, double energiePerdue, OutputsCerveau sortieCerveau, double dt){
         // Mise à jour de l'énergie (Graisse)
-        double energieGagnee = energieGagneeManger;
-        double energiePerdue = energiePerdueAttaque + energiePerdueDefense + energiePerdueDeplacement + energiePerdueReproduction;
         this.graisse.addEnergie(energieGagnee);
         this.graisse.subEnergie(energiePerdue);
+    }
+
+    public void update(InputsCerveau entrees, double dt, Terrain terrain){
+        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
+
+        // Creature la plus proche
+        List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
+        Creature creatureLaPlusProche = (Creature) (Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1)).get(0);
+
+        update_age(sortieCerveau, dt);
+
+        double energiePerdueDeplacement = update_deplacement(terrain, sortieCerveau, dt);
+
+        double energiePerdueCombat = update_combat(creatureLaPlusProche, sortieCerveau, dt);
+
+        double energieGagneeManger = update_manger(sortieCerveau, dt);
+
+        double energiePerdueReproduction = update_reproduction(creatureLaPlusProche, sortieCerveau, dt);
+
+        update_accouchement(sortieCerveau, dt);
+
+        update_foie(sortieCerveau, dt);
+
+        double energiePerdue = energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat;
+        update_graisse(energieGagneeManger, energiePerdue, sortieCerveau, dt );
+
     }
 
 
