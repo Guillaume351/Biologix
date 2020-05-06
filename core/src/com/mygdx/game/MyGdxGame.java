@@ -46,8 +46,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
 	public Pixmap getMap() {
 		int res = 300;
-
-		Pixmap pixmap = new Pixmap(res * 32, res * 32, Pixmap.Format.RGBA8888);
+		int res_texture = 32;
+		Pixmap pixmap = new Pixmap(res * res_texture, res * res_texture, Pixmap.Format.RGBA8888);
 
 		float niveauMer = (float) this.gameWorld.getPourcentageEau();
 		for (int i = 0; i < res; i++) {
@@ -55,10 +55,10 @@ public class MyGdxGame extends ApplicationAdapter {
 				float valeur = (float) this.gameWorld.getAltitudes().getValeur(i, k);
 				if (valeur > niveauMer) {
 					// 32 est la largeur de la texture
-					pixmap.drawPixmap(terre, i * 32, k * 32);
+					pixmap.drawPixmap(terre, i * res_texture, k * res_texture);
 					//pixmap.drawPixel(i, k, Color.rgba8888(valeur * 2, valeur, 0.0F, 1));
 				} else {
-					pixmap.drawPixmap(eau, i * 32, k * 32);
+					pixmap.drawPixmap(eau, i * res_texture, k * res_texture);
 					//pixmap.drawPixel(i, k, Color.rgba8888(0.0F, 0.0F, valeur, 1));
 				}
 
