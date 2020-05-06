@@ -11,6 +11,8 @@ public class Sexe<Genres> extends Organe {
     Genres genre;
     boolean enceinte;
     double tempsDerniereReproduction;
+    double donEnergieEnfant;
+
 
     public Genres getGenre() {
         return genre;

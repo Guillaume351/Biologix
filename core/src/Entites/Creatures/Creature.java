@@ -40,6 +40,7 @@ public class Creature extends Entite {
     Mouvement mouvement;
     Perception perception;
     List<Organe> organes;
+    Terrain terrain;
 
     public Creature(){
 
@@ -76,24 +77,23 @@ public class Creature extends Entite {
         for (Organe or : organes) {
             somme += or.getCoutSubsistance(age);
         }
-        return somme;
+        return somme * dt;
     }
 
     /**
      * Deplace la créature suivant son vecteur direction et avec sa vitesse, renvoie l'énergie dépensée
      *
      * @param dt      : delta de temps de simulation
-     * @param terrain : terrain sur lequel évolue la créature
      * @return Energie dépensée pour le déplacement réalisé
      */
-    public double deplacer(double dt, Terrain terrain) {
+    public double deplacer(double dt) {
         //deplace la creature et renvoie l'energie dépensee
-        double z0 = terrain.getAltitudes().getValeur(getPosition());
+        double z0 = this.terrain.getAltitudes().getValeur(getPosition());
         getPosition().add(orientation.scl((float) (dt * vitesse)));
         double z1 = terrain.getAltitudes().getValeur(getPosition());
         //Energie Potentielle
         double masse = getMasse();
-        double Epot = masse * (z1 - z0) * terrain.getGravite();
+        double Epot = masse * (z1 - z0) * this.terrain.getGravite();
         //Energie Cinetique
         double Ecin = mouvement.getEnergieDepenseeParUniteMasse(dt, vitesse);
         return masse * Math.min(0, Epot + Ecin);
@@ -198,6 +198,8 @@ public class Creature extends Entite {
         return organes;
     }
 
+    public Terrain getTerrain(){ return this.terrain;}
+
     // TODO : implémenter cette fonction
     public float getProximiteGenetique(Creature creature) {
         return 0;
@@ -220,7 +222,7 @@ public class Creature extends Entite {
     public double update_deplacement(Terrain terrain, OutputsCerveau sortieCerveau, double dt){
         // Deplacement
         this.orientation = sortieCerveau.getDirection();
-        double energiePerdueDeplacement = this.deplacer(dt, terrain);
+        double energiePerdueDeplacement = this.deplacer(dt);
         return energiePerdueDeplacement;
     }
 
@@ -245,7 +247,7 @@ public class Creature extends Entite {
     public double update_manger(OutputsCerveau sortieCerveau, double dt){
         // Manger
         double coeffVoracite = sortieCerveau.getCoeffVoracite();
-        List<Ressource> ressourcesAccessibles = this.perception.getRessourcesAccessibles();
+        List<Localisable> ressourcesAccessibles = (List) (Localisateur.getPlusProcheQue(this.getPosition(), this.perception.getRessourcessVisibles(), ConstantesBiologiques.rayonInteraction)).values();
         double energieGagneeManger = this.bouche.manger(ressourcesAccessibles, coeffVoracite);
         return energieGagneeManger;
     }
@@ -313,6 +315,7 @@ public class Creature extends Entite {
 
         update_foie(sortieCerveau, dt);
 
+        // TODO : ajouter les pertes de subsistance et thermique
         double energiePerdue = energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat;
         update_graisse(energieGagneeManger, energiePerdue, sortieCerveau, dt );
 
