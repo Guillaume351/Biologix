@@ -8,7 +8,10 @@ import Utils.ConstantesBiologiques;
 import Utils.Perlin.PerlinParams;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -25,6 +28,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Camera camera;
 
 	Texture worldTexture;
+	Pixmap eau = new Pixmap(Gdx.files.internal("eau_v1.png"));
+	Pixmap terre = new Pixmap(Gdx.files.internal("terre_v1.png"));
 
 	public Terrain genererMap() {
 		//TODO : pour le test, j'utilise les mêmes perlins params. A changer dans le futur
@@ -48,9 +53,12 @@ public class MyGdxGame extends ApplicationAdapter {
 			for (int k = 0; k < res; k++) {
 				float valeur = (float) this.gameWorld.getAltitudes().getValeur(i, k);
 				if (valeur > niveauMer) {
-					pixmap.drawPixel(i, k, Color.rgba8888(valeur * 2, valeur, 0.0F, 1));
+					// 32 est la largeur de la texture
+					pixmap.drawPixmap(terre, i * 32, k * 32);
+					//pixmap.drawPixel(i, k, Color.rgba8888(valeur * 2, valeur, 0.0F, 1));
 				} else {
-					pixmap.drawPixel(i, k, Color.rgba8888(0.0F, 0.0F, valeur, 1));
+					pixmap.drawPixmap(eau, i * 32, k * 32);
+					//pixmap.drawPixel(i, k, Color.rgba8888(0.0F, 0.0F, valeur, 1));
 				}
 
 			}
