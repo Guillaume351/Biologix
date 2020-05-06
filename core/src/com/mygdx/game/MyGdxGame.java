@@ -28,8 +28,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	private Camera camera;
 
 	Texture worldTexture;
-	Pixmap eau = new Pixmap(Gdx.files.internal("eau_v1.png"));
-	Pixmap terre = new Pixmap(Gdx.files.internal("terre_v1.png"));
+	Pixmap eau;
+	Pixmap terre;
 
 	public Terrain genererMap() {
 		//TODO : pour le test, j'utilise les mêmes perlins params. A changer dans le futur
@@ -38,15 +38,16 @@ public class MyGdxGame extends ApplicationAdapter {
 
 		Meteo meteo = new Meteo(new MeteoMap(perlinParams, -10, 30), new MeteoMap(perlinParams, 0, 100), Meteo.TypeMeteo.SOLEIL, 20, 10, 0.4);
 		AltitudeMap altitudeMap = new AltitudeMap(perlinParams, 0, 1);
-
+		this.eau = new Pixmap(Gdx.files.internal("eau_v1.png"));
+		this.terre = new Pixmap(Gdx.files.internal("terre_v1.png"));
 		//TODO : replacer les entites par une liste d'entites
 		return new Terrain(meteo, null, altitudeMap, 9.81, 0.4, new ConstantesBiologiques());
 	}
 
 	public Pixmap getMap() {
-		int res = 800;
+		int res = 300;
 
-		Pixmap pixmap = new Pixmap(res, res, Pixmap.Format.RGBA8888);
+		Pixmap pixmap = new Pixmap(res * 32, res * 32, Pixmap.Format.RGBA8888);
 
 		float niveauMer = (float) this.gameWorld.getPourcentageEau();
 		for (int i = 0; i < res; i++) {
