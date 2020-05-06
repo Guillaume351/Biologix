@@ -1,6 +1,7 @@
 package Entites.Creatures.Organes;
 
 import Entites.Creatures.Organe;
+import Environnement.Terrain.Terrain;
 
 public class Mouvement extends Organe {
     //Organe dedié au mouvement de la créature
@@ -8,8 +9,14 @@ public class Mouvement extends Organe {
 
     double vitesseMax;
 
-    public double getVitesseMax() {
-        return vitesseMax;
+    double potentielNageoire;
+
+    public double getVitesseMax(Terrain terrain) {
+        if (terrain.estDansEau(this.getCreatureHote())) {
+            return vitesseMax * potentielNageoire;
+        } else {
+            return vitesseMax * (1 - potentielNageoire);
+        }
     }
 
     /**

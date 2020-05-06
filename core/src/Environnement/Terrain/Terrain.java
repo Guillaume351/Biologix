@@ -92,15 +92,14 @@ public class Terrain {
      * Renvoie si une entite est dans l'eau ou non.
      *
      * @param entite    L'entite dont on veut savoir si elle est immergé
-     * @param altitudes La carte d'altitude sur laquelle on joue
      * @return Vrai si on se situe sous l'eau, faux sinon
      */
-    public boolean estDansEau(Entite entite, AltitudeMap altitudes) {
+    public boolean estDansEau(Entite entite) {
 
         boolean estDansEau;
         Vector2 position = entite.getPosition();
-        double altitude = altitudes.getValeur(position.x, position.y);
-        double niveauMer = altitudes.hauteurMer(pourcentageEau);
+        double altitude = this.altitudes.getValeur(position.x, position.y);
+        double niveauMer = this.altitudes.hauteurMer(pourcentageEau);
 
         estDansEau = !(altitude >= niveauMer);
         return estDansEau;
