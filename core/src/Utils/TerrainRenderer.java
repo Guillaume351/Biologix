@@ -10,13 +10,13 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
-public class RenderTerrain {
+public class TerrainRenderer {
 
     // Contient le terrain sous forme de TiledMap
     private TiledMap map;
 
 
-    public RenderTerrain(Terrain terrain) {
+    public TerrainRenderer(Terrain terrain) {
         TiledMap tiledMap = convertToTiledMap(terrain);
         this.map = tiledMap;
 
