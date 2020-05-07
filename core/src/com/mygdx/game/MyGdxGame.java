@@ -43,7 +43,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		//TODO : replacer les entites par une liste d'entites
 		return new Terrain(meteo, null, altitudeMap, 9.81, 0.4, new ConstantesBiologiques());
 	}
-
+/*
 	public Pixmap getMap() {
 		int res = 300;
 		int res_texture = 32;
@@ -67,6 +67,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		return pixmap;
 	}
 
+ */
+
 	@Override
 	public void create() {
 		this.batch = new SpriteBatch();
@@ -76,7 +78,7 @@ public class MyGdxGame extends ApplicationAdapter {
 		this.viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		this.viewport.setCamera(this.camera);
 
-		this.worldTexture = new Texture(getMap());
+	//	this.worldTexture = new Texture(getMap());
 	}
 
 	@Override
@@ -84,7 +86,8 @@ public class MyGdxGame extends ApplicationAdapter {
 		camera.update();
 
 		batch.begin();
-		batch.draw(worldTexture, 0, 0, this.viewport.getWorldWidth(), this.viewport.getWorldHeight());
+		//
+		// batch.draw(worldTexture, 0, 0, this.viewport.getWorldWidth(), this.viewport.getWorldHeight());
 		batch.end();
 	}
 	
