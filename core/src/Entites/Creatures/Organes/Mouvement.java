@@ -3,13 +3,23 @@ package Entites.Creatures.Organes;
 import Entites.Creatures.Organe;
 import Environnement.Terrain.Terrain;
 
+import java.util.Random;
+
 public class Mouvement extends Organe {
     //Organe dedié au mouvement de la créature
     double coeffFrottement;
-
     double vitesseMax;
-
     double potentielNageoire;
+
+    public Mouvement(Random r){
+        //super(r);
+        //this.coeffFrottement =;
+        //this.potentielNageoire = ;
+    }
+
+    public Mouvement(Mouvement mouvementMere, Mouvement mouvementPere, Random r){
+
+    }
 
     public double getVitesseMax(Terrain terrain) {
         if (terrain.estDansEau(this.getCreatureHote())) {

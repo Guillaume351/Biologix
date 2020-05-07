@@ -1,5 +1,7 @@
 package Entites.Creatures.Organes;
 
+import java.util.Random;
+
 //Stocker l'énergie
 public class Graisse extends OrganeThermique {
     double energie;
@@ -7,6 +9,16 @@ public class Graisse extends OrganeThermique {
 
     //Masse = Taille*Densite
     //Energie = Taille*EfficaciteEnergetique
+
+
+    public Graisse(Random r){
+        //super(r);
+        //this.energie =;
+    }
+
+    public Graisse(Graisse graisseMere, Graisse graissePere, Random r){
+        // TODO : penser à prendre l'attribut energieDonneeEnfant de Creature
+    }
 
     /**
      * Renvoie la masse de graisse de la créature (ne depend pas de t)

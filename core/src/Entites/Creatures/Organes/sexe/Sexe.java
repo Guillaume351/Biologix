@@ -4,6 +4,8 @@ import Entites.Creatures.Organe;
 import Entites.Creatures.Organes.Cerveau.InputsCerveau;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 
+import java.util.Random;
+
 //Se reproduire
 public class Sexe<Genres> extends Organe {
     double volonteReproductive;
@@ -13,6 +15,21 @@ public class Sexe<Genres> extends Organe {
     double tempsDerniereReproduction;
     double donEnergieEnfant;
 
+    public Sexe(Random r){
+        //super(r);
+        this.volonteReproductive = r.nextDouble();
+        this.efficaciteReproductive = r.nextDouble();
+        //this.genre = ;
+        this.enceinte = false;
+        this.tempsDerniereReproduction = 0;
+        //this.donEnergieEnfant = ;
+
+    }
+
+    public Sexe(Sexe sexeMere, Sexe sexePere, Random r){
+        //super(sexeMere,sexePere, r);
+        Sexe sexeAlea = new Sexe(r);
+    }
 
     public Genres getGenre() {
         return genre;

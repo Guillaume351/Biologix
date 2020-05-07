@@ -13,6 +13,16 @@ public class Bouche extends Organe {
     private double capaciteVoracite;
     private double efficaciteVoracite;
 
+    public Bouche(Random r){
+        //super(r);
+        //this.capaciteVoracite = ;
+        //this.efficaciteVoracite = ;
+    }
+
+    public Bouche(Bouche boucheMere, Bouche bouchePere, Random r){
+
+    }
+
 
     public double getCapaciteVoracite(){
         return this.capaciteVoracite;

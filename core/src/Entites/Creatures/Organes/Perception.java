@@ -15,6 +15,18 @@ public class Perception extends Organe {
     double luminositeIdeale;
     double adaptationLumiere;
 
+    public Perception(Random r){
+        //super(r);
+        //this.luminositeIdeale = ;
+        //this.adaptationLumiere = ;
+    }
+
+    public Perception(Perception perceptionMere, Perception perceptionPere, Random r){
+
+    }
+
+
+
     public double getAdaptationLumiere(){
         return this.adaptationLumiere;
     }

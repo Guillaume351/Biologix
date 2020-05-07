@@ -3,6 +3,9 @@ package Entites.Creatures.Organes;
 import Entites.Creatures.Organe;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
+import com.badlogic.gdx.ApplicationAdapter;
+
+import java.util.Random;
 
 //Respiration Aquatique et Terrestre
 public class AppareilRespiratoire extends Organe {
@@ -10,6 +13,17 @@ public class AppareilRespiratoire extends Organe {
     double potentielBranchie;
     double densiteOxygene;
     double quantiteOxygene;
+
+    public AppareilRespiratoire(Random r){
+        //super(r);
+        this.potentielBranchie = r.nextDouble();
+        //this.densiteOxygene = ;
+        //this.quantiteOxygene = ;
+    }
+
+    public AppareilRespiratoire(AppareilRespiratoire arMere, AppareilRespiratoire arPere, Random r){
+
+    }
 
 
     public double getQuantiteOxygene() {

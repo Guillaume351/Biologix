@@ -2,6 +2,8 @@ package Entites.Creatures.Organes;
 
 import Entites.Creatures.Organe;
 
+import java.util.Random;
+
 //Se guérir et se soigner
 public class Foie extends Organe {
 
@@ -10,6 +12,18 @@ public class Foie extends Organe {
     private double coeffDeBlessure;
     private double capaciteDeSoin;
     private double densitePv;
+
+    public Foie(Random r){
+        //super(r);
+        //this.pointsDeVie = ;
+        //this.coeffDeBlessure = ;
+        //this.capaciteDeSoin = ;
+        //this.densitePv = ;
+    }
+
+    public Foie(Foie foieMere, Foie foiePere, Random r){
+
+    }
 
     public double getPointsDeVie(){
         return this.pointsDeVie;

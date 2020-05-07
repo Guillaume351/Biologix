@@ -23,9 +23,10 @@ public abstract class Organe {
     }
 
     public Organe(Organe organePere, Organe organeMere, double mutation, Random r){
-
     }
+
      */
+
 
     public Creature getCreatureHote() {
         return creatureHote;
