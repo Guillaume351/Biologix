@@ -10,19 +10,21 @@ import java.util.Random;
 //Respiration Aquatique et Terrestre
 public class AppareilRespiratoire extends Organe {
 
-    double potentielBranchie;
-    double densiteOxygene;
+    double potentielBranchie;   // entre 0 et 1
+    double densiteOxygene;  // entre min et max
     double quantiteOxygene;
 
     public AppareilRespiratoire(Random r){
-        //super(r);
+        super(r);
         this.potentielBranchie = r.nextDouble();
-        //this.densiteOxygene = ;
-        //this.quantiteOxygene = ;
+        this.densiteOxygene = ConstantesBiologiques.densiteOxygeneMin + (ConstantesBiologiques.densiteOxygeneMax - ConstantesBiologiques.densiteOxygeneMin) * r.nextDouble();
+        this.quantiteOxygene = getQuantiteOxygeneMax();
     }
 
-    public AppareilRespiratoire(AppareilRespiratoire arMere, AppareilRespiratoire arPere, Random r){
-
+    public AppareilRespiratoire(AppareilRespiratoire arMere, AppareilRespiratoire arPere, Random r, double mutation){
+        super(arMere, arPere, r, mutation);
+        AppareilRespiratoire apAlea = new AppareilRespiratoire(r);
+        // TODO : à terminer
     }
 
 

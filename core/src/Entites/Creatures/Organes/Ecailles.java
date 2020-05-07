@@ -9,8 +9,8 @@ public class Ecailles extends OrganeThermique {
         super(r);
     }
 
-    public Ecailles(Ecailles ecaillesMere, Ecailles ecaillesPere, Random r){
-        super(ecaillesMere, ecaillesPere, r);
+    public Ecailles(Ecailles ecaillesMere, Ecailles ecaillesPere, Random r, double mutation){
+        super(ecaillesMere, ecaillesPere, r, mutation);
     }
 
     @Override

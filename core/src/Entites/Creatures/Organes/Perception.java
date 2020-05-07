@@ -16,13 +16,13 @@ public class Perception extends Organe {
     double adaptationLumiere;
 
     public Perception(Random r){
-        //super(r);
+        super(r);
         //this.luminositeIdeale = ;
         //this.adaptationLumiere = ;
     }
 
-    public Perception(Perception perceptionMere, Perception perceptionPere, Random r){
-
+    public Perception(Perception perceptionMere, Perception perceptionPere, Random r, double mutation){
+        super(perceptionMere, perceptionPere, r, mutation);
     }
 
 
