@@ -18,12 +18,14 @@ public class Digestion extends Organe {
     double regimeAlimentaire;
 
     public Digestion(Random r){
-        //super(r);
+        super(r);
         this.regimeAlimentaire = r.nextDouble();
     }
 
-    public Digestion(Digestion digestionMere, Digestion digestionPere, Random r){
-
+    public Digestion(Digestion digestionMere, Digestion digestionPere, Random r, double mutation){
+        super(digestionMere, digestionPere, r, mutation);
+        Digestion digestionAlea = new Digestion(r);
+        this.regimeAlimentaire = (digestionMere.regimeAlimentaire + digestionPere.regimeAlimentaire + digestionAlea.regimeAlimentaire * mutation)/(2 + mutation);
     }
 
     /**

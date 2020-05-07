@@ -10,17 +10,17 @@ import java.util.*;
 //Ramasser la nourriture efficacement
 public class Bouche extends Organe {
 
-    private double capaciteVoracite;
-    private double efficaciteVoracite;
+    private double capaciteVoracite;    // entre min et max
 
     public Bouche(Random r){
-        //super(r);
-        //this.capaciteVoracite = ;
-        //this.efficaciteVoracite = ;
+        super(r);
+        this.capaciteVoracite = ConstantesBiologiques.capaciteVoraciteMin + (ConstantesBiologiques.capaciteVoraciteMax - ConstantesBiologiques.capaciteVoraciteMin) * r.nextDouble();
     }
 
-    public Bouche(Bouche boucheMere, Bouche bouchePere, Random r){
-
+    public Bouche(Bouche boucheMere, Bouche bouchePere, Random r, double mutation){
+        super(boucheMere, bouchePere, r, mutation);
+        Bouche boucheAlea = new Bouche(r);
+        this.capaciteVoracite = (boucheMere.capaciteVoracite + bouchePere.capaciteVoracite + boucheAlea.capaciteVoracite * mutation)/(2 + mutation);
     }
 
 
@@ -61,7 +61,7 @@ public class Bouche extends Organe {
      * @return energie maximale
      */
     public double getEnergieMaxMangeable(double coeffVoracite) {
-        return efficaciteVoracite * getEnergieDepenseeManger(coeffVoracite);
+        return ConstantesBiologiques.efficaciteVoracite * getEnergieDepenseeManger(coeffVoracite);
     }
 
     /**

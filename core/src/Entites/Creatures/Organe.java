@@ -13,7 +13,6 @@ public abstract class Organe {
 
     Creature creatureHote;
 
-    /*
     public Organe(Random r){
         this.taille0 = ConstantesBiologiques.tailleOrganeMin + (ConstantesBiologiques.tailleOrganeMax - ConstantesBiologiques.tailleOrganeMin)*r.nextDouble();
         this.tailleMax = this.taille0 + (ConstantesBiologiques.tailleOrganeMax - this.taille0)*r.nextDouble();
@@ -22,10 +21,10 @@ public abstract class Organe {
         this.coutSubsistanceRelatif = ConstantesBiologiques.coutSubsistanceRelatifMin + (ConstantesBiologiques.coutSubsistanceRelatifMax - ConstantesBiologiques.coutSubsistanceRelatifMin)*r.nextDouble();
     }
 
-    public Organe(Organe organePere, Organe organeMere, double mutation, Random r){
+    public Organe(Organe organePere, Organe organeMere, Random r, double mutation){
     }
 
-     */
+
 
 
     public Creature getCreatureHote() {

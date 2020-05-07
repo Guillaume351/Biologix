@@ -12,13 +12,13 @@ public class Offensif extends Organe {
     private double volonteAttaque;
 
     public Offensif(Random r){
-        //super(r);
+        super(r);
         //this.puissanceAttaque = ;
         //this.volonteAttaque = ;
     }
 
-    public Offensif(Offensif offensifMere, Offensif offensifPere, Random r){
-
+    public Offensif(Offensif offensifMere, Offensif offensifPere, Random r, double mutation){
+        super(offensifMere, offensifMere, r, mutation);
     }
 
     public double getVolonteAttaque(){return this.volonteAttaque;}

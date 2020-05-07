@@ -3,35 +3,41 @@ package Entites.Creatures.Organes.sexe;
 import Entites.Creatures.Organe;
 import Entites.Creatures.Organes.Cerveau.InputsCerveau;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
+import Utils.ConstantesBiologiques;
 
 import java.util.Random;
 
 //Se reproduire
-public class Sexe<Genres> extends Organe {
-    double volonteReproductive;
-    double efficaciteReproductive;
-    Genres genre;
+public class Sexe extends Organe {
+    double volonteReproductive; // entre 0 et 1
+    double efficaciteReproductive;  // entre min et max
+    Genre genre;
     boolean enceinte;
     double tempsDerniereReproduction;
-    double donEnergieEnfant;
+    double donEnergieEnfant;    // entre 0 et 1
 
     public Sexe(Random r){
-        //super(r);
+        super(r);
         this.volonteReproductive = r.nextDouble();
-        this.efficaciteReproductive = r.nextDouble();
-        //this.genre = ;
+        this.efficaciteReproductive = ConstantesBiologiques.efficaciteReproductiveMin + (ConstantesBiologiques.coutSubsistanceRelatifMax - ConstantesBiologiques.coutSubsistanceRelatifMin)*r.nextDouble();
+        this.genre = Genre.values()[r.nextInt(2)];
         this.enceinte = false;
         this.tempsDerniereReproduction = 0;
-        //this.donEnergieEnfant = ;
-
+        this.donEnergieEnfant = r.nextDouble();
     }
 
-    public Sexe(Sexe sexeMere, Sexe sexePere, Random r){
-        //super(sexeMere,sexePere, r);
+    public Sexe(Sexe sexeMere, Sexe sexePere, Random r, double mutation){
+        super(sexeMere,sexePere, r, mutation);
         Sexe sexeAlea = new Sexe(r);
+        this.volonteReproductive = (sexeMere.volonteReproductive + sexePere.volonteReproductive + sexeAlea.volonteReproductive * mutation)/(2 + mutation);
+        this.efficaciteReproductive = (sexeMere.efficaciteReproductive + sexePere.efficaciteReproductive + sexeAlea.efficaciteReproductive * mutation)/(2 + mutation);
+        this.genre = Genre.values()[r.nextInt(2)];
+        this.enceinte = false;
+        this.tempsDerniereReproduction = 0;
+        this.donEnergieEnfant = (sexeMere.donEnergieEnfant + sexePere.donEnergieEnfant + sexeAlea.donEnergieEnfant * mutation)/(2 + mutation);
     }
 
-    public Genres getGenre() {
+    public Genre getGenre() {
         return genre;
     }
     // TODO : on peut ajouter un attribut comme la capacité de reproduction

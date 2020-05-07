@@ -12,13 +12,13 @@ public class Mouvement extends Organe {
     double potentielNageoire;
 
     public Mouvement(Random r){
-        //super(r);
+        super(r);
         //this.coeffFrottement =;
         //this.potentielNageoire = ;
     }
 
-    public Mouvement(Mouvement mouvementMere, Mouvement mouvementPere, Random r){
-
+    public Mouvement(Mouvement mouvementMere, Mouvement mouvementPere, Random r, double mutation){
+        super(mouvementMere, mouvementPere, r, mutation);
     }
 
     public double getVitesseMax(Terrain terrain) {

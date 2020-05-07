@@ -9,8 +9,8 @@ public class Fourrure extends OrganeThermique {
         super(r);
     }
 
-    public Fourrure(Fourrure fourrureMere, Fourrure fourrurePere, Random r){
-        super(fourrureMere, fourrurePere, r);
+    public Fourrure(Fourrure fourrureMere, Fourrure fourrurePere, Random r, double mutation){
+        super(fourrureMere, fourrurePere, r, mutation);
     }
 
     @Override
