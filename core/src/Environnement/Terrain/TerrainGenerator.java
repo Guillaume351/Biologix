@@ -41,11 +41,11 @@ public class TerrainGenerator {
         ArrayList<Creature> creatures = creaturesPopulate();
 
         List<Entite> entites = new ArrayList<>();
-        entites.addAll(ressources);
-        entites.addAll(creatures);
+        //TODO entites.addAll(ressources);
+        //TODO entites.addAll(creatures);
 
 
-        entites.addAll(creaturesPopulate());
+        //TODO entites.addAll(creaturesPopulate());
 
         return new Terrain(meteo, entites, altitudeMap, 9.81, 0.4, new ConstantesBiologiques());
     }

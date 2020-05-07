@@ -10,13 +10,16 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 
-import java.util.Map;
-
 public class RenderTerrain {
+
+    // Contient le terrain sous forme de TiledMap
     private TiledMap map;
-    public RenderTerrain(Terrain terrain){
+
+
+    public RenderTerrain(Terrain terrain) {
         TiledMap tiledMap = convertToTiledMap(terrain);
         this.map = tiledMap;
+
     }
 
     /**
@@ -25,9 +28,9 @@ public class RenderTerrain {
      * @param terrain : Le terrain à convertir
      * @return La tiledmap créé
      */
-    public TiledMap convertToTiledMap(Terrain terrain){
+    public TiledMap convertToTiledMap(Terrain terrain) {
 
-        TiledMap map =  new TiledMap();
+        TiledMap map = new TiledMap();
         MapLayers layers = map.getLayers();
 
         int height = 300;
@@ -38,21 +41,29 @@ public class RenderTerrain {
         TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v1.png"))));
         TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v1.png"))));
 
-        for(int i = 0; i < width; i++){
-            for(int k = 0; k < width; k++) {
+        for (int i = 0; i < width; i++) {
+            for (int k = 0; k < width; k++) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                 StaticTiledMapTile staticTiledMapTile;
-                if(terrain.getAltitudes().getValeur(i,k) > terrain.getPourcentageEau()){
+                if (terrain.getAltitudes().getValeur(i, k) > terrain.getPourcentageEau()) {
                     staticTiledMapTile = new StaticTiledMapTile(terre);
-                }else{
+                } else {
                     staticTiledMapTile = new StaticTiledMapTile(eau);
                 }
 
-                cell.setTile(new StaticTiledMapTile(eau));
+                cell.setTile(staticTiledMapTile);
                 layer1.setCell(i, k, cell);
             }
         }
         layers.add(layer1);
         return map;
+    }
+
+    public TiledMap getMap() {
+        return map;
+    }
+
+    public void setMap(TiledMap map) {
+        this.map = map;
     }
 }
