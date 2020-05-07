@@ -6,11 +6,11 @@ import java.util.Random;
 public class Fourrure extends OrganeThermique {
 
     public Fourrure(Random r){
-        //super(r);
+        super(r);
     }
 
     public Fourrure(Fourrure fourrureMere, Fourrure fourrurePere, Random r){
-
+        super(fourrureMere, fourrurePere, r);
     }
 
     @Override

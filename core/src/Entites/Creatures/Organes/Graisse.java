@@ -12,11 +12,12 @@ public class Graisse extends OrganeThermique {
 
 
     public Graisse(Random r){
-        //super(r);
+        super(r);
         //this.energie =;
     }
 
     public Graisse(Graisse graisseMere, Graisse graissePere, Random r){
+        super(graisseMere, graissePere, r);
         // TODO : penser à prendre l'attribut energieDonneeEnfant de Creature
     }
 

@@ -6,11 +6,11 @@ import java.util.Random;
 public class Ecailles extends OrganeThermique {
 
     public Ecailles(Random r){
-        //super(r);
+        super(r);
     }
 
     public Ecailles(Ecailles ecaillesMere, Ecailles ecaillesPere, Random r){
-
+        super(ecaillesMere, ecaillesPere, r);
     }
 
     @Override
