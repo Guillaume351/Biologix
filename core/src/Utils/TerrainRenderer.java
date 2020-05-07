@@ -38,8 +38,8 @@ public class TerrainRenderer {
 
         TiledMapTileLayer layer1 = new TiledMapTileLayer(width, height, 32, 32);
 
-        TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v1.png"))));
-        TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v1.png"))));
+        TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v1.jpg"))));
+        TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v1.jpg"))));
 
         for (int i = 0; i < width; i++) {
             for (int k = 0; k < width; k++) {

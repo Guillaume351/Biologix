@@ -12,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import java.util.Random;
 
@@ -59,8 +59,8 @@ public class MyGdxGame extends ApplicationAdapter {
 
         camera.position.x = mapWidthInPixels * .5f;
         camera.position.y = mapHeightInPixels * .35f;
-        camera.zoom = 4f;
-        mapRenderer = new OrthoCachedTiledMapRenderer(this.map, 1, 8096);
+        camera.zoom = 16f;
+        mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1f);
         mapRenderer.setView(camera);
 
 
