@@ -1,7 +1,6 @@
 package Entites.Creatures.Organes.Cerveau;
 
 import Entites.Creatures.Creature;
-import Environnement.Terrain.Terrain;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.Random;
@@ -54,7 +53,8 @@ public class Cerveau {
      */
     public OutputsCerveau getComportement(InputsCerveau entrees) {
         OutputsCerveau retour = new OutputsCerveau();
-        retour.setChampVision(creatureHote.getPerception().getAdaptationLumiere() * Math.PI / 2.0);
+        retour.setChampVision(creatureHote.getPerception().getAdaptationLumiere() * creatureHote.getPerception().getChampVisionOptimal());
+        retour.setDistanceVision(creatureHote.getPerception().getAdaptationLumiere() * creatureHote.getPerception().getDistanceVisionOptimal());
         Vector2 Vnourriture = entrees.getVecteurNourriture();
         retour.setCoeffVoracite(normer(Vnourriture.len()));
         Vector2 Vgregarite = entrees.getVecteurGregarite();

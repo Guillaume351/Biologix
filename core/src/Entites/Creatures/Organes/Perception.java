@@ -5,7 +5,9 @@ import Entites.Creatures.Organe;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 import Entites.Entite;
 import Entites.Ressources.Ressource;
+import Utils.ConstantesBiologiques;
 import Utils.Position.Localisable;
+import Utils.Position.Localisateur;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,15 +16,32 @@ import java.util.Random;
 public class Perception extends Organe {
     double luminositeIdeale;
     double adaptationLumiere;
+    double distanceVue;
+    double champVision;
 
     public Perception(Random r){
         super(r);
-        //this.luminositeIdeale = ;
-        //this.adaptationLumiere = ;
+        this.luminositeIdeale = r.nextDouble();
+        this.adaptationLumiere = 0;
+        this.distanceVue = 0;
+        this.champVision = 0;
+
     }
 
     public Perception(Perception perceptionMere, Perception perceptionPere, Random r, double mutation){
         super(perceptionMere, perceptionPere, r, mutation);
+        this.adaptationLumiere = 0;
+        this.distanceVue = 0;
+        this.champVision = 0;
+        this.luminositeIdeale = (perceptionMere.luminositeIdeale + perceptionPere.luminositeIdeale + r.nextDouble() * mutation) / (2 + mutation);
+    }
+
+    public double getChampVisionOptimal() {
+        return Math.min(ConstantesBiologiques.densiteChampVision * this.getMasse(this.getCreatureHote().getAge()), Math.PI);
+    }
+
+    public double getDistanceVisionOptimal() {
+        return ConstantesBiologiques.densiteDistVision * this.getMasse(this.getCreatureHote().getAge());
     }
 
 
@@ -38,7 +57,7 @@ public class Perception extends Organe {
 
     public List<Localisable> getEntitesVisibles(){
         List<Entite> entitesMap = this.getCreatureHote().getTerrain().getEntites();
-        return null;
+        return Localisateur.getDansChampVision(this.getCreatureHote().getPosition(), this.getCreatureHote().getOrientation(), (List) entitesMap, this.champVision, this.distanceVue);
     }
 
     public List<Localisable> getCreaturesVisibles() {
@@ -63,6 +82,8 @@ public class Perception extends Organe {
 
     public void updatePerception(OutputsCerveau sorties, double dt, double luminosite){
         this.adaptationLumiere = getAdaptationLumiere(luminosite);
+        this.champVision = sorties.getChampVision();
+        this.distanceVue = sorties.getDistanceVision();
     }
 
 }

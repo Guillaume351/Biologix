@@ -1,5 +1,6 @@
 package Entites.Creatures;
 
+import Entites.Creatures.Organes.Ecailles;
 import Utils.ConstantesBiologiques;
 
 import java.util.Random;
@@ -9,7 +10,6 @@ public abstract class Organe {
     double tailleMax;
     double tempsCroissance;
     double densite;
-    double coutSubsistanceRelatif;
 
     Creature creatureHote;
 
@@ -18,10 +18,15 @@ public abstract class Organe {
         this.tailleMax = this.taille0 + (ConstantesBiologiques.tailleOrganeMax - this.taille0)*r.nextDouble();
         this.tempsCroissance = ConstantesBiologiques.tempsCroissanceMin + (ConstantesBiologiques.tempsCroissanceMax - ConstantesBiologiques.tempsCroissanceMin)*r.nextDouble();
         this.densite = ConstantesBiologiques.densiteMin + (ConstantesBiologiques.densiteMax - ConstantesBiologiques.densiteMin)*r.nextDouble();
-        this.coutSubsistanceRelatif = ConstantesBiologiques.coutSubsistanceRelatifMin + (ConstantesBiologiques.coutSubsistanceRelatifMax - ConstantesBiologiques.coutSubsistanceRelatifMin)*r.nextDouble();
+
     }
 
     public Organe(Organe organePere, Organe organeMere, Random r, double mutation){
+        Organe alea = new Ecailles(r);
+        this.taille0 = (organePere.taille0 + organeMere.taille0 + alea.taille0 * mutation) / (2 + mutation);
+        this.tailleMax = Math.max(this.taille0, (organePere.tailleMax + organeMere.tailleMax + alea.tailleMax * mutation) / (2 + mutation));
+        this.tempsCroissance = (organePere.tempsCroissance + organeMere.tempsCroissance + alea.tempsCroissance * mutation) / (2 + mutation);
+        this.densite = (organeMere.densite + organePere.densite + alea.densite * mutation) / (2 + mutation);
     }
 
 
@@ -61,8 +66,9 @@ public abstract class Organe {
      * @param t : Age de la creature
      * @return Energie dediee a la subsistance de l'organe par unite de temps
      */
-    public double getCoutSubsistance(double t) {
-        return getTaille(t) * coutSubsistanceRelatif;
+    public double getCoutSubsistance(double t, double dt) {
+
+        return getTaille(t) * ConstantesBiologiques.coutSubsistanceRelatif * dt + (getTaille(t + dt) - getTaille(t)) * ConstantesBiologiques.coutCroissanceRelatif;
     }
 
     public double getTaille0() {

@@ -18,8 +18,8 @@ public class ConstantesBiologiques {
     public static double densiteMin;
     public static double densiteMax;
 
-    public static double coutSubsistanceRelatifMin;
-    public static double coutSubsistanceRelatifMax;
+    public static double coutSubsistanceRelatif;
+
 
     public static double efficaciteReproductiveMin;
     public static double efficaciteReproductiveMax;
@@ -48,6 +48,8 @@ public class ConstantesBiologiques {
     public static double efficaciteEnrgetiqueMin;
     public static double efficaciteEnergetiqueMax;
     public static double rendementAccouchement;
+    public static double coutCroissanceRelatif;
+
 
     /*Mouvement*/
     public static double coeffFrottement;
@@ -64,6 +66,10 @@ public class ConstantesBiologiques {
     /*Thermique*/
     public static double isolationMax;
     public static double isolationMin;
+
+    /*Vision*/
+    public static double densiteDistVision;
+    public static double densiteChampVision;
 
 
 }

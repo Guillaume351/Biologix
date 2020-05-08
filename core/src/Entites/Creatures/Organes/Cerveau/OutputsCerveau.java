@@ -17,6 +17,16 @@ public class OutputsCerveau {
 
     //Perception
     private double champVision;
+
+    private double distanceVision;
+
+    public double getDistanceVision() {
+        return distanceVision;
+    }
+
+    public void setDistanceVision(double distanceVision) {
+        this.distanceVision = distanceVision;
+    }
     //Reproduction
     private double volonteReproductive;
 

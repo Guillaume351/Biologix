@@ -6,7 +6,6 @@ import Entites.Creatures.Organes.Cerveau.InputsCerveau;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 import Entites.Creatures.Organes.sexe.Sexe;
 import Entites.Entite;
-import Entites.Ressources.Ressource;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import Utils.Position.Localisable;
@@ -75,7 +74,7 @@ public class Creature extends Entite {
     public double getCoutSubsistance(double dt) {
         double somme = 0;
         for (Organe or : organes) {
-            somme += or.getCoutSubsistance(age);
+            somme += or.getCoutSubsistance(age, dt);
         }
         return somme * dt;
     }
