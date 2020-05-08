@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Viande extends Ressource {
 
-    double tauxDePourriture; // définit si une viande est pourrie, 0 = clean, 1 = pourrie
-    private double tauxDePourritureMax;
+    double tauxDePourriture; // définit si une viande est pourrie. tauxdePourriture + getquantiteEnergie = EnergieMaxStockable
+    private double energieMaxStockable; // l'énergie pax stockable de la plante,
     MeteoMap meteo;
 
     @Override
@@ -63,11 +63,11 @@ public class Viande extends Ressource {
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
-        return this.tauxDePourriture >= 0.5;        //valeur à discuter
+        return this.tauxDePourriture >= this.energieMaxStockable/2;        //valeur à discuter
     }
 
     /**
-     * La viande pourrit dans le temps... et perd donc de l'énergie
+     * La viande pourrit dans le temps... son énergie se transforme en pourriture
      */
     void evoluer(double dt) {
         double pourriture = 0.1;
