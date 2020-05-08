@@ -2,12 +2,13 @@ package Environnement.Terrain;
 
 import Entites.Entite;
 import Environnement.Meteo.Meteo;
+import Utils.Updatable;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
 
 
-public class Terrain {
+public class Terrain implements Updatable {
     private Meteo meteo;
     private List<Entite> entites;
     private AltitudeMap altitudes;
@@ -105,5 +106,10 @@ public class Terrain {
 
     public double getPourcentageEau() {
         return pourcentageEau;
+    }
+
+    @Override
+    public void update(int delta_t) {
+        //TODO
     }
 }

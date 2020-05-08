@@ -387,9 +387,13 @@ public class Creature extends Entite {
 
         // TODO : ajouter les pertes de subsistance et thermique
         double energiePerdue = energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat;
-        update_graisse(energieGagneeManger, energiePerdue, sortieCerveau, dt );
+        update_graisse(energieGagneeManger, energiePerdue, sortieCerveau, dt);
 
     }
 
 
+    @Override
+    public void update(int delta_t) {
+        //TODO
+    }
 }

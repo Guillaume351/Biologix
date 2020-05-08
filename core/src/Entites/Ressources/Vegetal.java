@@ -1,6 +1,6 @@
 package Entites.Ressources;
-import java.util.*;
-import Environnement.Meteo.*;
+
+import Environnement.Meteo.MeteoMap;
 
 public class Vegetal extends Ressource {
 
@@ -99,9 +99,15 @@ public class Vegetal extends Ressource {
 
     /**
      * est-ce que la plante est morte ??
+     *
      * @return
      */
     public boolean estMorte() {
         return (this.energieVegetal == 0);
+    }
+
+    @Override
+    public void update(int delta_t) {
+        //TODO
     }
 }

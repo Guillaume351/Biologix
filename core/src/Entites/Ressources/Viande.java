@@ -1,5 +1,6 @@
 package Entites.Ressources;
-import Environnement.Meteo.*;
+
+import Environnement.Meteo.MeteoMap;
 
 
 public class Viande extends Ressource {
@@ -71,12 +72,17 @@ public class Viande extends Ressource {
         if (temperature < 10 && temperature > 0) {
             coefficient = 1;
         } else if (temperature > 10) {
-            coefficient= 2;
+            coefficient = 2;
         } else {
             coefficient = 0.1;//trop froid
         }
 
-        ajouterPourriture(coefficient*pourriture);
-        retirerEnergie(coefficient*pourriture);
+        ajouterPourriture(coefficient * pourriture);
+        retirerEnergie(coefficient * pourriture);
+    }
+
+    @Override
+    public void update(int delta_t) {
+        //TODO
     }
 }
