@@ -1,9 +1,10 @@
 package Entites;
 
 import Utils.Position.Localisable;
+import Utils.Updatable;
 import com.badlogic.gdx.math.Vector2;
 
-public abstract class Entite implements Localisable {
+public abstract class Entite implements Localisable, Updatable {
     Vector2 position;
 
     @Override
