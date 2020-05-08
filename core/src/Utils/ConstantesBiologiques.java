@@ -45,6 +45,25 @@ public class ConstantesBiologiques {
     public static double densiteDePvMax;
 
     /* Graisse */
+    public static double efficaciteEnrgetiqueMin;
+    public static double efficaciteEnergetiqueMax;
+    public static double rendementAccouchement;
+
+    /*Mouvement*/
+    public static double coeffFrottement;
+    public static double vitesseMaxMax;
+    public static double vitesseMaxMin;
+
+    /*Sexe*/
+    public static double distanceGenetiqueMaxRepro;
+
+    /*Offensif*/
+    public static double puissanceAttaqueMax;
+    public static double puissanceAttaqueMin;
+
+    /*Thermique*/
+    public static double isolationMax;
+    public static double isolationMin;
 
 
 }

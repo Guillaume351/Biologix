@@ -1,7 +1,6 @@
 package Entites.Creatures.Organes.sexe;
 
 import Entites.Creatures.Organe;
-import Entites.Creatures.Organes.Cerveau.InputsCerveau;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 import Utils.ConstantesBiologiques;
 
@@ -14,6 +13,11 @@ public class Sexe extends Organe {
     Genre genre;
     boolean enceinte;
     double tempsDerniereReproduction;
+
+    public double getDonEnergieEnfant() {
+        return donEnergieEnfant;
+    }
+
     double donEnergieEnfant;    // entre 0 et 1
 
     public Sexe(Random r){
@@ -74,9 +78,10 @@ public class Sexe extends Organe {
      * @return succes de la reproduction
      */
     public boolean testReproduction(double energieDepenseeAutre, Sexe sexeAutre) {
+        boolean proximiteGenetique = this.getCreatureHote().getProximiteGenetique(sexeAutre.getCreatureHote()) < ConstantesBiologiques.distanceGenetiqueMaxRepro;
         double energieDepensee = this.energieDepenseeReproduction();
         boolean vainqueur = energieDepensee * this.getCapaciteReproduction() + energieDepenseeAutre * sexeAutre.getCapaciteReproduction() > 0;
-        return !this.enceinte && vainqueur && this.getGenre() != sexeAutre.getGenre();
+        return !this.enceinte && vainqueur && this.getGenre() != sexeAutre.getGenre() && proximiteGenetique;
     }
 
     public void updateSexe(OutputsCerveau sorties, double dt){
