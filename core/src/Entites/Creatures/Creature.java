@@ -44,7 +44,7 @@ public class Creature extends Entite {
     Terrain terrain;
 
     public Creature(Random r, Terrain terrain) {
-        super();
+        super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
         this.embryon = null;
         this.orientation = new Vector2((float) r.nextDouble(), (float) r.nextDouble());
         this.vitesse = 0;
@@ -80,7 +80,7 @@ public class Creature extends Entite {
     }
 
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
-        super();
+        super(new Vector2(0f, 0f));
         double alea = ConstantesBiologiques.tempInterneMin + (ConstantesBiologiques.tempInterneMax - ConstantesBiologiques.tempInterneMin) * r.nextDouble();
         this.temperatureInterne = (mere.temperatureInterne + pere.temperatureInterne + alea * mutation) / (2 + mutation);
         this.embryon = null;
@@ -92,25 +92,25 @@ public class Creature extends Entite {
         appareilRespiratoire.setCreatureHote(this);
         bouche = new Bouche(mere.getBouche(), pere.getBouche(), r, mutation);
         bouche.setCreatureHote(this);
-        defensif = new Defensif(r);
+        defensif = new Defensif(mere.getDefensif(), pere.getDefensif(), r, mutation);
         defensif.setCreatureHote(this);
-        digestion = new Digestion(r);
+        digestion = new Digestion(mere.getDigestion(), pere.getDigestion(), r, mutation);
         digestion.setCreatureHote(this);
-        ecailles = new Ecailles(r);
+        ecailles = new Ecailles(mere.getEcailles(), pere.getEcailles(), r, mutation);
         ecailles.setCreatureHote(this);
-        foie = new Foie(r);
+        foie = new Foie(mere.getFoie(), pere.getFoie(), r, mutation);
         foie.setCreatureHote(this);
-        fourrure = new Fourrure(r);
+        fourrure = new Fourrure(mere.getFourrure(), pere.getFourrure(), r, mutation);
         fourrure.setCreatureHote(this);
-        graisse = new Graisse(r);
+        graisse = new Graisse(mere.getGraisse(), pere.getGraisse(), r, mutation);
         graisse.setCreatureHote(this);
-        offensif = new Offensif(r);
+        offensif = new Offensif(mere.getOffensif(), pere.getOffensif(), r, mutation);
         offensif.setCreatureHote(this);
-        sexe = new Sexe(r);
+        sexe = new Sexe(mere.getSexe(), pere.getSexe(), r, mutation);
         sexe.setCreatureHote(this);
-        mouvement = new Mouvement(r);
+        mouvement = new Mouvement(mere.getMouvement(), pere.getMouvement(), r, mutation);
         mouvement.setCreatureHote(this);
-        perception = new Perception(r);
+        perception = new Perception(mere.getPerception(), pere.getPerception(), r, mutation);
         perception.setCreatureHote(this);
         this.terrain = mere.getTerrain();
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
