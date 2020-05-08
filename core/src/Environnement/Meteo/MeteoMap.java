@@ -13,6 +13,10 @@ public class MeteoMap extends HeightMap {
         super(params, min, max);
     }
 
+    public double getTemp(double x, double y) {
+        return getTemp(x, y, 0);//TODO : REMPLACER PAR LE TEMPS !
+    }
+
     public double getTemp(double x, double y, double t) {
         return moyennes.getValeur(x, y) + variabilite * PerlinGenerator.perlin1D(t, paramsTemporel);
     }

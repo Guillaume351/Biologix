@@ -5,7 +5,6 @@ import Entites.Entite;
 import Entites.Ressources.Ressource;
 import Environnement.Meteo.Meteo;
 import Environnement.Meteo.MeteoMap;
-import Utils.ConstantesBiologiques;
 import Utils.Perlin.PerlinParams;
 
 import java.util.ArrayList;
@@ -47,7 +46,7 @@ public class TerrainGenerator {
 
         //TODO entites.addAll(creaturesPopulate());
 
-        return new Terrain(meteo, entites, altitudeMap, 9.81, 0.4, new ConstantesBiologiques());
+        return new Terrain(meteo, entites, altitudeMap, 9.81, 0.4);
     }
 
     /**

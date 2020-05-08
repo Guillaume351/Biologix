@@ -2,7 +2,6 @@ package Environnement.Terrain;
 
 import Entites.Entite;
 import Environnement.Meteo.Meteo;
-import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
@@ -14,15 +13,14 @@ public class Terrain {
     private AltitudeMap altitudes;
     private double gravite;
     private double pourcentageEau;
-    private ConstantesBiologiques constantesBio;
 
-    public Terrain(Meteo meteo, List<Entite> entites, AltitudeMap altitudes, double gravite, double pourcentageEau, ConstantesBiologiques constantesBio) {
+
+    public Terrain(Meteo meteo, List<Entite> entites, AltitudeMap altitudes, double gravite, double pourcentageEau) {
         this.meteo = meteo;
         this.entites = entites;
         this.altitudes = altitudes;
         this.gravite = gravite;
         this.pourcentageEau = pourcentageEau;
-        this.constantesBio = constantesBio;
     }
 
     /**
@@ -107,9 +105,5 @@ public class Terrain {
 
     public double getPourcentageEau() {
         return pourcentageEau;
-    }
-
-    public ConstantesBiologiques getConstantesBio() {
-        return constantesBio;
     }
 }
