@@ -1,8 +1,11 @@
 package Entites.Ressources;
+import Environnement.Meteo.*;
+
 
 public class Viande extends Ressource {
 
     double tauxDePourriture; // définit si une viande est pourrie, 0 = clean, 1 = pourrie
+    Meteo meteo;
 
     @Override
     public double getQuantiteEnergie() {

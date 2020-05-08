@@ -4,8 +4,9 @@ import Environnement.Meteo.*;
 
 public class Vegetal extends Ressource {
 
-    double energieMaxStockable; // l'énergie maximale stockable par la plante
-    double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
+    private double energieMaxStockable; // l'énergie maximale stockable par la plante
+    private double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
+    Meteo meteo;
 
     @Override
     public double getQuantiteEnergie() {
@@ -65,7 +66,10 @@ public class Vegetal extends Ressource {
      * @param energieDepensee
      * @param energieGagnee
      */
-    public void grandir(double energieDepensee, double energieGagnee) {
+
+    double energieGagnee = 0.1;
+    double energieDepensee = 0.1;
+    public void grandir() {
         if ((getQuantiteEnergie() + energieGagnee) <= this.energieMaxStockable) {
             this.setQuantiteEnergie((getQuantiteEnergie() + energieGagnee));    // la plante gagne en ressource
         } else {
