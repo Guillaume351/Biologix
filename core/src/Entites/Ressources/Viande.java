@@ -1,8 +1,11 @@
 package Entites.Ressources;
+import Environnement.Meteo.*;
+
 
 public class Viande extends Ressource {
 
     double tauxDePourriture; // définit si une viande est pourrie, 0 = clean, 1 = pourrie
+    Meteo meteo;
 
     @Override
     public double getQuantiteEnergie() {
@@ -60,8 +63,20 @@ public class Viande extends Ressource {
      * La viande pourrit dans le temps... et perd donc de l'énergie
      */
     void evoluer() {
-        //if il fait froid/ chaud... TODO
-            ajouterPourriture(0.1);
-            retirerEnergie(0.1);
+        double pourriture = 0.1;
+        double coefficient;
+        double temperature = 3; //pareil que pour les plantes
+
+        //on set le coefficient en fonction de la température extérieure
+        if (temperature < 10 && temperature > 0) {
+            coefficient = 1;
+        } else if (temperature > 10) {
+            coefficient= 2;
+        } else {
+            coefficient = 0.1;//trop froid
+        }
+
+        ajouterPourriture(coefficient*pourriture);
+        retirerEnergie(coefficient*pourriture);
     }
 }
