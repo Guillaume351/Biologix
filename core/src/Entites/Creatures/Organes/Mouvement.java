@@ -2,23 +2,26 @@ package Entites.Creatures.Organes;
 
 import Entites.Creatures.Organe;
 import Environnement.Terrain.Terrain;
+import Utils.ConstantesBiologiques;
 
 import java.util.Random;
 
 public class Mouvement extends Organe {
     //Organe dedié au mouvement de la créature
-    double coeffFrottement;
     double vitesseMax;
     double potentielNageoire;
 
     public Mouvement(Random r){
         super(r);
-        //this.coeffFrottement =;
-        //this.potentielNageoire = ;
+        this.vitesseMax = ConstantesBiologiques.vitesseMaxMin + (ConstantesBiologiques.vitesseMaxMax - ConstantesBiologiques.vitesseMaxMin) * r.nextDouble();
+        this.potentielNageoire = r.nextDouble();
     }
 
     public Mouvement(Mouvement mouvementMere, Mouvement mouvementPere, Random r, double mutation){
         super(mouvementMere, mouvementPere, r, mutation);
+        Mouvement alea = new Mouvement(r);
+        this.vitesseMax = (mouvementMere.vitesseMax + mouvementPere.vitesseMax + alea.vitesseMax * mutation) / (2 + mutation);
+        this.potentielNageoire = (mouvementMere.potentielNageoire + mouvementPere.potentielNageoire + alea.potentielNageoire * mutation) / (2 + mutation);
     }
 
     public double getVitesseMax(Terrain terrain) {
@@ -40,6 +43,6 @@ public class Mouvement extends Organe {
         //Energie = puissance*dt
         //Puissance = force*vitesse
         //force = coeffFrottement*vitesse^2
-        return dt * coeffFrottement * Math.pow(Math.abs(vitesse), 3.0) / this.getMasse(this.getCreatureHote().getAge());
+        return dt * ConstantesBiologiques.coeffFrottement * Math.pow(Math.abs(vitesse), 3.0) / this.getMasse(this.getCreatureHote().getAge());
     }
 }

@@ -49,5 +49,10 @@ public class ConstantesBiologiques {
     public static double efficaciteEnergetiqueMax;
     public static double rendementAccouchement;
 
+    /*Mouvement*/
+    public static double coeffFrottement;
+    public static double vitesseMaxMax;
+    public static double vitesseMaxMin;
+
 
 }
