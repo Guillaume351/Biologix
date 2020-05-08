@@ -77,6 +77,6 @@ public class Viande extends Ressource {
         }
 
         ajouterPourriture(coefficient*pourriture);
-            retirerEnergie(coefficient*pourriture);
+        retirerEnergie(coefficient*pourriture);
     }
 }
