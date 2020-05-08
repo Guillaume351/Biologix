@@ -1,5 +1,7 @@
 package Entites.Creatures.Organes;
 
+import Utils.ConstantesBiologiques;
+
 import java.util.Random;
 
 //Stocker l'énergie
@@ -13,12 +15,16 @@ public class Graisse extends OrganeThermique {
 
     public Graisse(Random r){
         super(r);
-        //this.energie =;
+        this.efficaciteEnergetique = ConstantesBiologiques.efficaciteEnrgetiqueMin + (ConstantesBiologiques.efficaciteEnergetiqueMax - ConstantesBiologiques.efficaciteEnrgetiqueMin) * r.nextDouble();
+        this.energie = getEnergieMaxStockable();
     }
 
     public Graisse(Graisse graisseMere, Graisse graissePere, Random r, double mutation){
         super(graisseMere, graissePere, r, mutation);
-        // TODO : penser à prendre l'attribut energieDonneeEnfant de Creature
+        Graisse alea = new Graisse(r);
+        this.efficaciteEnergetique = (graisseMere.efficaciteEnergetique + graissePere.efficaciteEnergetique + alea.efficaciteEnergetique * mutation) / (2 + mutation);
+        this.energie = 0;
+        this.addEnergie((graisseMere.getCreatureHote().getSexe().getDonEnergieEnfant() + graissePere.getCreatureHote().getSexe().getDonEnergieEnfant()) * ConstantesBiologiques.rendementAccouchement);
     }
 
     /**

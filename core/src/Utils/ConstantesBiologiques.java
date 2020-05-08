@@ -45,6 +45,9 @@ public class ConstantesBiologiques {
     public static double densiteDePvMax;
 
     /* Graisse */
+    public static double efficaciteEnrgetiqueMin;
+    public static double efficaciteEnergetiqueMax;
+    public static double rendementAccouchement;
 
 
 }

@@ -1,7 +1,6 @@
 package Entites.Creatures.Organes.sexe;
 
 import Entites.Creatures.Organe;
-import Entites.Creatures.Organes.Cerveau.InputsCerveau;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 import Utils.ConstantesBiologiques;
 
@@ -14,6 +13,11 @@ public class Sexe extends Organe {
     Genre genre;
     boolean enceinte;
     double tempsDerniereReproduction;
+
+    public double getDonEnergieEnfant() {
+        return donEnergieEnfant;
+    }
+
     double donEnergieEnfant;    // entre 0 et 1
 
     public Sexe(Random r){
