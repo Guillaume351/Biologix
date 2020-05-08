@@ -57,5 +57,9 @@ public class ConstantesBiologiques {
     /*Sexe*/
     public static double distanceGenetiqueMaxRepro;
 
+    /*Offensif*/
+    public static double puissanceAttaqueMax;
+    public static double puissanceAttaqueMin;
+
 
 }
