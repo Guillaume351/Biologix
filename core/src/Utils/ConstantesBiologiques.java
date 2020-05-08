@@ -54,5 +54,8 @@ public class ConstantesBiologiques {
     public static double vitesseMaxMax;
     public static double vitesseMaxMin;
 
+    /*Sexe*/
+    public static double distanceGenetiqueMaxRepro;
+
 
 }

@@ -78,9 +78,10 @@ public class Sexe extends Organe {
      * @return succes de la reproduction
      */
     public boolean testReproduction(double energieDepenseeAutre, Sexe sexeAutre) {
+        boolean proximiteGenetique = this.getCreatureHote().getProximiteGenetique(sexeAutre.getCreatureHote()) < ConstantesBiologiques.distanceGenetiqueMaxRepro;
         double energieDepensee = this.energieDepenseeReproduction();
         boolean vainqueur = energieDepensee * this.getCapaciteReproduction() + energieDepenseeAutre * sexeAutre.getCapaciteReproduction() > 0;
-        return !this.enceinte && vainqueur && this.getGenre() != sexeAutre.getGenre();
+        return !this.enceinte && vainqueur && this.getGenre() != sexeAutre.getGenre() && proximiteGenetique;
     }
 
     public void updateSexe(OutputsCerveau sorties, double dt){
