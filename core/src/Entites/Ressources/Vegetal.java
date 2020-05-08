@@ -63,22 +63,45 @@ public class Vegetal extends Ressource {
 
     /**
      * Petite fonction pour faire grandir une plante
-     * @param energieDepensee
-     * @param energieGagnee
      */
-
-    double energieGagnee = 0.1;
-    double energieDepensee = 0.1;
     public void grandir() {
-        if ((getQuantiteEnergie() + energieGagnee) <= this.energieMaxStockable) {
-            this.setQuantiteEnergie((getQuantiteEnergie() + energieGagnee));    // la plante gagne en ressource
+        double energieGagnee = 0.1;
+        double energieDepensee = 0.1;
+        double coefficientGagne;             // qui va limiter la croissance d'une plante quand il fait froid par exemple
+        double coefficientDepense;
+        double temperature = 3; //= meteo.getTemp() mais à corriger pcq pas un double
+
+        //on set le coefficient en fonction de la température extérieure
+        if (temperature < 10 && temperature > 0) {
+            coefficientGagne = 0.01; // la plante grandit lentement
+            coefficientDepense = 1; // la plante dépense bcp d'énergie pour grandir
+        } else if (temperature > 10) {
+            coefficientGagne = 1;
+            coefficientDepense = 0.1; // easy peasy
+        } else { coefficientGagne = 0;//trop froid
+            coefficientDepense = 2; // aie aie aie la plante va pourrir
+        }
+
+        // Energie gagnée
+        if ((getQuantiteEnergie() + coefficientGagne*energieGagnee) <= this.energieMaxStockable) {
+            this.setQuantiteEnergie((getQuantiteEnergie() + coefficientGagne*energieGagnee));    // la plante gagne en ressource
         } else {
             this.setQuantiteEnergie(energieMaxStockable);
         }
-        if ((this.energieVegetal - energieDepensee) >= 0) {
-            setEnergieVegetal(this.energieVegetal - energieDepensee);       // la plante dépense de l'énergie en grandissant
+
+        // Energie dépensée
+        if ((this.energieVegetal - coefficientDepense*energieDepensee) >= 0) {
+            setEnergieVegetal(this.energieVegetal - coefficientDepense*energieDepensee);       // la plante dépense de l'énergie en grandissant
         } else {
             setEnergieVegetal(0);       // si elle en dépense trop, elle meurt
         }
+    }
+
+    /**
+     * est-ce que la plante est morte ??
+     * @return
+     */
+    public boolean estMorte() {
+        return (this.energieVegetal == 0);
     }
 }
