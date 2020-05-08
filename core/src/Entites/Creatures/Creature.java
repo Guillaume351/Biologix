@@ -337,6 +337,8 @@ public class Creature extends Entite {
                 this.getSexe().setEnceinte(true);
                 this.getSexe().setTempsDerniereReproduction(0);
                 // TODO : création de la nouvelle créature
+
+                // TODO : faire perdre l'énergie au male
             } else {
                 energiePerdueReproduction = 0;
             }
