@@ -71,5 +71,8 @@ public class ConstantesBiologiques {
     public static double densiteDistVision;
     public static double densiteChampVision;
 
+    /*Creature*/
+    public static double tempInterneMax;
+    public static double tempInterneMin;
 
 }

@@ -15,7 +15,7 @@ public class Defensif extends Organe {
     public Defensif(Random r){
         super(r);
         this.volonteDefense = 0;
-        this.densiteDefense = ConstantesBiologiques.densiteDefenseMin + (ConstantesBiologiques.densiteOxygeneMax - ConstantesBiologiques.densiteOxygeneMin) * r.nextDouble();
+        this.densiteDefense = ConstantesBiologiques.densiteDefenseMin + (ConstantesBiologiques.densiteDefenseMax - ConstantesBiologiques.densiteDefenseMin) * r.nextDouble();
     }
 
     public Defensif(Defensif defensifMere, Defensif defensifPere, Random r, double mutation){

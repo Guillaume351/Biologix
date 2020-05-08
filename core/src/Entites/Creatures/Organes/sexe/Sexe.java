@@ -23,7 +23,7 @@ public class Sexe extends Organe {
     public Sexe(Random r){
         super(r);
         this.volonteReproductive = r.nextDouble();
-        this.efficaciteReproductive = ConstantesBiologiques.efficaciteReproductiveMin + (ConstantesBiologiques.coutSubsistanceRelatifMax - ConstantesBiologiques.coutSubsistanceRelatifMin)*r.nextDouble();
+        this.efficaciteReproductive = ConstantesBiologiques.efficaciteReproductiveMin + (ConstantesBiologiques.efficaciteReproductiveMax - ConstantesBiologiques.efficaciteReproductiveMin) * r.nextDouble();
         this.genre = Genre.values()[r.nextInt(2)];
         this.enceinte = false;
         this.tempsDerniereReproduction = 0;

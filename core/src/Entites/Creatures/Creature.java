@@ -13,6 +13,7 @@ import Utils.Position.Localisateur;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
+import java.util.Random;
 
 public class Creature extends Entite {
 
@@ -41,8 +42,35 @@ public class Creature extends Entite {
     List<Organe> organes;
     Terrain terrain;
 
-    public Creature(){
-
+    public Creature(Random r) {
+        super();
+        this.embryon = null;
+        this.orientation = new Vector2((float) r.nextDouble(), (float) r.nextDouble());
+        this.vitesse = 0;
+        this.age = 0;
+        this.temperatureInterne = ConstantesBiologiques.tempInterneMin + (ConstantesBiologiques.tempInterneMax - ConstantesBiologiques.tempInterneMin) * r.nextDouble();
+        cerveau = new Cerveau(this, r);
+        appareilRespiratoire = new AppareilRespiratoire(r);
+        appareilRespiratoire.setCreatureHote(this);
+        bouche = new Bouche(r);
+        bouche.setCreatureHote(this);
+        defensif = new Defensif(r);
+        defensif.setCreatureHote(this);
+        digestion = new Digestion(r);
+        digestion.setCreatureHote(this);
+        ecailles = new Ecailles(r);
+        ecailles.setCreatureHote(this);
+        foie = new Foie(r);
+        foie.setCreatureHote(this);
+        fourrure = new Fourrure(r);
+        fourrure.setCreatureHote(this);
+        graisse = new Graisse(r);
+        graisse.setCreatureHote(this);
+        offensif = new Offensif(r);
+        offensif.setCreatureHote(this);
+        sexe = new Sexe(r);
+        sexe.setCreatureHote(this);
+        //TODO finir ici
     }
 
     /**

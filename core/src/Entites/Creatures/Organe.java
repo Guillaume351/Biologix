@@ -11,7 +11,12 @@ public abstract class Organe {
     double tempsCroissance;
     double densite;
 
+    //TODO ATTENTION !! creature hote pas inclus dans le constructeur...
     Creature creatureHote;
+
+    public void setCreatureHote(Creature creatureHote) {
+        this.creatureHote = creatureHote;
+    }
 
     public Organe(Random r){
         this.taille0 = ConstantesBiologiques.tailleOrganeMin + (ConstantesBiologiques.tailleOrganeMax - ConstantesBiologiques.tailleOrganeMin)*r.nextDouble();
