@@ -1,5 +1,7 @@
 package Entites.Creatures.Organes;
 
+import java.util.Random;
+
 //Stocker l'énergie
 public class Graisse extends OrganeThermique {
     double energie;
@@ -7,6 +9,17 @@ public class Graisse extends OrganeThermique {
 
     //Masse = Taille*Densite
     //Energie = Taille*EfficaciteEnergetique
+
+
+    public Graisse(Random r){
+        super(r);
+        //this.energie =;
+    }
+
+    public Graisse(Graisse graisseMere, Graisse graissePere, Random r, double mutation){
+        super(graisseMere, graissePere, r, mutation);
+        // TODO : penser à prendre l'attribut energieDonneeEnfant de Creature
+    }
 
     /**
      * Renvoie la masse de graisse de la créature (ne depend pas de t)
@@ -72,24 +85,22 @@ public class Graisse extends OrganeThermique {
     /**
      * Renvoie la quantite d'energie maximale pouvant etre stockee dans la graisse
      *
-     * @param age : age de la creature
      * @return Quantite max d'energie pouvant etre stockee dans cet organe
      */
-    public double getEnergieMaxStockable(double age) {
-        return getTailleMaxActuel(age) * efficaciteEnergetique;
+    public double getEnergieMaxStockable() {
+        return getTailleMaxActuel(this.getCreatureHote().getAge()) * efficaciteEnergetique;
     }
 
     /**
      * Stocker dans cet organe de l'energie sous forme de graisse
      * @param nrj Energie a stocker
-     * @param age Age de la creature
      * @return Indique si toute l'energie a pu être stockée au vu de la taille max de la graisse
      */
-    public boolean addEnergie(double nrj, double age) {
+    public boolean addEnergie(double nrj) {
         //Stocke de l'energie
-        if (nrj + energie > getEnergieMaxStockable(age)) {
+        if (nrj + energie > getEnergieMaxStockable()) {
             //On ne peut pas stocker toute l'energie, l'organe dépasserait sa taille max;
-            energie = getEnergieMaxStockable(age);
+            energie = getEnergieMaxStockable();
             return false;
         } else {
             energie += nrj;
@@ -117,5 +128,9 @@ public class Graisse extends OrganeThermique {
     @Override
     public double getResistanceThermique(double tempExterieure) {
         return Isolation * this.getMasse(getCreatureHote().getAge()) / Math.pow(getCreatureHote().getTaille(), 2.0);
+    }
+
+    public double getProportionStocks() {
+        return this.getTailleRelle() / this.getTailleMax();
     }
 }

@@ -1,72 +1,82 @@
 package com.mygdx.game;
 
-import Environnement.HeightMap;
+import Environnement.Terrain.Terrain;
+import Environnement.Terrain.TerrainGenerator;
 import Utils.Perlin.PerlinParams;
+import Utils.TerrainRenderer;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.utils.viewport.StretchViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.maps.MapProperties;
+import com.badlogic.gdx.maps.MapRenderer;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 
 import java.util.Random;
 
 public class MyGdxGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
 
-	HeightMap testmap;
-	Pixmap map;
-	private Viewport viewport;
-	private Camera camera;
+    SpriteBatch batch;
+    Terrain gameWorld;
+    TiledMap map;
+    MapRenderer mapRenderer;
+    private OrthographicCamera camera;
 
-	Texture worldTexture;
+    @Override
+    public void create() {
 
+        // Nos parametres de génération de map pour le test
+        PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(1000), 1);
 
-	@Override
-	public void create() {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
-		testmap = new HeightMap(new PerlinParams(2, 0.01, 0.5, new Random().nextInt(1000), 1), 0, 1);
+        // On créer notre générateur de terrain
+        TerrainGenerator generator = new TerrainGenerator(perlinParams);
 
-		this.camera = new OrthographicCamera();
-		this.viewport = new StretchViewport(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		this.viewport.setCamera(this.camera);
+        // On génère le terrain
+        this.gameWorld = generator.generateTerrain();
 
-		int res = 800;
+        // On créer notre outil de rendu de terrain
+        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld);
+        this.camera = new OrthographicCamera();
 
-		this.map = new Pixmap(res, res, Pixmap.Format.RGBA8888);
+        // On récupère le terrain convertit en TileSet
+        this.map = renderTerrain.getMap();
 
-		float niveauMer = (float) 0.4;
-		for (int i = 0; i < res; i++) {
-			for (int k = 0; k < res; k++) {
-				float valeur = (float) testmap.getValeur(i, k);
-				if (valeur > niveauMer) {
-					this.map.drawPixel(i, k, Color.rgba8888(valeur * 2, valeur, 0.0F, 1));
-				} else {
-					this.map.drawPixel(i, k, Color.rgba8888(0.0F, 0.0F, valeur, 1));
-				}
+        MapProperties properties = map.getProperties();
 
-			}
-		}
-		this.worldTexture = new Texture(map);
-	}
-
-	@Override
-	public void render () {
-		camera.update();
+        // Les infos concernant notre tile. TODO : utiliser les infos de TerrainRenderer
+        int tileWidth = 300;
+        int tileHeight = 300;
+        int mapWidthInTiles = 32;
+        int mapHeightInTiles = 32;
+        int mapWidthInPixels = mapWidthInTiles * tileWidth;
+        int mapHeightInPixels = mapHeightInTiles * tileHeight;
 
 
-		//Gdx.gl.glClearColor(1, 0, 0, 1);
-		//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(worldTexture, 0, 0, this.viewport.getWorldWidth(), this.viewport.getWorldHeight());
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
+        // Les paramètres de notre caméras. TODO : faire davantage de tests pour obtenir une vue plus éloignée
+        camera = new OrthographicCamera(300.f, 300.f);
+
+        camera.position.x = mapWidthInPixels * .5f;
+        camera.position.y = mapHeightInPixels * .35f;
+        camera.zoom = 16f;
+        mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1f);
+        mapRenderer.setView(camera);
+
+
+    }
+
+    @Override
+    public void render() {
+        Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        camera.update();
+        this.mapRenderer.setView(camera);
+        this.mapRenderer.render();
+    }
+
+    @Override
+    public void dispose() {
+        batch.dispose();
+    }
 }

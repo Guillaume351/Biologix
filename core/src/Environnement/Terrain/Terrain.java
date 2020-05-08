@@ -1,20 +1,29 @@
 package Environnement.Terrain;
 
 import Entites.Entite;
-import Environnement.ConstantesBiologiques;
 import Environnement.Meteo.Meteo;
+import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.List;
 
 
 public class Terrain {
-    Meteo meteo;
-    List<Entite> entites;
-    AltitudeMap altitudes;
-    double gravite;
-    double pourcentageEau;
-    ConstantesBiologiques constantesBio;
+    private Meteo meteo;
+    private List<Entite> entites;
+    private AltitudeMap altitudes;
+    private double gravite;
+    private double pourcentageEau;
+    private ConstantesBiologiques constantesBio;
+
+    public Terrain(Meteo meteo, List<Entite> entites, AltitudeMap altitudes, double gravite, double pourcentageEau, ConstantesBiologiques constantesBio) {
+        this.meteo = meteo;
+        this.entites = entites;
+        this.altitudes = altitudes;
+        this.gravite = gravite;
+        this.pourcentageEau = pourcentageEau;
+        this.constantesBio = constantesBio;
+    }
 
     /**
      * Renvoie la meteo de la carte
@@ -80,19 +89,27 @@ public class Terrain {
     }
 
     /**
-     * renvoie si une entite est dans l'eau ou non.
-     * @param entite l'entite dont on veut savoir si elle est immergé
-     * @param altitudes la carte d'altitude sur laquelle on joue
-     * @return vrai si on se situe sous l'eau, faux sinon
+     * Renvoie si une entite est dans l'eau ou non.
+     *
+     * @param entite    L'entite dont on veut savoir si elle est immergé
+     * @return Vrai si on se situe sous l'eau, faux sinon
      */
-    public boolean estDansEau(Entite entite, AltitudeMap altitudes) {
+    public boolean estDansEau(Entite entite) {
 
         boolean estDansEau;
         Vector2 position = entite.getPosition();
-        double altitude = altitudes.getValeur(position.x,position.y);
-        double niveauMer = altitudes.hauteurMer(pourcentageEau);
+        double altitude = this.altitudes.getValeur(position.x, position.y);
+        double niveauMer = this.altitudes.hauteurMer(pourcentageEau);
 
         estDansEau = !(altitude >= niveauMer);
         return estDansEau;
+    }
+
+    public double getPourcentageEau() {
+        return pourcentageEau;
+    }
+
+    public ConstantesBiologiques getConstantesBio() {
+        return constantesBio;
     }
 }

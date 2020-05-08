@@ -2,17 +2,26 @@ package Entites.Creatures.Organes;
 
 import Entites.Creatures.Organe;
 import Entites.Ressources.Ressource;
+import Utils.ConstantesBiologiques;
+import Utils.Position.Localisable;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 //Ramasser la nourriture efficacement
 public class Bouche extends Organe {
 
-    private double capaciteVoracite;
-    private double efficaciteVoracite;
+    private double capaciteVoracite;    // entre min et max
+
+    public Bouche(Random r){
+        super(r);
+        this.capaciteVoracite = ConstantesBiologiques.capaciteVoraciteMin + (ConstantesBiologiques.capaciteVoraciteMax - ConstantesBiologiques.capaciteVoraciteMin) * r.nextDouble();
+    }
+
+    public Bouche(Bouche boucheMere, Bouche bouchePere, Random r, double mutation){
+        super(boucheMere, bouchePere, r, mutation);
+        Bouche boucheAlea = new Bouche(r);
+        this.capaciteVoracite = (boucheMere.capaciteVoracite + bouchePere.capaciteVoracite + boucheAlea.capaciteVoracite * mutation)/(2 + mutation);
+    }
 
 
     public double getCapaciteVoracite(){
@@ -36,11 +45,11 @@ public class Bouche extends Organe {
      * @param nourritureAccesible : Liste de la nourriture a portee de la creature
      * @return TreeMap avec les energies potentielles en Key, et les nourritures en Values.
      */
-    private TreeMap<Double, Ressource> calculerEnergiesDisponibles(List<Ressource> nourritureAccesible) {
+    private TreeMap<Double, Ressource> calculerEnergiesDisponibles(List<Localisable> nourritureAccesible) {
         TreeMap<Double, Ressource> mapRessources = new TreeMap<Double, Ressource>();
         Digestion dig = this.getCreatureHote().getDigestion();
-        for (Ressource ressource : nourritureAccesible) {
-            mapRessources.put(dig.extraireEnergie(ressource), ressource);
+        for (Localisable ressource : nourritureAccesible) {
+            mapRessources.put(dig.extraireEnergie((Ressource) ressource), (Ressource) ressource);
         }
         return mapRessources;
     }
@@ -52,7 +61,7 @@ public class Bouche extends Organe {
      * @return energie maximale
      */
     public double getEnergieMaxMangeable(double coeffVoracite) {
-        return efficaciteVoracite * getEnergieDepenseeManger(coeffVoracite);
+        return ConstantesBiologiques.efficaciteVoracite * getEnergieDepenseeManger(coeffVoracite);
     }
 
     /**
@@ -62,7 +71,7 @@ public class Bouche extends Organe {
      * @param coeffVoracite       : Volonte de la creature de manger
      * @return energie extraite moins energie depensee pour manger.
      */
-    public double manger(List<Ressource> nourritureAccesible, double coeffVoracite) {
+    public double manger(List<Localisable> nourritureAccesible, double coeffVoracite) {
         //Energie max que l'on peut mettre dans la bouche
         double EnergieMaxMangeable = getEnergieMaxMangeable(coeffVoracite);
         //energies RECUPERABLES par la creature triees dans l'ordre croissant

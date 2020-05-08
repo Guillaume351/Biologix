@@ -1,7 +1,17 @@
 package Entites.Creatures.Organes;
 
+import java.util.Random;
+
 //Se protéger du chaud
 public class Ecailles extends OrganeThermique {
+
+    public Ecailles(Random r){
+        super(r);
+    }
+
+    public Ecailles(Ecailles ecaillesMere, Ecailles ecaillesPere, Random r, double mutation){
+        super(ecaillesMere, ecaillesPere, r, mutation);
+    }
 
     @Override
     public double getResistanceThermique(double tempExterieure) {

@@ -1,13 +1,31 @@
 package Entites.Creatures;
 
+import Utils.ConstantesBiologiques;
+
+import java.util.Random;
+
 public abstract class Organe {
     double taille0;
     double tailleMax;
-    double TempsCroissance;
+    double tempsCroissance;
     double densite;
     double coutSubsistanceRelatif;
 
     Creature creatureHote;
+
+    public Organe(Random r){
+        this.taille0 = ConstantesBiologiques.tailleOrganeMin + (ConstantesBiologiques.tailleOrganeMax - ConstantesBiologiques.tailleOrganeMin)*r.nextDouble();
+        this.tailleMax = this.taille0 + (ConstantesBiologiques.tailleOrganeMax - this.taille0)*r.nextDouble();
+        this.tempsCroissance = ConstantesBiologiques.tempsCroissanceMin + (ConstantesBiologiques.tempsCroissanceMax - ConstantesBiologiques.tempsCroissanceMin)*r.nextDouble();
+        this.densite = ConstantesBiologiques.densiteMin + (ConstantesBiologiques.densiteMax - ConstantesBiologiques.densiteMin)*r.nextDouble();
+        this.coutSubsistanceRelatif = ConstantesBiologiques.coutSubsistanceRelatifMin + (ConstantesBiologiques.coutSubsistanceRelatifMax - ConstantesBiologiques.coutSubsistanceRelatifMin)*r.nextDouble();
+    }
+
+    public Organe(Organe organePere, Organe organeMere, Random r, double mutation){
+    }
+
+
+
 
     public Creature getCreatureHote() {
         return creatureHote;
@@ -20,8 +38,8 @@ public abstract class Organe {
      * @return Taille de l'organe pour l'age donné
      */
     public double getTaille(double t) {
-        if (t < TempsCroissance) {
-            double k = (1.0 - Math.cos(Math.PI * (t / TempsCroissance))) / 2.0;
+        if (t < tempsCroissance) {
+            double k = (1.0 - Math.cos(Math.PI * (t / tempsCroissance))) / 2.0;
             return taille0 + k * (tailleMax - taille0);
         } else {
             return tailleMax;
@@ -64,11 +82,11 @@ public abstract class Organe {
     }
 
     public double getTempsCroissance() {
-        return TempsCroissance;
+        return tempsCroissance;
     }
 
     public void setTempsCroissance(double tempsCroissance) {
-        TempsCroissance = tempsCroissance;
+        tempsCroissance = tempsCroissance;
     }
 
     public double getDensite() {

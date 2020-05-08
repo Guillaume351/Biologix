@@ -1,31 +1,45 @@
 package Entites.Creatures.Organes;
 
 import Entites.Creatures.Organe;
+import Utils.ConstantesBiologiques;
+
+import java.util.Random;
 
 //Se guérir et se soigner
 public class Foie extends Organe {
 
     private double pointsDeVie;
-    private double pointsDeVieMax;
-    private double coeffDeBlessure;
-    private double capaciteDeSoin;
-    private double densitePv;
+    private double densiteDeSoin;   // entre min et max
+    private double densiteDePv;   // entre min et max
+
+    public Foie(Random r){
+        super(r);
+        this.densiteDeSoin = ConstantesBiologiques.densiteDeSoinMin + (ConstantesBiologiques.densiteDeSoinMax - ConstantesBiologiques.densiteDeSoinMin) * r.nextDouble();
+        this.densiteDePv = ConstantesBiologiques.densiteDePvMin + (ConstantesBiologiques.densiteDePvMax - ConstantesBiologiques.densiteDePvMin) * r.nextDouble();
+        this.pointsDeVie = this.getPointsDeVieMax();
+    }
+
+    public Foie(Foie foieMere, Foie foiePere, Random r, double mutation){
+        super(foieMere, foiePere, r, mutation);
+        Foie foieAlea = new Foie(r);
+        this.densiteDeSoin = (foieMere.densiteDeSoin + foiePere.densiteDeSoin + foieAlea.densiteDeSoin * mutation)/(2 + mutation);
+        this.densiteDePv = (foieMere.densiteDePv + foiePere.densiteDePv + foieAlea.densiteDePv * mutation)/(2 + mutation);
+        this.pointsDeVie = this.getPointsDeVieMax();
+
+    }
 
     public double getPointsDeVie(){
         return this.pointsDeVie;
     }
 
     public double getPointsDeVieMax() {
-        return this.getMasse(this.getCreatureHote().getAge()) * densitePv;
-    }
-
-    public double getCoeffDeBlessure(){
-        return this.coeffDeBlessure;
+        return this.getMasse(this.getCreatureHote().getAge()) * this.densiteDePv;
     }
 
     public double getCapaciteDeSoin(){
-        return this.capaciteDeSoin;
+        return this.densiteDeSoin * this.getCreatureHote().getMasse();
     }
+
 
     /**
      * Ajoute une quantite de vie a une creature
@@ -66,19 +80,20 @@ public class Foie extends Organe {
             double perteDeVie;
             double deltaEnergie = energieAttaqueAdversaire - energieDefense;
             if (deltaEnergie > 0){
-                perteDeVie = deltaEnergie * this.coeffDeBlessure;
+                perteDeVie = deltaEnergie * ConstantesBiologiques.coeffDeBlessure;
             } else {
                 perteDeVie = 0;
             }
             return subVie(perteDeVie);
+
      }
 
     public void soin(double dt){
-        double deltaPDV = this.pointsDeVieMax - this.pointsDeVie;
-        if (this.capaciteDeSoin < deltaPDV) {
-            this.pointsDeVie = this.pointsDeVie + this.capaciteDeSoin*dt;
+        double deltaPDV = this.getPointsDeVieMax() - this.pointsDeVie;
+        if (this.getCapaciteDeSoin() < deltaPDV) {
+            this.pointsDeVie = this.pointsDeVie + this.getCapaciteDeSoin() * dt;
         } else {
-            this.pointsDeVie = this.pointsDeVieMax*dt;
+            this.pointsDeVie = this.getPointsDeVieMax() * dt;
         }
     }
 
