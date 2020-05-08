@@ -45,8 +45,16 @@ public class Creature extends Entite {
     List<Organe> organes;
     Terrain terrain;
 
+    //Statistiques
+    public boolean reproduction_;
+    public boolean accouchement_;
+    public boolean combat_;
+    public double energieDepensee_;
+    public double energieGagnee_;
+
     public Creature(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
+        resetStatistiques_();
         this.embryon = null;
         this.orientation = new Vector2((float) r.nextDouble(), (float) r.nextDouble());
         this.vitesse = 0;
@@ -83,6 +91,7 @@ public class Creature extends Entite {
 
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
         super(new Vector2(0f, 0f));
+        resetStatistiques_();
         double alea = ConstantesBiologiques.tempInterneMin + (ConstantesBiologiques.tempInterneMax - ConstantesBiologiques.tempInterneMin) * r.nextDouble();
         this.temperatureInterne = (mere.temperatureInterne + pere.temperatureInterne + alea * mutation) / (2 + mutation);
         this.embryon = null;
@@ -116,6 +125,14 @@ public class Creature extends Entite {
         perception.setCreatureHote(this);
         this.terrain = mere.getTerrain();
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
+    }
+
+    public void resetStatistiques_() {
+        reproduction_ = false;
+        accouchement_ = false;
+        combat_ = false;
+        energieDepensee_ = 0;
+        energieGagnee_ = 0;
     }
 
     /**
