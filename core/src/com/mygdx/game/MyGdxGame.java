@@ -81,16 +81,20 @@ public class MyGdxGame extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        int sensitivity = 10;
+
         // Gestion du déplacement de la caméra. TODO: a déplacer
         if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 
-            camera.position.x -= Gdx.input.getDeltaX() * sensitivity;
-            camera.position.y += Gdx.input.getDeltaY() * sensitivity;
+            camera.position.x -= Gdx.input.getDeltaX() * camera.zoom;
+            camera.position.y += Gdx.input.getDeltaY() * camera.zoom;
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-            camera.zoom += (Gdx.input.getDeltaX() + Gdx.input.getDeltaY()) / 3;
+            camera.zoom += (Gdx.input.getDeltaX() + Gdx.input.getDeltaY()) / 8;
+
+            // On impose un max et un min au zoom
+            camera.zoom = Math.min(camera.zoom, 20);
+            camera.zoom = Math.max(camera.zoom, 1);
         }
 
         camera.update();
