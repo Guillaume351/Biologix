@@ -12,6 +12,7 @@ import Utils.Position.Localisable;
 import Utils.Position.Localisateur;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -42,7 +43,7 @@ public class Creature extends Entite {
     List<Organe> organes;
     Terrain terrain;
 
-    public Creature(Random r) {
+    public Creature(Random r, Terrain terrain) {
         super();
         this.embryon = null;
         this.orientation = new Vector2((float) r.nextDouble(), (float) r.nextDouble());
@@ -70,7 +71,49 @@ public class Creature extends Entite {
         offensif.setCreatureHote(this);
         sexe = new Sexe(r);
         sexe.setCreatureHote(this);
-        //TODO finir ici
+        mouvement = new Mouvement(r);
+        mouvement.setCreatureHote(this);
+        perception = new Perception(r);
+        perception.setCreatureHote(this);
+        this.terrain = terrain;
+        organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
+    }
+
+    public Creature(Creature mere, Creature pere, double mutation, Random r) {
+        super();
+        double alea = ConstantesBiologiques.tempInterneMin + (ConstantesBiologiques.tempInterneMax - ConstantesBiologiques.tempInterneMin) * r.nextDouble();
+        this.temperatureInterne = (mere.temperatureInterne + pere.temperatureInterne + alea * mutation) / (2 + mutation);
+        this.embryon = null;
+        this.orientation = new Vector2((float) r.nextDouble(), (float) r.nextDouble());
+        this.vitesse = 0;
+        this.age = 0;
+        cerveau = new Cerveau(this, pere.getCerveau(), mere.getCerveau(), mutation, r);
+        appareilRespiratoire = new AppareilRespiratoire(mere.getAppareilRespiratoire(), pere.getAppareilRespiratoire(), r, mutation);
+        appareilRespiratoire.setCreatureHote(this);
+        bouche = new Bouche(mere.getBouche(), pere.getBouche(), r, mutation);
+        bouche.setCreatureHote(this);
+        defensif = new Defensif(r);
+        defensif.setCreatureHote(this);
+        digestion = new Digestion(r);
+        digestion.setCreatureHote(this);
+        ecailles = new Ecailles(r);
+        ecailles.setCreatureHote(this);
+        foie = new Foie(r);
+        foie.setCreatureHote(this);
+        fourrure = new Fourrure(r);
+        fourrure.setCreatureHote(this);
+        graisse = new Graisse(r);
+        graisse.setCreatureHote(this);
+        offensif = new Offensif(r);
+        offensif.setCreatureHote(this);
+        sexe = new Sexe(r);
+        sexe.setCreatureHote(this);
+        mouvement = new Mouvement(r);
+        mouvement.setCreatureHote(this);
+        perception = new Perception(r);
+        perception.setCreatureHote(this);
+        this.terrain = mere.getTerrain();
+        organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
     }
 
     /**
@@ -321,7 +364,7 @@ public class Creature extends Entite {
         this.graisse.subEnergie(energiePerdue);
     }
 
-    public void update(InputsCerveau entrees, double dt, Terrain terrain){
+    public void update(InputsCerveau entrees, double dt) {
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
 
         // Creature la plus proche
