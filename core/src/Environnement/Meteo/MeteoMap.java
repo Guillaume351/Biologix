@@ -3,8 +3,9 @@ package Environnement.Meteo;
 import Environnement.HeightMap;
 import Utils.Perlin.PerlinGenerator;
 import Utils.Perlin.PerlinParams;
+import Utils.Updatable;
 
-public class MeteoMap {
+public class MeteoMap implements Updatable {
     HeightMap moyennes;
     PerlinParams paramsTemporel;
     double variabilite;
@@ -23,7 +24,9 @@ public class MeteoMap {
         return moyennes.getValeur(x, y) + variabilite * PerlinGenerator.perlin1D(t, paramsTemporel);
     }
 
-    public void update(double dt) {
-        temps += dt;
+
+    @Override
+    public void update(int delta_t) {
+        temps += delta_t;
     }
 }
