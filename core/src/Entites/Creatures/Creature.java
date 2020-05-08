@@ -6,6 +6,8 @@ import Entites.Creatures.Organes.Cerveau.InputsCerveau;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 import Entites.Creatures.Organes.sexe.Sexe;
 import Entites.Entite;
+import Environnement.Meteo.Meteo;
+import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import Utils.Position.Localisable;
@@ -344,13 +346,17 @@ public class Creature extends Entite {
         return energiePerdueReproduction;
     }
 
-    public void update_accouchement(OutputsCerveau sortieCerveau, double dt){
+    public double update_accouchement(OutputsCerveau sortieCerveau, double dt){
         // Accouchement
+        double energiePerdueAccouchement;
         if (this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
             this.getSexe().setEnceinte(false);
-            // TODO : perte d'énergie
+            energiePerdueAccouchement = this.getSexe().getDonEnergieEnfant();
             // TODO : ajout de la nouvelle créature sur la map
+        } else {
+            energiePerdueAccouchement = 0;
         }
+        return energiePerdueAccouchement;
     }
 
     public void update_foie(OutputsCerveau sortieCerveau, double dt){
@@ -358,10 +364,18 @@ public class Creature extends Entite {
         this.foie.soin(dt);
     }
 
-    public void update_graisse(double energieGagnee, double energiePerdue, OutputsCerveau sortieCerveau, double dt){
+    public boolean update_graisse(double energieGagnee, double energiePerdue, OutputsCerveau sortieCerveau, double dt){
         // Mise à jour de l'énergie (Graisse)
         this.graisse.addEnergie(energieGagnee);
-        this.graisse.subEnergie(energiePerdue);
+        return this.graisse.subEnergie(energiePerdue);
+    }
+
+    public double update_thermique(double dt){
+        Meteo meteo = terrain.getMeteo();
+        MeteoMap temperatureMap = meteo.getTemp();
+        double temperature = temperatureMap.getTemp(this.getPosition().x, this.getPosition().y);
+        return getPertesThermiques(temperature, dt);
+
     }
 
     public void update(InputsCerveau entrees, double dt) {
@@ -373,6 +387,10 @@ public class Creature extends Entite {
 
         update_age(sortieCerveau, dt);
 
+        double energiePerdueSubsistance = getCoutSubsistance(dt);
+
+        double energiePerdueThermiquement = update_thermique(dt);
+
         double energiePerdueDeplacement = update_deplacement(terrain, sortieCerveau, dt);
 
         double energiePerdueCombat = update_combat(creatureLaPlusProche, sortieCerveau, dt);
@@ -381,13 +399,15 @@ public class Creature extends Entite {
 
         double energiePerdueReproduction = update_reproduction(creatureLaPlusProche, sortieCerveau, dt);
 
-        update_accouchement(sortieCerveau, dt);
+        double energiePerdueAccouchement = update_accouchement(sortieCerveau, dt);
 
         update_foie(sortieCerveau, dt);
 
-        // TODO : ajouter les pertes de subsistance et thermique
-        double energiePerdue = energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat;
-        update_graisse(energieGagneeManger, energiePerdue, sortieCerveau, dt);
+        double energiePerdue = energiePerdueThermiquement + energiePerdueSubsistance + energiePerdueDeplacement + energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat + energiePerdueAccouchement;
+        boolean vivant = update_graisse(energieGagneeManger, energiePerdue, sortieCerveau, dt);
+        if (!vivant){
+            // TODO : faire mourir la créature !!!
+        }
 
     }
 
