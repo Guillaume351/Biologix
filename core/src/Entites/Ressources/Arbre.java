@@ -1,6 +1,7 @@
 package Entites.Ressources;
 
 import Environnement.Terrain.Terrain;
+import com.badlogic.gdx.math.Vector2;
 
 public class Arbre extends Vegetal {
 
@@ -11,12 +12,13 @@ public class Arbre extends Vegetal {
 
     /**
      * Constructeur de l'arbre
+     *
      * @param energieMaxStockable
      * @param energieVegetal
      * @param taille
      */
-    public Arbre(double energieMaxStockable, double energieVegetal, double taille, Terrain terrain) {
-        super(energieMaxStockable, energieVegetal, terrain);
+    public Arbre(Vector2 position, double energieMaxStockable, double energieVegetal, double taille, Terrain terrain) {
+        super(position, energieMaxStockable, energieVegetal, terrain);
         this.taille = taille;
         this.tailleMax = tailleMax;
     }

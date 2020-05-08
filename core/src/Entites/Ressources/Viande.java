@@ -1,6 +1,8 @@
 package Entites.Ressources;
-import Environnement.Meteo.*;
+
+import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
+import com.badlogic.gdx.math.Vector2;
 
 
 public class Viande extends Ressource {
@@ -34,9 +36,11 @@ public class Viande extends Ressource {
 
     /**
      * Constructeur de l'objet viade
+     *
      * @param quantiteEnergie
      */
-    public Viande(double quantiteEnergie, Terrain terrain) {
+    public Viande(Vector2 position, double quantiteEnergie, Terrain terrain) {
+        super(position);
         this.quantiteEnergie = quantiteEnergie;
         this.tauxDePourriture = 0; //pas pourrie au début
         this.terrain = terrain;
@@ -74,12 +78,17 @@ public class Viande extends Ressource {
         if (temperature < 10 && temperature > 0) {
             coefficient = 1;
         } else if (temperature > 10) {
-            coefficient= 2;
+            coefficient = 2;
         } else {
             coefficient = 0.1;//trop froid
         }
 
-        ajouterPourriture(coefficient*pourriture*dt);
-        retirerEnergie(coefficient*pourriture*dt);
+        ajouterPourriture(coefficient * pourriture * dt);
+        retirerEnergie(coefficient * pourriture * dt);
+    }
+
+    @Override
+    public void update(int delta_t) {
+        //TODO
     }
 }

@@ -1,7 +1,8 @@
 package Entites.Ressources;
-import java.util.*;
-import Environnement.Meteo.*;
+
+import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
+import com.badlogic.gdx.math.Vector2;
 
 public class Vegetal extends Ressource {
 
@@ -29,10 +30,12 @@ public class Vegetal extends Ressource {
 
     /**
      * Constructeur du Végétal, par défaut non empoisonné
+     *
      * @param energieMaxStockable
      * @param energieVegetal
      */
-    public Vegetal(double energieMaxStockable, double energieVegetal, Terrain terrain) {
+    public Vegetal(Vector2 position, double energieMaxStockable, double energieVegetal, Terrain terrain) {
+        super(position);
         this.energieVegetal = energieVegetal;
         this.energieMaxStockable = energieMaxStockable;
         this.terrain = terrain;
@@ -105,9 +108,15 @@ public class Vegetal extends Ressource {
 
     /**
      * est-ce que la plante est morte ??
+     *
      * @return
      */
     public boolean estMorte() {
         return (this.energieVegetal == 0);
+    }
+
+    @Override
+    public void update(int delta_t) {
+        //TODO
     }
 }
