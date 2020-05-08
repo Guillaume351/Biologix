@@ -5,7 +5,7 @@ import Environnement.Meteo.*;
 public class Viande extends Ressource {
 
     double tauxDePourriture; // définit si une viande est pourrie, 0 = clean, 1 = pourrie
-    Meteo meteo;
+    MeteoMap meteo;
 
     @Override
     public double getQuantiteEnergie() {
@@ -65,7 +65,7 @@ public class Viande extends Ressource {
     void evoluer() {
         double pourriture = 0.1;
         double coefficient;
-        double temperature = 3; //pareil que pour les plantes
+        double temperature = meteo.getTemp(getPosition().x, getPosition().y);
 
         //on set le coefficient en fonction de la température extérieure
         if (temperature < 10 && temperature > 0) {

@@ -6,7 +6,7 @@ public class Vegetal extends Ressource {
 
     private double energieMaxStockable; // l'énergie maximale stockable par la plante
     private double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
-    Meteo meteo;
+    MeteoMap meteo;
 
     @Override
     public double getQuantiteEnergie() {
@@ -69,7 +69,7 @@ public class Vegetal extends Ressource {
         double energieDepensee = 0.1;
         double coefficientGagne;             // qui va limiter la croissance d'une plante quand il fait froid par exemple
         double coefficientDepense;
-        double temperature = 3; //= meteo.getTemp() mais à corriger pcq pas un double
+        double temperature = meteo.getTemp(getPosition().x, getPosition().y);
 
         //on set le coefficient en fonction de la température extérieure
         if (temperature < 10 && temperature > 0) {
