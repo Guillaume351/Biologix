@@ -7,6 +7,7 @@ public class Vegetal extends Ressource {
 
     private double energieMaxStockable; // l'énergie maximale stockable par la plante
     private double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
+    private double energieVegetalMax = 1;
     MeteoMap meteo;
 
     @Override
@@ -65,8 +66,11 @@ public class Vegetal extends Ressource {
 
     /**
      * Petite fonction pour faire grandir une plante
+     * @param dt
      */
-    public void grandir() {
+    public void grandir(double dt) {
+
+        double deltaEvergie = this.energieMaxStockable - this.getQuantiteEnergie();
         double energieGagnee = 0.1;
         double energieDepensee = 0.1;
         double coefficientGagne;             // qui va limiter la croissance d'une plante quand il fait froid par exemple
@@ -85,15 +89,15 @@ public class Vegetal extends Ressource {
         }
 
         // Energie gagnée
-        if ((getQuantiteEnergie() + coefficientGagne*energieGagnee) <= this.energieMaxStockable) {
-            this.setQuantiteEnergie((getQuantiteEnergie() + coefficientGagne*energieGagnee));    // la plante gagne en ressource
+        if (coefficientGagne*energieGagnee <= deltaEvergie) {
+            this.setQuantiteEnergie((getQuantiteEnergie() + coefficientGagne*energieGagnee*dt));    // la plante gagne en ressource
         } else {
-            this.setQuantiteEnergie(energieMaxStockable);
+            this.setQuantiteEnergie(energieMaxStockable*dt);
         }
 
         // Energie dépensée
         if ((this.energieVegetal - coefficientDepense*energieDepensee) >= 0) {
-            setEnergieVegetal(this.energieVegetal - coefficientDepense*energieDepensee);       // la plante dépense de l'énergie en grandissant
+            setEnergieVegetal(this.energieVegetal - coefficientDepense*energieDepensee*dt);       // la plante dépense de l'énergie en grandissant
         } else {
             setEnergieVegetal(0);       // si elle en dépense trop, elle meurt
         }

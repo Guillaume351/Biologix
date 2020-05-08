@@ -6,6 +6,7 @@ import Environnement.Terrain.Terrain;
 public class Viande extends Ressource {
 
     double tauxDePourriture; // définit si une viande est pourrie, 0 = clean, 1 = pourrie
+    private double tauxDePourritureMax;
     MeteoMap meteo;
 
     @Override
@@ -64,7 +65,7 @@ public class Viande extends Ressource {
     /**
      * La viande pourrit dans le temps... et perd donc de l'énergie
      */
-    void evoluer() {
+    void evoluer(double dt) {
         double pourriture = 0.1;
         double coefficient;
         double temperature = meteo.getTemp(getPosition().x, getPosition().y);
@@ -78,7 +79,7 @@ public class Viande extends Ressource {
             coefficient = 0.1;//trop froid
         }
 
-        ajouterPourriture(coefficient*pourriture);
-        retirerEnergie(coefficient*pourriture);
+        ajouterPourriture(coefficient*pourriture*dt);
+        retirerEnergie(coefficient*pourriture*dt);
     }
 }

@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Ressource extends Entite {
     double quantiteEnergie;
 
+    Vector2 orientation;
+
     Terrain terrain;
 
     public double getQuantiteEnergie() {

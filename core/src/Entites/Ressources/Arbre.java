@@ -7,6 +7,8 @@ public class Arbre extends Vegetal {
     private double taille; //la hauteur de l'arbre
     private double tailleMax; //la hauteur max de l'arbre
 
+    Fruit fruit;
+
     /**
      * Constructeur de l'arbre
      * @param energieMaxStockable
@@ -31,10 +33,11 @@ public class Arbre extends Vegetal {
 
     double getTailleMax() {return this.tailleMax;}
 
-    void grandir(double hauteur) {
+    void grandir(double hauteur, double dt) {
+        grandir(dt);
         if (getTaille() + hauteur < getTailleMax() ) {
-            this.taille += hauteur;
-        } else { setTaille(this.tailleMax); }
+            this.taille += hauteur*dt;
+        } else { setTaille(this.tailleMax*dt); }
     }
 
 }
