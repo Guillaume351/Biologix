@@ -61,5 +61,9 @@ public class ConstantesBiologiques {
     public static double puissanceAttaqueMax;
     public static double puissanceAttaqueMin;
 
+    /*Thermique*/
+    public static double isolationMax;
+    public static double isolationMin;
+
 
 }
