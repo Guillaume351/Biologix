@@ -1,5 +1,6 @@
 package Entites.Ressources;
 import Environnement.Meteo.*;
+import Environnement.Terrain.Terrain;
 
 
 public class Viande extends Ressource {
@@ -34,9 +35,10 @@ public class Viande extends Ressource {
      * Constructeur de l'objet viade
      * @param quantiteEnergie
      */
-    public Viande(double quantiteEnergie) {
+    public Viande(double quantiteEnergie, Terrain terrain) {
         this.quantiteEnergie = quantiteEnergie;
         this.tauxDePourriture = 0; //pas pourrie au début
+        this.terrain = terrain;
     }
 
     void setTauxDePourriture(double tauxDePourriture) {

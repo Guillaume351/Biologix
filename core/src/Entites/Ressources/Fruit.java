@@ -1,5 +1,6 @@
 package Entites.Ressources;
 import java.awt.Color;
+import Environnement.Terrain.Terrain;
 
 public class Fruit extends Vegetal {
     double forcePoison; //les fruits peuvent être empoisonnées, 0 = safe, 0,5 = rend malade, 1 = tue...
@@ -11,8 +12,8 @@ public class Fruit extends Vegetal {
      * @param energieVegetal
      * @param forcePoison
      */
-    public Fruit(double energieMaxStockable, double energieVegetal, double forcePoison, Color couleur) {
-        super(energieMaxStockable, energieVegetal);
+    public Fruit(double energieMaxStockable, double energieVegetal, double forcePoison, Color couleur, Terrain terrain) {
+        super(energieMaxStockable, energieVegetal, terrain);
         this.forcePoison = forcePoison;
         this.couleur = couleur;
     }

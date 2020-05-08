@@ -1,6 +1,7 @@
 package Entites.Ressources;
 import java.util.*;
 import Environnement.Meteo.*;
+import Environnement.Terrain.Terrain;
 
 public class Vegetal extends Ressource {
 
@@ -30,9 +31,10 @@ public class Vegetal extends Ressource {
      * @param energieMaxStockable
      * @param energieVegetal
      */
-    public Vegetal(double energieMaxStockable, double energieVegetal) {
+    public Vegetal(double energieMaxStockable, double energieVegetal, Terrain terrain) {
         this.energieVegetal = energieVegetal;
         this.energieMaxStockable = energieMaxStockable;
+        this.terrain = terrain;
     }
 
     /**

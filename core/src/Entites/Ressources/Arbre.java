@@ -1,5 +1,7 @@
 package Entites.Ressources;
 
+import Environnement.Terrain.Terrain;
+
 public class Arbre extends Vegetal {
 
     private double taille; //la hauteur de l'arbre
@@ -11,8 +13,8 @@ public class Arbre extends Vegetal {
      * @param energieVegetal
      * @param taille
      */
-    public Arbre(double energieMaxStockable, double energieVegetal, double taille) {
-        super(energieMaxStockable, energieVegetal);
+    public Arbre(double energieMaxStockable, double energieVegetal, double taille, Terrain terrain) {
+        super(energieMaxStockable, energieVegetal, terrain);
         this.taille = taille;
         this.tailleMax = tailleMax;
     }
