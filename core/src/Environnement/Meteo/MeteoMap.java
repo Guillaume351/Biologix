@@ -4,13 +4,13 @@ import Environnement.HeightMap;
 import Utils.Perlin.PerlinGenerator;
 import Utils.Perlin.PerlinParams;
 
-public class MeteoMap extends HeightMap {
+public class MeteoMap {
     HeightMap moyennes;
     PerlinParams paramsTemporel;
     double variabilite;
 
     public MeteoMap(PerlinParams params, double min, double max) {
-        super(params, min, max);
+        //TODO : faire la Heightmap des moyennes
     }
 
     public double getTemp(double x, double y) {
