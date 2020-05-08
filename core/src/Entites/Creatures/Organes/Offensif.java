@@ -36,7 +36,7 @@ public class Offensif extends Organe {
         return this.puissanceAttaque;
     }
 
-    public void updateOffensif(OutputsCerveau sorties, double dt){
+    public void updateOffensif(OutputsCerveau sorties){
         this.volonteAttaque = sorties.getVolonteAttaque();
     }
 }

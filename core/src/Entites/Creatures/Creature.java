@@ -4,6 +4,7 @@ import Entites.Creatures.Organes.*;
 import Entites.Creatures.Organes.Cerveau.Cerveau;
 import Entites.Creatures.Organes.Cerveau.InputsCerveau;
 import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
+import Entites.Creatures.Organes.sexe.Genre;
 import Entites.Creatures.Organes.sexe.Sexe;
 import Entites.Entite;
 import Environnement.Meteo.Meteo;
@@ -295,27 +296,30 @@ public class Creature extends Entite {
     }
 
 
-    public void updateOrganes(InputsCerveau entrees, double dt){
-        OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
-
+    public void update_organes(OutputsCerveau sortieCerveau, double dt){
         this.sexe.updateSexe(sortieCerveau, dt);
-        this.offensif.updateOffensif(sortieCerveau, dt);
-        this.defensif.updateDefensif(sortieCerveau, dt);
+        this.offensif.updateOffensif(sortieCerveau);
+        this.defensif.updateDefensif(sortieCerveau);
     }
 
-    public void update_age(OutputsCerveau sortieCerveau, double dt){
+    public void update_age(double dt){
         // Age
         this.setAge(this.getAge() + dt);
     }
 
-    public double update_deplacement(Terrain terrain, OutputsCerveau sortieCerveau, double dt){
+    public double update_deplacement(OutputsCerveau sortieCerveau, double dt){
         // Deplacement
         this.orientation = sortieCerveau.getDirection();
         double energiePerdueDeplacement = this.deplacer(dt);
         return energiePerdueDeplacement;
     }
 
-    public double update_combat(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau, double dt){
+    public boolean update_oxygene(double dt){
+        this.getAppareilRespiratoire().gainOxygene(this.getTerrain(), dt);
+        return this.getAppareilRespiratoire().perteOxygene(dt);
+    }
+
+    public double update_combat(Creature creatureLaPlusProche){
         // Combattre
         double energiePerdueDefense;
         double energiePerdueAttaque;
@@ -333,7 +337,7 @@ public class Creature extends Entite {
         return energiePerdueAttaque + energiePerdueDefense;
     }
 
-    public double update_manger(OutputsCerveau sortieCerveau, double dt){
+    public double update_manger(OutputsCerveau sortieCerveau){
         // Manger
         double coeffVoracite = sortieCerveau.getCoeffVoracite();
         List<Localisable> ressourcesAccessibles = (List) (Localisateur.getPlusProcheQue(this.getPosition(), this.perception.getRessourcessVisibles(), ConstantesBiologiques.rayonInteraction)).values();
@@ -341,7 +345,7 @@ public class Creature extends Entite {
         return energieGagneeManger;
     }
 
-    public double update_reproduction(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau, double dt){
+    public double update_reproduction(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau){
         // Se reproduire
         double energiePerdueReproduction;
         if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
@@ -351,11 +355,15 @@ public class Creature extends Entite {
             boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
             if (testReproduction) {
                 energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
-                this.getSexe().setEnceinte(true);
-                this.getSexe().setTempsDerniereReproduction(0);
-                // TODO : création de la nouvelle créature
-
-                // TODO : faire perdre l'énergie au male
+                if (this.getSexe().getGenre() == Genre.Femelle) {
+                    this.getSexe().setEnceinte(true);
+                    this.getSexe().setTempsDerniereReproduction(0);
+                    // TODO : quel facteur de mutation appliqué ?
+                    this.embryon = new Creature(this, creatureLaPlusProche, 0.5, new Random());
+                }
+                else if (this.getSexe().getGenre() == Genre.Male){
+                    energiePerdueReproduction += this.getSexe().getDonEnergieEnfant();
+                }
             } else {
                 energiePerdueReproduction = 0;
             }
@@ -365,10 +373,11 @@ public class Creature extends Entite {
         return energiePerdueReproduction;
     }
 
-    public double update_accouchement(OutputsCerveau sortieCerveau, double dt){
+    public double update_accouchement(){
         // Accouchement
         double energiePerdueAccouchement;
-        if (this.getSexe().getEnceinte() && this.getSexe().getTempsDerniereReproduction() == ConstantesBiologiques.tempsGestation){
+        double epsilon = Math.abs(this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation);
+        if (this.getSexe().getEnceinte() && epsilon < 10e-11){
             this.getSexe().setEnceinte(false);
             energiePerdueAccouchement = this.getSexe().getDonEnergieEnfant();
             // TODO : ajout de la nouvelle créature sur la map
@@ -378,13 +387,18 @@ public class Creature extends Entite {
         return energiePerdueAccouchement;
     }
 
-    public void update_foie(OutputsCerveau sortieCerveau, double dt){
-        // Soin (Foie)
+    public boolean update_foie(Creature creatureLaPlusProche, double dt) {
+        // Mise à jour des points de vie
         this.foie.soin(dt);
+        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+            return this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+        } else {
+            return true;
+        }
     }
 
-    public boolean update_graisse(double energieGagnee, double energiePerdue, OutputsCerveau sortieCerveau, double dt){
-        // Mise à jour de l'énergie (Graisse)
+    public boolean update_graisse(double energieGagnee, double energiePerdue){
+        // Mise à jour de l'énergie
         this.graisse.addEnergie(energieGagnee);
         return this.graisse.subEnergie(energiePerdue);
     }
@@ -398,33 +412,43 @@ public class Creature extends Entite {
     }
 
     public void update(InputsCerveau entrees, double dt) {
+
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
 
-        // Creature la plus proche
+        /* Créature la plus proche */
         List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
         Creature creatureLaPlusProche = (Creature) (Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1)).get(0);
 
-        update_age(sortieCerveau, dt);
+        update_age(dt);
+
+        update_organes(sortieCerveau, dt);
 
         double energiePerdueSubsistance = getCoutSubsistance(dt);
 
+        /* Mise à jour de l'oxygène */
+        boolean encoreOxygene = update_oxygene(dt);
+
         double energiePerdueThermiquement = update_thermique(dt);
 
-        double energiePerdueDeplacement = update_deplacement(terrain, sortieCerveau, dt);
+        double energiePerdueDeplacement = update_deplacement(sortieCerveau, dt);
 
-        double energiePerdueCombat = update_combat(creatureLaPlusProche, sortieCerveau, dt);
+        /* Mise à jour des points de vie */
+        boolean encorePdv = update_foie(creatureLaPlusProche,dt);
 
-        double energieGagneeManger = update_manger(sortieCerveau, dt);
+        double energiePerdueCombat = update_combat(creatureLaPlusProche);
 
-        double energiePerdueReproduction = update_reproduction(creatureLaPlusProche, sortieCerveau, dt);
+        double energieGagneeManger = update_manger(sortieCerveau);
 
-        double energiePerdueAccouchement = update_accouchement(sortieCerveau, dt);
+        double energiePerdueReproduction = update_reproduction(creatureLaPlusProche, sortieCerveau);
 
-        update_foie(sortieCerveau, dt);
+        double energiePerdueAccouchement = update_accouchement();
 
         double energiePerdue = energiePerdueThermiquement + energiePerdueSubsistance + energiePerdueDeplacement + energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat + energiePerdueAccouchement;
-        boolean vivant = update_graisse(energieGagneeManger, energiePerdue, sortieCerveau, dt);
-        if (!vivant){
+
+        /* Mise à jour de l'énergie */
+        boolean encoreEnergie = update_graisse(energieGagneeManger, energiePerdue);
+
+        if (!encoreOxygene || !encorePdv || !encoreEnergie){
             // TODO : faire mourir la créature !!!
         }
 
