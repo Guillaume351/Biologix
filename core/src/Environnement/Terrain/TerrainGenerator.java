@@ -66,8 +66,7 @@ public class TerrainGenerator {
      * @return : Une liste de ressources initiale
      */
     public ArrayList<Ressource> resourcePopulate() {
-
-        return null;
+            return null;
     }
 
     /**

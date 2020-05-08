@@ -10,7 +10,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -40,21 +39,17 @@ public class MyGdxGame extends ApplicationAdapter {
         this.gameWorld = generator.generateTerrain();
 
         // On créer notre outil de rendu de terrain
-        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld);
+        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld, 300, 300);
         this.camera = new OrthographicCamera();
 
         // On récupère le terrain convertit en TileSet
         this.map = renderTerrain.getMap();
 
-        MapProperties properties = map.getProperties();
-
         // Les infos concernant notre tile. TODO : utiliser les infos de TerrainRenderer
-        int tileWidth = 300;
-        int tileHeight = 300;
         int mapWidthInTiles = 32;
         int mapHeightInTiles = 32;
-        int mapWidthInPixels = mapWidthInTiles * tileWidth;
-        int mapHeightInPixels = mapHeightInTiles * tileHeight;
+        int mapWidthInPixels = mapWidthInTiles * renderTerrain.getWidth();
+        int mapHeightInPixels = mapHeightInTiles * renderTerrain.getHeight();
 
 
         // Les paramètres de notre caméras. TODO : faire davantage de tests pour obtenir une vue plus éloignée
