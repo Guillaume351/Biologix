@@ -6,6 +6,7 @@ import Utils.Perlin.PerlinParams;
 import Utils.TerrainRenderer;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -70,6 +71,18 @@ public class MyGdxGame extends ApplicationAdapter {
     public void render() {
         Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        int sensitivity = 10;
+        // Gestion du déplacement de la caméra. TODO: a déplacer
+        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+
+            camera.position.x -= Gdx.input.getDeltaX() * sensitivity;
+            camera.position.y += Gdx.input.getDeltaY() * sensitivity;
+        }
+
+        if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
+            camera.zoom += (Gdx.input.getDeltaX() + Gdx.input.getDeltaY()) / 3;
+        }
+
         camera.update();
         this.mapRenderer.setView(camera);
         this.mapRenderer.render();
