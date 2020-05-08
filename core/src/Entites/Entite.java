@@ -7,6 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 public abstract class Entite implements Localisable, Updatable {
     Vector2 position;
 
+    public Entite(Vector2 position) {
+        this.position = position;
+    }
+
     @Override
     public Vector2 getPosition() {
         return position;

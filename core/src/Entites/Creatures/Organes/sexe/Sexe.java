@@ -15,7 +15,7 @@ public class Sexe extends Organe {
     double tempsDerniereReproduction;
 
     public double getDonEnergieEnfant() {
-        return donEnergieEnfant;
+        return donEnergieEnfant * this.getCreatureHote().getGraisse().getEnergie();
     }
 
     double donEnergieEnfant;    // entre 0 et 1
