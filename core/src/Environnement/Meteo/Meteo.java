@@ -9,6 +9,10 @@ public class Meteo {
     private double DureeJour;
     private double DureeNuit;
 
+    //compte le nombre de dt ecoule, permet de savoir ou on en est sur une journée
+    int horloge;
+    boolean jour;
+
     public Meteo(MeteoMap temp, MeteoMap humidite, TypeMeteo meteo, double dureeJour, double dureeNuit, double densiteNuages) {
         this.temp = temp;
         this.humidite = humidite;
@@ -81,6 +85,36 @@ public class Meteo {
      */
     public double dtParNuit(double dt) {
         return this.DureeNuit/dt;
+    }
+
+    /**
+     * Remet l'horloge à zero à chaque cycle
+     * @param journee boolean valant vrai si on se situe sur le jour
+     */
+    public void nouveauJourNuit(boolean journee) {
+        this.horloge = 0;
+        this.jour = journee;
+    }
+
+    /**
+     * represente le temps qui passe sera appele par changement meteoGlobale
+     * sachant que meteoGlobale sera appelé à chaque dt
+     */
+    public void incrementerHorloge() {
+
+        if (this.jour) {
+            if (this.horloge < getDureeJour()) {
+                this.horloge ++;
+            } else {
+                nouveauJourNuit(false);
+            }
+        } else {
+            if (this.horloge < getDureeNuit()) {
+                this.horloge ++;
+            } else {
+                nouveauJourNuit(true);
+            }
+        }
     }
 
     /**
