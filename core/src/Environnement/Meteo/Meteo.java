@@ -1,5 +1,6 @@
 package Environnement.Meteo;
 
+import javax.swing.*;
 import java.util.Random;
 
 public class Meteo {
@@ -12,6 +13,9 @@ public class Meteo {
     //compte le nombre de dt ecoule, permet de savoir ou on en est sur une journée
     int horloge;
     boolean jour;
+
+    //coefficient modificateur de la meteo, il evolue avec dt, permet à la temperature d'evoluer
+    double coefTemp;
 
     public Meteo(MeteoMap temp, MeteoMap humidite, TypeMeteo meteo, double dureeJour, double dureeNuit, double densiteNuages) {
         this.temp = temp;
@@ -99,22 +103,28 @@ public class Meteo {
     /**
      * represente le temps qui passe sera appele par changement meteoGlobale
      * sachant que meteoGlobale sera appelé à chaque dt
+     * @param dt
      */
-    public void incrementerHorloge() {
+    public void incrementerHorloge( double dt) {
 
         if (this.jour) {
-            if (this.horloge < getDureeJour()) {
+            if (this.horloge < (int) dtParJour(dt)) {
                 this.horloge ++;
             } else {
                 nouveauJourNuit(false);
             }
         } else {
-            if (this.horloge < getDureeNuit()) {
+            if (this.horloge < (int) dtParNuit(dt)) {
                 this.horloge ++;
             } else {
                 nouveauJourNuit(true);
             }
         }
+    }
+
+
+    public double getValeurTemp(double x, double y) {
+        return coefTemp * this.getTemp().moyennes.getValeur(x,y);
     }
 
     /**
@@ -153,8 +163,9 @@ public class Meteo {
 
         // la meteo globale change à chaque dt un peu
         changerDensiteNuage(r.nextInt(1)*dt);
+        modifierTempGlobale(dt, r);
+        incrementerHorloge(dt);
 
-        //TODO modifier la temperature
         if (getDensiteNuages() > 0.5) {
             this.meteo = TypeMeteo.NUAGEUX;
         } else if (getDensiteNuages() > 0.5 && humide > 0.5) {
@@ -168,6 +179,20 @@ public class Meteo {
         }
     }
 
+
+    /**
+     * Si il fait jour et avant midi, temp augmente de meme si il fait et qu'on est apres minuit
+     * Sinon elle diminue
+     * @param dt
+     * @param r nombre aleatoire entre 0 et 1
+     */
+    public void modifierTempGlobale(double dt, Random r) {
+        if ((this.jour && this.horloge < (int)dtParJour(dt)/2) || (!this.jour && this.horloge > (int)dtParJour(dt)/2)) {
+            coefTemp = coefTemp + r.nextInt(1) * dt;
+        } else {
+            coefTemp = coefTemp - r.nextInt(1) * dt;
+        }
+    }
     /**
      * Evolution locale de la meteo (influence d'un joueur)
      * @param x_epicentre point centrale de la modification
