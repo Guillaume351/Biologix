@@ -1,5 +1,7 @@
 package Environnement.Meteo;
 
+import java.util.Random;
+
 public class Meteo {
     private MeteoMap temp;
     private MeteoMap humidite;
@@ -78,12 +80,35 @@ public class Meteo {
 
     /**
      * Change la densite de nuage
-     * @param densiteNuagesActuel ce qu'on a en terme de nuage
      * @param densiteNuageVoulue ce qu'on veut en terme de nuage
      */
-    public void changerDensiteNuage(double densiteNuagesActuel, double densiteNuageVoulue) {
+    public void changerDensiteNuage(double densiteNuageVoulue) {
 
-        double ecartDensiteNuage = densiteNuageVoulue - densiteNuagesActuel;
-        setDensiteNuages(densiteNuagesActuel + ecartDensiteNuage);
+        double ecartDensiteNuage = densiteNuageVoulue - getDensiteNuages();
+        setDensiteNuages(getDensiteNuages() + ecartDensiteNuage);
     }
+
+    public void modifierMeteoGlobal(double dt) {
+
+        Random r = new Random();
+        double humide = getHumidite().moyennes.getMax() - getHumidite().moyennes.getMin();
+        double temp = getTemp().moyennes.getMax() - getTemp().moyennes.getMin();
+
+        // la meteo globale change à chaque dt un peu
+        changerDensiteNuage(r.nextInt(1)*dt);
+
+        //TODO moidifier la temperature
+        if (getDensiteNuages() > 0.5) {
+            this.meteo = TypeMeteo.NUAGEUX;
+        } else if (getDensiteNuages() > 0.5 && humide > 0.5) {
+            this.meteo = TypeMeteo.PLUIE;
+        } else if (getDensiteNuages() > 0.5 && humide > 0.5 && temp > 20) {
+            this.meteo = TypeMeteo.ORAGE;
+        } else if (getDensiteNuages() > 0.5 && humide > 0.5 && getTemp().moyennes.getMax() < 5) {
+            this.meteo = TypeMeteo.NEIGE;
+        } else {
+            this.meteo = TypeMeteo.SOLEIL;
+        }
+    }
+
 }
