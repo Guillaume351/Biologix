@@ -66,6 +66,24 @@ public class Meteo {
     }
 
     /**
+     * Permet de connaitre le nombre de dt par jour
+     * @param dt
+     * @return le nombre de dt par jour
+     */
+    public double dtParJour(double dt) {
+        return this.DureeJour/dt;
+    }
+
+    /**
+     * Permet de connaitre le nombre de dt par jour
+     * @param dt
+     * @return le nombre de dt par nuit
+     */
+    public double dtParNuit(double dt) {
+        return this.DureeNuit/dt;
+    }
+
+    /**
      * Densité des nuages (dépend de la météo : ensoleillé 0, très nuageux 1)
      */
     double densiteNuages;
@@ -88,16 +106,21 @@ public class Meteo {
         setDensiteNuages(getDensiteNuages() + ecartDensiteNuage);
     }
 
+    /**
+     * Evolution gobale de la meteo à chaque dt
+     * @param dt
+     */
     public void modifierMeteoGlobal(double dt) {
 
         Random r = new Random();
+        //ecart maximum sur la map pour l'humidite et la temperature
         double humide = getHumidite().moyennes.getMax() - getHumidite().moyennes.getMin();
         double temp = getTemp().moyennes.getMax() - getTemp().moyennes.getMin();
 
         // la meteo globale change à chaque dt un peu
         changerDensiteNuage(r.nextInt(1)*dt);
 
-        //TODO moidifier la temperature
+        //TODO modifier la temperature
         if (getDensiteNuages() > 0.5) {
             this.meteo = TypeMeteo.NUAGEUX;
         } else if (getDensiteNuages() > 0.5 && humide > 0.5) {
@@ -109,6 +132,16 @@ public class Meteo {
         } else {
             this.meteo = TypeMeteo.SOLEIL;
         }
+    }
+
+    /**
+     * Evolution locale de la meteo (influence d'un joueur)
+     * @param x_epicentre point centrale de la modification
+     * @param y_epicentre point centrale de la modification
+     * @param dt
+     */
+    public void modifierMeteoLocal(double x_epicentre, double y_epicentre, double dt) {
+        //TODO
     }
 
 }
