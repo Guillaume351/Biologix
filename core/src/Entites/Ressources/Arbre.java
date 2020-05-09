@@ -1,14 +1,18 @@
 package Entites.Ressources;
 
+import Entites.Creatures.Creature;
 import Environnement.Terrain.Terrain;
 import com.badlogic.gdx.math.Vector2;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Arbre extends Vegetal {
 
     private double taille; //la hauteur de l'arbre
     private double tailleMax; //la hauteur max de l'arbre
 
-    Fruit fruit;
+    public ArrayList<Fruit> fruits;
 
     /**
      * Constructeur de l'arbre
@@ -21,6 +25,7 @@ public class Arbre extends Vegetal {
         super(position, energieMaxStockable, energieVegetal, terrain);
         this.taille = taille;
         this.tailleMax = tailleMax;
+        this.fruits = new ArrayList<Fruit>();
     }
 
     void setTaille(double taille) {
@@ -40,6 +45,20 @@ public class Arbre extends Vegetal {
         if (getTaille() + hauteur < getTailleMax() ) {
             this.taille += hauteur*dt;
         } else { setTaille(this.tailleMax*dt); }
+    }
+
+    /**
+     * ajoute des fruits dans l'arbre
+     */
+    void ajouterFruit(Fruit fruit) {
+         this.fruits.add(fruit);
+    }
+
+    /**
+     * retire des fruits dans l'arbre
+     */
+    void retirerFruit(Fruit fruit) {
+        this.fruits.remove(fruit);
     }
 
 }

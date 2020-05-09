@@ -87,6 +87,11 @@ public class ConstantesBiologiques {
     public static double coefficientMoyen;
     public static double coefficientFort;
 
+    /*fruit*/
+    public static double forcePoisonIntermediaire;
+    public static double dureeDeVieFruit;
+
+
 
 
 }
