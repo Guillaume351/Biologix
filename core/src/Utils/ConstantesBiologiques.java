@@ -79,4 +79,14 @@ public class ConstantesBiologiques {
     public static double XMAX;
     public static double YMAX;
 
+    /*RESSOURCES*/
+    public static double tempExterieureMin;
+    public static double tempExterieureIntermediaire;
+    public static double energieVegetalMax;
+    public static double coefficientFaible;
+    public static double coefficientMoyen;
+    public static double coefficientFort;
+
+
+
 }

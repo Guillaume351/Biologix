@@ -2,13 +2,16 @@ package Entites.Ressources;
 
 import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
+import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
+
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class Vegetal extends Ressource {
 
     private double energieMaxStockable; // l'énergie maximale stockable par la plante
     private double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
-    private double energieVegetalMax = 1;
+    private double energieVegetalMax = ConstantesBiologiques.energieVegetalMax;
     MeteoMap meteo;
 
     @Override
@@ -81,14 +84,14 @@ public class Vegetal extends Ressource {
         double temperature = meteo.getTemp(getPosition().x, getPosition().y);
 
         //on set le coefficient en fonction de la température extérieure
-        if (temperature < 10 && temperature > 0) {
-            coefficientGagne = 0.01; // la plante grandit lentement
-            coefficientDepense = 1; // la plante dépense bcp d'énergie pour grandir
-        } else if (temperature > 10) {
-            coefficientGagne = 1;
-            coefficientDepense = 0.1; // easy peasy
+        if (temperature < ConstantesBiologiques.tempExterieureIntermediaire && temperature > ConstantesBiologiques.tempExterieureMin) {
+            coefficientGagne = ConstantesBiologiques.coefficientFaible; // la plante grandit lentement
+            coefficientDepense = ConstantesBiologiques.coefficientMoyen; // la plante dépense bcp d'énergie pour grandir
+        } else if (temperature > ConstantesBiologiques.tempExterieureIntermediaire) {
+            coefficientGagne = ConstantesBiologiques.coefficientMoyen;
+            coefficientDepense = ConstantesBiologiques.coefficientFaible; // easy peasy
         } else { coefficientGagne = 0;//trop froid
-            coefficientDepense = 2; // aie aie aie la plante va pourrir
+            coefficientDepense = ConstantesBiologiques.coefficientFort; // aie aie aie la plante va pourrir
         }
 
         // Energie gagnée

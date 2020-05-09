@@ -2,6 +2,7 @@ package Entites.Ressources;
 
 import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
+import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
 
@@ -75,12 +76,12 @@ public class Viande extends Ressource {
         double temperature = meteo.getTemp(getPosition().x, getPosition().y);
 
         //on set le coefficient en fonction de la température extérieure
-        if (temperature < 10 && temperature > 0) {
-            coefficient = 1;
-        } else if (temperature > 10) {
-            coefficient = 2;
+        if (temperature < ConstantesBiologiques.tempExterieureIntermediaire && temperature > ConstantesBiologiques.tempExterieureMin) {
+            coefficient = ConstantesBiologiques.coefficientMoyen;
+        } else if (temperature > ConstantesBiologiques.tempExterieureIntermediaire) {
+            coefficient = ConstantesBiologiques.coefficientFort;
         } else {
-            coefficient = 0.1;//trop froid
+            coefficient = ConstantesBiologiques.coefficientFaible;//trop froid
         }
 
         ajouterPourriture(coefficient * pourriture * dt);
