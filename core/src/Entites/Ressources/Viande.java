@@ -5,11 +5,12 @@ import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 
 public class Viande extends Ressource {
 
     double tauxDePourriture; // définit si une viande est pourrie. tauxdePourriture + getquantiteEnergie = EnergieMaxStockable
-    private double energieMaxStockable; // l'énergie pax stockable de la plante,
     MeteoMap meteo;
 
     @Override
@@ -36,13 +37,13 @@ public class Viande extends Ressource {
     }
 
     /**
-     * Constructeur de l'objet viade
+     * Constructeur de l'objet viande
      *
-     * @param quantiteEnergie
+     * @param r, terrain
      */
-    public Viande(Vector2 position, double quantiteEnergie, Terrain terrain) {
-        super(position);
-        this.quantiteEnergie = quantiteEnergie;
+    public Viande(Random r, Terrain terrain) {
+        super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
+        this.quantiteEnergie = ConstantesBiologiques.energieMaxStockableViande *r.nextDouble();
         this.tauxDePourriture = 0; //pas pourrie au début
         this.terrain = terrain;
     }
@@ -64,7 +65,7 @@ public class Viande extends Ressource {
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
-        return this.tauxDePourriture >= this.energieMaxStockable/2;        //valeur à discuter
+        return this.tauxDePourriture >= ConstantesBiologiques.energieMaxStockableViande/2;        //valeur à discuter
     }
 
     /**
