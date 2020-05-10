@@ -2,6 +2,8 @@ package com.mygdx.game;
 
 import Entites.Creatures.Creature;
 import Entites.Creatures.CreatureRenderer;
+import Entites.Ressources.Ressource;
+import Entites.Ressources.RessourceRenderer;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Utils.Perlin.PerlinParams;
@@ -31,6 +33,7 @@ public class MyGdxGame extends ApplicationAdapter {
     private OrthographicCamera camera;
 
     CreatureRenderer testCreature;
+    RessourceRenderer ressourceRenderer;
 
     @Override
     public void create() {
