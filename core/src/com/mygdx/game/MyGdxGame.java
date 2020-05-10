@@ -41,7 +41,7 @@ public class MyGdxGame extends ApplicationAdapter {
         PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(10000), 1);
 
         // On créer notre générateur de terrain
-        TerrainGenerator generator = new TerrainGenerator(perlinParams, 100, 50);
+        TerrainGenerator generator = new TerrainGenerator(perlinParams, 100, 50, 20, 20);
 
         // On génère le terrain
         this.gameWorld = generator.getGeneratedTerrain();
