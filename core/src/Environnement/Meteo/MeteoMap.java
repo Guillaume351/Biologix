@@ -10,6 +10,8 @@ public class MeteoMap implements Updatable {
     PerlinParams paramsTemporel;
     double variabilite;
     double temps;
+    //coefficient modificateur de la meteo, il evolue avec dt, permet à la temperature d'evoluer
+    double coefTemp = 1.0;
 
     public MeteoMap(PerlinParams params, double min, double max) {
         //TODO : faire la Heightmap des moyennes
@@ -21,7 +23,7 @@ public class MeteoMap implements Updatable {
     }
 
     public double getTemp(double x, double y, double t) {
-        return moyennes.getValeur(x, y) + variabilite * PerlinGenerator.perlin1D(t, paramsTemporel);
+        return coefTemp * (moyennes.getValeur(x, y) + variabilite * PerlinGenerator.perlin1D(t, paramsTemporel));
     }
 
 
