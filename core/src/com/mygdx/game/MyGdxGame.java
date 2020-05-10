@@ -37,10 +37,10 @@ public class MyGdxGame extends ApplicationAdapter {
         PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(10000), 1);
 
         // On créer notre générateur de terrain
-        TerrainGenerator generator = new TerrainGenerator(perlinParams);
+        TerrainGenerator generator = new TerrainGenerator(perlinParams, 100);
 
         // On génère le terrain
-        this.gameWorld = generator.generateTerrain();
+        this.gameWorld = generator.getGeneratedTerrain();
 
         // On créer notre outil de rendu de terrain
         TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld, 300, 300);
@@ -71,7 +71,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // Test créature
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        testCreature = new CreatureRenderer(generator.creaturesPopulate(this.gameWorld, 100), batch);
+        testCreature = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
 
         //System.out.println(testCreature.creatureHote.getPosition().x);
 

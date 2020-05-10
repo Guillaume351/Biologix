@@ -21,8 +21,20 @@ public class TerrainGenerator {
      */
     private PerlinParams perlinParams;
 
-    public TerrainGenerator(PerlinParams perlinParams) {
+
+    /**
+     * Le terrain généré
+     */
+    private Terrain generatedTerrain;
+
+    public TerrainGenerator(PerlinParams perlinParams, int nombreCreaturesInitial) {
         this.perlinParams = perlinParams;
+        this.generatedTerrain = this.generateTerrain();
+        this.generatedTerrain.getEntites().addAll(creaturesPopulate(nombreCreaturesInitial));
+    }
+
+    public Terrain getGeneratedTerrain() {
+        return generatedTerrain;
     }
 
     /**
@@ -30,7 +42,7 @@ public class TerrainGenerator {
      *
      * @return Le terrain généré
      */
-    public Terrain generateTerrain() {
+    private Terrain generateTerrain() {
         //TODO : Séparer dans des méthodes avec des paramètres changeable pour rendre la génération modifiable
         Meteo meteo = this.initMeteo();
 
@@ -66,7 +78,7 @@ public class TerrainGenerator {
      *
      * @return : Une liste de ressources initiale
      */
-    public ArrayList<Ressource> resourcePopulate() {
+    private ArrayList<Ressource> resourcePopulate() {
         return null;
     }
 
@@ -75,10 +87,10 @@ public class TerrainGenerator {
      *
      * @return : Une liste de créatures initiale
      */
-    public ArrayList<Creature> creaturesPopulate(Terrain terrain, int nombreCreatures) {
+    private ArrayList<Creature> creaturesPopulate(int nombreCreatures) {
         ArrayList<Creature> testCreatures = new ArrayList<Creature>();
         for (int i = 0; i < nombreCreatures; i++) {
-            testCreatures.add(new Creature(new Random(), terrain));
+            testCreatures.add(new Creature(new Random(), this.generatedTerrain));
         }
         return testCreatures;
     }

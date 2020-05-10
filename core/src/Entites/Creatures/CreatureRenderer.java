@@ -17,7 +17,6 @@ public class CreatureRenderer {
 
     public CreatureRenderer(ArrayList<Creature> creatures, SpriteBatch batch){
         this.creatures = creatures;
-        //this.creatureHote = creatureHote;
         this.spriteBatchCreature = batch;
         this.textureCreature = new Texture(Gdx.files.internal("creature1.png"));
     }
