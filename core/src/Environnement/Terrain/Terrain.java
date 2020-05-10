@@ -12,6 +12,11 @@ import java.util.List;
 
 
 public class Terrain implements Updatable {
+    double temps = 0;
+
+    public double getTemps() {
+        return temps;
+    }
     private Meteo meteo;
     private List<Entite> entites;
     private AltitudeMap altitudes;
@@ -168,5 +173,6 @@ public class Terrain implements Updatable {
     @Override
     public void update(double delta_t) {
         //TODO
+        temps += delta_t;
     }
 }

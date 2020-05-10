@@ -16,7 +16,7 @@ public class Foie extends Organe {
         super(r);
         this.densiteDeSoin = ConstantesBiologiques.densiteDeSoinMin + (ConstantesBiologiques.densiteDeSoinMax - ConstantesBiologiques.densiteDeSoinMin) * r.nextDouble();
         this.densiteDePv = ConstantesBiologiques.densiteDePvMin + (ConstantesBiologiques.densiteDePvMax - ConstantesBiologiques.densiteDePvMin) * r.nextDouble();
-        this.pointsDeVie = this.getPointsDeVieMax();
+        this.pointsDeVie = this.getPointsDeVieMax0();
     }
 
     public Foie(Foie foieMere, Foie foiePere, Random r, double mutation){
@@ -24,7 +24,7 @@ public class Foie extends Organe {
         Foie foieAlea = new Foie(r);
         this.densiteDeSoin = (foieMere.densiteDeSoin + foiePere.densiteDeSoin + foieAlea.densiteDeSoin * mutation)/(2 + mutation);
         this.densiteDePv = (foieMere.densiteDePv + foiePere.densiteDePv + foieAlea.densiteDePv * mutation)/(2 + mutation);
-        this.pointsDeVie = this.getPointsDeVieMax();
+        this.pointsDeVie = this.getPointsDeVieMax0();
 
     }
 
@@ -34,7 +34,11 @@ public class Foie extends Organe {
 
     public double getPointsDeVieMax() {
 
-        //return this.getMasse(this.getCreatureHote().getAge()) * this.densiteDePv;
+        return this.getMasse(this.getCreatureHote().getAge()) * this.densiteDePv;
+    }
+
+    private double getPointsDeVieMax0() {
+
         return this.getMasse(0) * this.densiteDePv;
     }
 

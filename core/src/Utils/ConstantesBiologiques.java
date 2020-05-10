@@ -95,4 +95,7 @@ public class ConstantesBiologiques {
     public static double vitessePourritureMax = 10;
     public static double stabilitePourriture = 3;
 
+    public static int toleranceTemperatureVegetal;
+    public static int temperatureIdealeVegetal;
+    public static double croissanceMaxVegetal;
 }

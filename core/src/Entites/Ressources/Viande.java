@@ -91,7 +91,7 @@ public class Viande extends Ressource {
      */
     public void update(double dt) {
 
-        double temperature = meteo.getTemp(getPosition().x, getPosition().y);
+        double temperature = meteo.getTemp(getPosition().x, getPosition().y, terrain);
 
         double vitesse = getVitessePourriture(temperature);
         ajouterPourriture(vitesse * dt);

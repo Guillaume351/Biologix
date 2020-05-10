@@ -91,7 +91,7 @@ public class Creature extends Entite {
     }
 
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
-        super(new Vector2(0f, 0f));
+        super(new Vector2(mere.getPosition()));
         resetStatistiques_();
         double alea = ConstantesBiologiques.tempInterneMin + (ConstantesBiologiques.tempInterneMax - ConstantesBiologiques.tempInterneMin) * r.nextDouble();
         this.temperatureInterne = (mere.temperatureInterne + pere.temperatureInterne + alea * mutation) / (2 + mutation);
@@ -306,6 +306,7 @@ public class Creature extends Entite {
         this.sexe.updateSexe(sortieCerveau, dt);
         this.offensif.updateOffensif(sortieCerveau);
         this.defensif.updateDefensif(sortieCerveau);
+        this.perception.updatePerception(sortieCerveau, dt, this.getTerrain().getMeteo().getLuminosite(terrain.getTemps()));
     }
 
     public void update_age(double dt){
@@ -425,7 +426,7 @@ public class Creature extends Entite {
     public double update_thermique(double dt){
         Meteo meteo = terrain.getMeteo();
         MeteoMap temperatureMap = meteo.getTemp();
-        double temperature = temperatureMap.getTemp(this.getPosition().x, this.getPosition().y);
+        double temperature = temperatureMap.getTemp(this.getPosition().x, this.getPosition().y, terrain);
         return getPertesThermiques(temperature, dt);
 
     }

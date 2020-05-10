@@ -1,6 +1,7 @@
 package Environnement.Meteo;
 
 import Environnement.HeightMap;
+import Environnement.Terrain.Terrain;
 import Utils.Perlin.PerlinGenerator;
 import Utils.Perlin.PerlinParams;
 import Utils.Updatable;
@@ -9,7 +10,6 @@ public class MeteoMap implements Updatable {
     HeightMap moyennes;
     PerlinParams paramsTemporel;
     double variabilite;
-    double temps;
     //coefficient modificateur de la meteo, il evolue avec dt, permet à la temperature d'evoluer
     double coefTemp = 1.0;
 
@@ -18,11 +18,10 @@ public class MeteoMap implements Updatable {
         this.moyennes = new HeightMap(params, -30, 40);
         //TODO : modifier les param !!!!
         this.paramsTemporel = params;
-        temps = 0;
     }
 
-    public double getTemp(double x, double y) {
-        return getTemp(x, y, temps);//TODO : REMPLACER PAR LE TEMPS !
+    public double getTemp(double x, double y, Terrain terrain) {
+        return getTemp(x, y, terrain.getTemps());//TODO : REMPLACER PAR LE TEMPS !
     }
 
     public double getTemp(double x, double y, double t) {
@@ -32,6 +31,6 @@ public class MeteoMap implements Updatable {
 
     @Override
     public void update(double delta_t) {
-        temps += delta_t;
+
     }
 }
