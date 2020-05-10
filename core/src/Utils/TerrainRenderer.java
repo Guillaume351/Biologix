@@ -61,8 +61,11 @@ public class TerrainRenderer {
 
         TiledMapTileLayer layer1 = new TiledMapTileLayer(width, height, 32, 32);
 
-        TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v1.jpg"))));
-        TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v1.jpg"))));
+        TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v2.jpg"))));
+        TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v2.jpg"))));
+        TextureRegion angle = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("angle_v2.jpg"))));
+
+
 
         for (int i = 0; i < width; i++) {
             for (int k = 0; k < height; k++) {
@@ -73,6 +76,9 @@ public class TerrainRenderer {
                 } else {
                     staticTiledMapTile = new StaticTiledMapTile(eau);
                 }
+
+
+
 
                 cell.setTile(staticTiledMapTile);
                 layer1.setCell(i, k, cell);

@@ -30,7 +30,7 @@ public class MyGdxGame extends ApplicationAdapter {
     public void create() {
 
         // Nos parametres de génération de map pour le test
-        PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(1000), 1);
+        PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(10000), 1);
 
         // On créer notre générateur de terrain
         TerrainGenerator generator = new TerrainGenerator(perlinParams);
@@ -57,7 +57,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         viewport = new FitViewport(800, 480, camera);
 
-
+        
         camera.position.x = mapWidthInPixels * .5f;
         camera.position.y = mapHeightInPixels * .35f;
         camera.zoom = 16f;
