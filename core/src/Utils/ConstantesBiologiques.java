@@ -68,8 +68,8 @@ public class ConstantesBiologiques {
     public static double isolationMin = 1;
 
     /*Vision*/
-    public static double densiteDistVision = 5000;
-    public static double densiteChampVision = 3000;
+    public static double densiteDistVision = 50000000;
+    public static double densiteChampVision = 30000000;
 
     /*Creature*/
     public static double tempInterneMax = 43;

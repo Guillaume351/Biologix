@@ -1,7 +1,6 @@
 package Entites.Ressources;
 
 import Entites.Creatures.Creature;
-import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
@@ -11,7 +10,6 @@ import java.util.Random;
 
 public class Viande extends Ressource {
     double tauxDePourriture; // définit si une viande est pourrie. tauxdePourriture + getquantiteEnergie = EnergieMaxStockable
-    MeteoMap meteo;
 
     @Override
     public double getQuantiteEnergie() {
@@ -91,7 +89,7 @@ public class Viande extends Ressource {
      */
     public void update(double dt) {
 
-        double temperature = meteo.getTemp(getPosition().x, getPosition().y, terrain);
+        double temperature = this.terrain.getMeteo().getTemp().getTemp(getPosition().x, getPosition().y, terrain);
 
         double vitesse = getVitessePourriture(temperature);
         ajouterPourriture(vitesse * dt);

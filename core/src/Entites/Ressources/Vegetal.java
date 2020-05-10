@@ -1,6 +1,5 @@
 package Entites.Ressources;
 
-import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
@@ -15,7 +14,6 @@ public class Vegetal extends Ressource {
     private double temperatureIdeale;
     private double energieMaxStockable; // l'énergie maximale stockable par la plante
     private double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
-    MeteoMap meteo;
 
     @Override
     public double getQuantiteEnergie() {
@@ -85,7 +83,7 @@ public class Vegetal extends Ressource {
      * @param dt
      */
     public void update(double dt) {
-        double temperature = meteo.getTemp(getPosition().x, getPosition().y, terrain);
+        double temperature = this.terrain.getMeteo().getTemp().getTemp(getPosition().x, getPosition().y, terrain);
         setQuantiteEnergie(Math.max(0, getQuantiteEnergie() + getCroissance(temperature) * dt));
     }
 
