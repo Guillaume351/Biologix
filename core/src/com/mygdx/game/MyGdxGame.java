@@ -1,14 +1,18 @@
 package com.mygdx.game;
 
+import Entites.Creatures.Creature;
+import Entites.Creatures.CreatureRenderer;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Utils.Perlin.PerlinParams;
 import Utils.TerrainRenderer;
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -25,6 +29,8 @@ public class MyGdxGame extends ApplicationAdapter {
     TiledMap map;
     MapRenderer mapRenderer;
     private OrthographicCamera camera;
+
+    CreatureRenderer testCreature;
 
     @Override
     public void create() {
@@ -64,6 +70,10 @@ public class MyGdxGame extends ApplicationAdapter {
         mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1f);
         mapRenderer.setView(camera);
 
+        // Test créature
+        batch = new SpriteBatch();
+        testCreature = new CreatureRenderer(new Creature(new Random(), this.gameWorld), batch);
+
 
     }
 
@@ -95,6 +105,10 @@ public class MyGdxGame extends ApplicationAdapter {
         camera.update();
         this.mapRenderer.setView(camera);
         this.mapRenderer.render();
+
+        // Affichage créature
+        batch.setProjectionMatrix(camera.combined);
+        testCreature.renduCreature();
     }
 
     @Override

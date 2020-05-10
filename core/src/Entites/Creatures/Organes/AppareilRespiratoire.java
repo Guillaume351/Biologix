@@ -1,5 +1,6 @@
 package Entites.Creatures.Organes;
 
+import Entites.Creatures.Creature;
 import Entites.Creatures.Organe;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
@@ -23,7 +24,7 @@ public class AppareilRespiratoire extends Organe {
 
     public AppareilRespiratoire(AppareilRespiratoire arMere, AppareilRespiratoire arPere, Random r, double mutation){
         super(arMere, arPere, r, mutation);
-        AppareilRespiratoire apAlea = new AppareilRespiratoire(r);
+        //AppareilRespiratoire apAlea = new AppareilRespiratoire(r);
         // TODO : à terminer
     }
 
@@ -33,7 +34,8 @@ public class AppareilRespiratoire extends Organe {
     }
 
     public double getQuantiteOxygeneMax(){
-        return this.getMasse(this.getCreatureHote().getAge()) * this.densiteOxygene;
+        //return this.getMasse(this.getCreatureHote().getAge()) * this.densiteOxygene;
+        return this.getMasse(0) * this.densiteOxygene;
     }
 
     public boolean perteOxygene(double dt){

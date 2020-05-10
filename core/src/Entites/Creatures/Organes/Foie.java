@@ -33,7 +33,9 @@ public class Foie extends Organe {
     }
 
     public double getPointsDeVieMax() {
-        return this.getMasse(this.getCreatureHote().getAge()) * this.densiteDePv;
+
+        //return this.getMasse(this.getCreatureHote().getAge()) * this.densiteDePv;
+        return this.getMasse(0) * this.densiteDePv;
     }
 
     public double getCapaciteDeSoin(){
