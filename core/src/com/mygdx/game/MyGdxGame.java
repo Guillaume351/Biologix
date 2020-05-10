@@ -73,7 +73,7 @@ public class MyGdxGame extends ApplicationAdapter {
         mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1f);
         mapRenderer.setView(camera);
 
-        // Test créature
+        // Test créature & ressource
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
         creatureRenderer = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
