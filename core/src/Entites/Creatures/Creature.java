@@ -15,9 +15,7 @@ import Utils.Position.Localisable;
 import Utils.Position.Localisateur;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Creature extends Entite {
 
@@ -348,7 +346,8 @@ public class Creature extends Entite {
     public double update_manger(OutputsCerveau sortieCerveau){
         // Manger
         double coeffVoracite = sortieCerveau.getCoeffVoracite();
-        List<Localisable> ressourcesAccessibles = (List) (Localisateur.getPlusProcheQue(this.getPosition(), this.perception.getRessourcessVisibles(), ConstantesBiologiques.rayonInteraction)).values();
+        Collection<Localisable> ressourcesAccessiblesMap = (Localisateur.getPlusProcheQue(this.getPosition(), this.perception.getRessourcessVisibles(), ConstantesBiologiques.rayonInteraction)).values();
+        ArrayList<Localisable> ressourcesAccessibles = new ArrayList<Localisable>(ressourcesAccessiblesMap);
         double energieGagneeManger = this.bouche.manger(ressourcesAccessibles, coeffVoracite);
         return energieGagneeManger;
     }
