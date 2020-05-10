@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
 
+import static Environnement.Terrain.TerrainRenderer.TILE_SIZE;
 import static com.badlogic.gdx.Gdx.input;
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -53,9 +54,9 @@ public class MyGdxGame extends ApplicationAdapter {
         // On récupère le terrain convertit en TileSet
         this.map = renderTerrain.getMap();
 
-        // Les infos concernant notre tile. TODO : utiliser les infos de TerrainRenderer
-        int mapWidthInTiles = 32;
-        int mapHeightInTiles = 32;
+        // Les infos concernant notre tile.
+        int mapWidthInTiles = TILE_SIZE;
+        int mapHeightInTiles = TILE_SIZE;
         int mapWidthInPixels = mapWidthInTiles * renderTerrain.getTaille();
         int mapHeightInPixels = mapHeightInTiles * renderTerrain.getTaille();
 
