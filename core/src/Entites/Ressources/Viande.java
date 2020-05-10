@@ -65,7 +65,7 @@ public class Viande extends Ressource {
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
-        return this.tauxDePourriture >= ConstantesBiologiques.energieMaxStockableViande/2;        //valeur à discuter
+        return this.tauxDePourriture > ConstantesBiologiques.energieMaxStockableViande/2;        //valeur à discuter
     }
 
     /**
