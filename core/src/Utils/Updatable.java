@@ -8,5 +8,5 @@ public interface Updatable {
      *
      * @param delta_t : Le temps écoulé
      */
-    void update(int delta_t);
+    void update(double delta_t);
 }

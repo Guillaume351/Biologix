@@ -456,7 +456,7 @@ public class Creature extends Entite {
 
 
     @Override
-    public void update(int delta_t) {
-        //TODO
+    public void update(double delta_t) {
+
     }
 }

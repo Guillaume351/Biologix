@@ -7,17 +7,15 @@ import Environnement.Terrain.TerrainGenerator;
 import Utils.Perlin.PerlinParams;
 import Utils.TerrainRenderer;
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
@@ -39,10 +37,10 @@ public class MyGdxGame extends ApplicationAdapter {
         PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(10000), 1);
 
         // On créer notre générateur de terrain
-        TerrainGenerator generator = new TerrainGenerator(perlinParams);
+        TerrainGenerator generator = new TerrainGenerator(perlinParams, 100);
 
         // On génère le terrain
-        this.gameWorld = generator.generateTerrain();
+        this.gameWorld = generator.getGeneratedTerrain();
 
         // On créer notre outil de rendu de terrain
         TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld, 300, 300);
@@ -61,7 +59,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // Les paramètres de notre caméras. TODO : faire davantage de tests pour obtenir une vue plus éloignée
         camera = new OrthographicCamera(800.f, 480.f);
 
-        viewport = new FitViewport(800, 480, camera);
+        viewport = new FillViewport(800, 480, camera);
 
         
         camera.position.x = mapWidthInPixels * .5f;
@@ -73,9 +71,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // Test créature
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        testCreature = new CreatureRenderer(generator.creaturesPopulate(this.gameWorld), batch);
-        //System.out.println(testCreature.creatureHote.getPosition().x);
-
+        testCreature = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
 
     }
 
@@ -97,7 +93,7 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-            camera.zoom += (Gdx.input.getDeltaX() + Gdx.input.getDeltaY()) / 8;
+            camera.zoom += (Gdx.input.getDeltaX() + Gdx.input.getDeltaY()) / 8.0;
 
             // On impose un max et un min au zoom
             camera.zoom = Math.min(camera.zoom, 20);
@@ -111,6 +107,9 @@ public class MyGdxGame extends ApplicationAdapter {
         // Affichage créature
         batch.setProjectionMatrix(camera.combined);
         testCreature.renduCreature();
+        for (Creature c : testCreature.creatures) {
+            c.update(0.05);
+        }
     }
 
     @Override

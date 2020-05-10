@@ -1,10 +1,12 @@
 package Environnement.Terrain;
 
+import Entites.Creatures.Creature;
 import Entites.Entite;
 import Environnement.Meteo.Meteo;
 import Utils.Updatable;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -41,14 +43,35 @@ public class Terrain implements Updatable {
 
     /**
      * Obtenir la liste des entitées presente sur le terrain.
+     *
      * @return la liste des entités
      */
     public List<Entite> getEntites() {
         return entites;
     }
 
+
+    /**
+     * Obtenir la liste des créatures presente sur le terrain.
+     *
+     * @return la liste des créatures
+     */
+    public ArrayList<Creature> getCreatures() {
+        ArrayList<Creature> creatures = new ArrayList<Creature>();
+
+        for (Entite e : this.getEntites()) {
+            if (e instanceof Creature) {
+                creatures.add((Creature) e);
+            }
+        }
+
+        return creatures;
+    }
+
+
     /**
      * Modifier les entités presentes sur le terrain.
+     *
      * @param entites nouvelles entitées
      */
     public void setEntites(List<Entite> entites) {
@@ -109,7 +132,7 @@ public class Terrain implements Updatable {
     }
 
     @Override
-    public void update(int delta_t) {
+    public void update(double delta_t) {
         //TODO
     }
 }
