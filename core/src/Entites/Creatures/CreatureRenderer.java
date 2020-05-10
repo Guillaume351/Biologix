@@ -25,7 +25,7 @@ public class CreatureRenderer {
     }
 
     public void dessinerCreature(){
-        spriteBatchCreature.draw(textureCreature, this.creatureHote.getPosition().x, this.creatureHote.getPosition().y, 100, 100);
+        spriteBatchCreature.draw(textureCreature, 32 * this.creatureHote.getPosition().x, 32 * this.creatureHote.getPosition().y, 500, 500);
     }
 
 }
