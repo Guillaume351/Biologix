@@ -7,11 +7,12 @@ import com.badlogic.gdx.math.Vector2;
 import java.awt.*;
 import java.util.Random;
 
-public class Fruit extends Vegetal {
+public class Fruit extends Ressource {
     boolean estEmpoisonne; //les fruits peuvent être empoisonnées
     Color couleur;
     boolean estDansArbre;
     double dureeDeVie = ConstantesBiologiques.dureeDeVieFruit;
+    double tempsDepuisChute;
 
     /**
      * Constructeur d'un fruit
@@ -19,18 +20,30 @@ public class Fruit extends Vegetal {
      * @param
      */
     public Fruit(Random r, Color couleur, boolean estEmpoisonne, Terrain terrain, boolean estDansArbre) {
-        super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())), r, terrain);
+        //TODO
+        super(new Vector2(0, 0));
         this.estEmpoisonne = estEmpoisonne;
         this.couleur = couleur;
         this.estDansArbre = estDansArbre;
+        tempsDepuisChute = 0;
     }
 
     boolean estEmpoisonne() {
         return estEmpoisonne;
     }
 
-    public void evolutionFruit(double dt) {
-            setEnergieVegetal(this.getEnergeVegetal() - this.getEnergeVegetal()*dt);       // ??? pas trop sûre de moi
+    public void update(double dt) {
+        if (!estDansArbre) {
+            tempsDepuisChute += dt;
+        }
+        if (tempsDepuisChute >= dureeDeVie) {
+            //Creer un arbre
+        }
     }
 
+    //TODO get type ressource
+    @Override
+    public String getTypeRessource() {
+        return null;
+    }
 }

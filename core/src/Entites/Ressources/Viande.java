@@ -1,5 +1,6 @@
 package Entites.Ressources;
 
+import Entites.Creatures.Creature;
 import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
@@ -9,7 +10,6 @@ import java.util.Random;
 
 
 public class Viande extends Ressource {
-
     double tauxDePourriture; // définit si une viande est pourrie. tauxdePourriture + getquantiteEnergie = EnergieMaxStockable
     MeteoMap meteo;
 
@@ -28,12 +28,11 @@ public class Viande extends Ressource {
         this.quantiteEnergie = quantiteEnergie;
     }
 
-    /**
-     * La viande perd de l'énergie dans le temps
-     * @param retrait
-     */
-    void retirerEnergie(double retrait) {
-        this.quantiteEnergie = quantiteEnergie - retrait;
+    public Viande(Random r, Creature victime) {
+        super(victime.getPosition());
+        this.terrain = victime.getTerrain();
+        this.tauxDePourriture = 0;
+        this.quantiteEnergie = victime.getValeurViande();
     }
 
     /**
@@ -43,10 +42,25 @@ public class Viande extends Ressource {
      */
     public Viande(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
-        this.quantiteEnergie = ConstantesBiologiques.energieMaxStockableViande *r.nextDouble();
+        this.quantiteEnergie = ConstantesBiologiques.energieMaxStockableViande * r.nextDouble();
         this.tauxDePourriture = 0; //pas pourrie au début
         this.terrain = terrain;
     }
+
+    /**
+     * La viande perd de l'énergie dans le temps
+     * @param retrait
+     */
+    boolean retirerEnergie(double retrait) {
+        if (retrait < quantiteEnergie) {
+            this.quantiteEnergie = quantiteEnergie - retrait;
+            return true;
+        } else {
+            this.quantiteEnergie = 0;
+            return false;
+        }
+    }
+
 
     void setTauxDePourriture(double tauxDePourriture) {
         this.tauxDePourriture = tauxDePourriture;
@@ -65,32 +79,23 @@ public class Viande extends Ressource {
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
-        return this.tauxDePourriture > ConstantesBiologiques.energieMaxStockableViande/2;        //valeur à discuter
+        return this.tauxDePourriture > getQuantiteEnergie();
+    }
+
+    public double getVitessePourriture(double temperature) {
+        return ConstantesBiologiques.vitessePourritureMax * Math.exp(-ConstantesBiologiques.stabilitePourriture / temperature);
     }
 
     /**
      * La viande pourrit dans le temps... son énergie se transforme en pourriture
      */
-    void evoluer(double dt) {
-        double pourriture = 0.1;
-        double coefficient;
+    public void update(double dt) {
+
         double temperature = meteo.getTemp(getPosition().x, getPosition().y);
 
-        //on set le coefficient en fonction de la température extérieure
-        if (temperature < ConstantesBiologiques.tempExterieureIntermediaire && temperature > ConstantesBiologiques.tempExterieureMin) {
-            coefficient = ConstantesBiologiques.coefficientMoyen;
-        } else if (temperature > ConstantesBiologiques.tempExterieureIntermediaire) {
-            coefficient = ConstantesBiologiques.coefficientFort;
-        } else {
-            coefficient = ConstantesBiologiques.coefficientFaible;//trop froid
-        }
-
-        ajouterPourriture(coefficient * pourriture * dt);
-        retirerEnergie(coefficient * pourriture * dt);
+        double vitesse = getVitessePourriture(temperature);
+        ajouterPourriture(vitesse * dt);
+        retirerEnergie(vitesse * dt);
     }
 
-    @Override
-    public void update(double delta_t) {
-        //TODO
-    }
 }
