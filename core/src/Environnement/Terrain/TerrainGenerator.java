@@ -67,7 +67,7 @@ public class TerrainGenerator {
      * @return : Une liste de ressources initiale
      */
     public ArrayList<Ressource> resourcePopulate() {
-            return null;
+        return null;
     }
 
     /**
@@ -75,9 +75,9 @@ public class TerrainGenerator {
      *
      * @return : Une liste de créatures initiale
      */
-    public ArrayList<Creature> creaturesPopulate(Terrain terrain) {
+    public ArrayList<Creature> creaturesPopulate(Terrain terrain, int nombreCreatures) {
         ArrayList<Creature> testCreatures = new ArrayList<Creature>();
-        for (int i = 0; i<10; i++){
+        for (int i = 0; i < nombreCreatures; i++) {
             testCreatures.add(new Creature(new Random(), terrain));
         }
         return testCreatures;
