@@ -1,5 +1,6 @@
 package com.mygdx.game;
 
+import Entites.Creatures.Creature;
 import Entites.Creatures.CreatureRenderer;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
@@ -71,6 +72,7 @@ public class MyGdxGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
         testCreature = new CreatureRenderer(generator.creaturesPopulate(this.gameWorld, 100), batch);
+
         //System.out.println(testCreature.creatureHote.getPosition().x);
 
 
@@ -108,6 +110,9 @@ public class MyGdxGame extends ApplicationAdapter {
         // Affichage créature
         batch.setProjectionMatrix(camera.combined);
         testCreature.renduCreature();
+        for (Creature c : testCreature.creatures) {
+            c.update(0.05);
+        }
     }
 
     @Override

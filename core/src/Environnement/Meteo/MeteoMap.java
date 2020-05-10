@@ -26,7 +26,7 @@ public class MeteoMap implements Updatable {
 
 
     @Override
-    public void update(int delta_t) {
+    public void update(double delta_t) {
         temps += delta_t;
     }
 }

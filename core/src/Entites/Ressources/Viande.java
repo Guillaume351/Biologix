@@ -89,7 +89,7 @@ public class Viande extends Ressource {
     }
 
     @Override
-    public void update(int delta_t) {
+    public void update(double delta_t) {
         //TODO
     }
 }

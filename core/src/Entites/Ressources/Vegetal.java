@@ -5,8 +5,6 @@ import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
-
 public class Vegetal extends Ressource {
 
     private double energieMaxStockable; // l'énergie maximale stockable par la plante
@@ -119,7 +117,7 @@ public class Vegetal extends Ressource {
     }
 
     @Override
-    public void update(int delta_t) {
+    public void update(double delta_t) {
         //TODO
     }
 }
