@@ -2,6 +2,7 @@ package Environnement.Terrain;
 
 import Entites.Creatures.Creature;
 import Entites.Entite;
+import Entites.Ressources.Ressource;
 import Environnement.Meteo.Meteo;
 import Utils.Updatable;
 import com.badlogic.gdx.math.Vector2;
@@ -68,6 +69,23 @@ public class Terrain implements Updatable {
         return creatures;
     }
 
+
+    /**
+     * Obtenir la liste des ressources presente sur le terrain.
+     *
+     * @return la liste des ressources
+     */
+    public ArrayList<Ressource> getRessources() {
+        ArrayList<Ressource> ressources = new ArrayList<Ressource>();
+
+        for (Entite e : this.getEntites()) {
+            if (e instanceof Ressource) {
+                ressources.add((Ressource) e);
+            }
+        }
+
+        return ressources;
+    }
 
     /**
      * Modifier les entités presentes sur le terrain.

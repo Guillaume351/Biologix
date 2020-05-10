@@ -2,7 +2,6 @@ package com.mygdx.game;
 
 import Entites.Creatures.Creature;
 import Entites.Creatures.CreatureRenderer;
-import Entites.Ressources.Ressource;
 import Entites.Ressources.RessourceRenderer;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
@@ -32,7 +31,7 @@ public class MyGdxGame extends ApplicationAdapter {
     MapRenderer mapRenderer;
     private OrthographicCamera camera;
 
-    CreatureRenderer testCreature;
+    CreatureRenderer creatureRenderer;
     RessourceRenderer ressourceRenderer;
 
     @Override
@@ -76,8 +75,8 @@ public class MyGdxGame extends ApplicationAdapter {
         // Test créature
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        testCreature = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
-
+        creatureRenderer = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
+        ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessources(), batch);
 
         input.setInputProcessor(new CustomInputProcessor(camera));
 
@@ -101,15 +100,15 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
 
-
         camera.update();
         this.mapRenderer.setView(camera);
         this.mapRenderer.render();
 
         // Affichage créature
         batch.setProjectionMatrix(camera.combined);
-        testCreature.renduCreature();
-        for (Creature c : testCreature.creatures) {
+        creatureRenderer.renduCreature();
+        this.ressourceRenderer.renduRessource();
+        for (Creature c : creatureRenderer.creatures) {
             c.update(0.05);
         }
     }
