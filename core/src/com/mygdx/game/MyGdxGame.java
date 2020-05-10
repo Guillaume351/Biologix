@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
@@ -59,7 +59,7 @@ public class MyGdxGame extends ApplicationAdapter {
         // Les paramètres de notre caméras. TODO : faire davantage de tests pour obtenir une vue plus éloignée
         camera = new OrthographicCamera(800.f, 480.f);
 
-        viewport = new FitViewport(800, 480, camera);
+        viewport = new FillViewport(800, 480, camera);
 
         
         camera.position.x = mapWidthInPixels * .5f;
