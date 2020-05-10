@@ -91,6 +91,8 @@ public class ConstantesBiologiques {
     public static double forcePoisonIntermediaire;
     public static double dureeDeVieFruit;
 
+    /*viande*/
+    public static double energieMaxStockableViande;
 
 
 
