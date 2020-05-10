@@ -20,8 +20,9 @@ public class Fruit extends Ressource {
      * @param
      */
     public Fruit(Random r, Color couleur, boolean estEmpoisonne, Terrain terrain, boolean estDansArbre) {
-        //TODO
-        super(new Vector2(0, 0));
+        super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
+        this.quantiteEnergie = ConstantesBiologiques.energieMaxStockable * r.nextDouble();
+        this.terrain = terrain;
         this.estEmpoisonne = estEmpoisonne;
         this.couleur = couleur;
         this.estDansArbre = estDansArbre;
@@ -41,9 +42,8 @@ public class Fruit extends Ressource {
         }
     }
 
-    //TODO get type ressource
     @Override
     public String getTypeRessource() {
-        return null;
+        return "fruit";
     }
 }
