@@ -19,6 +19,8 @@ public abstract class Ressource extends Entite {
         return quantiteEnergie;
     }
 
+    public Terrain getTerrain(){ return this.terrain;}
+
     // Savoir si la ressource est une viande, un végétal ou un fruit
     public abstract String getTypeRessource();
 
