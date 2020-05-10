@@ -5,8 +5,8 @@ import Entites.Creatures.CreatureRenderer;
 import Entites.Ressources.RessourceRenderer;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
+import Environnement.Terrain.TerrainRenderer;
 import Utils.Perlin.PerlinParams;
-import Utils.TerrainRenderer;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -47,7 +47,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.gameWorld = generator.getGeneratedTerrain();
 
         // On créer notre outil de rendu de terrain
-        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld, 300, 300);
+        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld, 300);
         this.camera = new OrthographicCamera();
 
         // On récupère le terrain convertit en TileSet
@@ -56,8 +56,8 @@ public class MyGdxGame extends ApplicationAdapter {
         // Les infos concernant notre tile. TODO : utiliser les infos de TerrainRenderer
         int mapWidthInTiles = 32;
         int mapHeightInTiles = 32;
-        int mapWidthInPixels = mapWidthInTiles * renderTerrain.getWidth();
-        int mapHeightInPixels = mapHeightInTiles * renderTerrain.getHeight();
+        int mapWidthInPixels = mapWidthInTiles * renderTerrain.getTaille();
+        int mapHeightInPixels = mapHeightInTiles * renderTerrain.getTaille();
 
 
         // Les paramètres de notre caméras. TODO : faire davantage de tests pour obtenir une vue plus éloignée

@@ -19,12 +19,19 @@ public class Terrain implements Updatable {
     private double pourcentageEau;
 
 
-    public Terrain(Meteo meteo, List<Entite> entites, AltitudeMap altitudes, double gravite, double pourcentageEau) {
+    /**
+     * Taille du terrain. Correspond au nombre de tile (tileset carré)
+     */
+    private int taille;
+
+
+    public Terrain(Meteo meteo, List<Entite> entites, AltitudeMap altitudes, double gravite, double pourcentageEau, int taille) {
         this.meteo = meteo;
         this.entites = entites;
         this.altitudes = altitudes;
         this.gravite = gravite;
         this.pourcentageEau = pourcentageEau;
+        this.taille = taille;
     }
 
     /**
@@ -85,6 +92,15 @@ public class Terrain implements Updatable {
         }
 
         return ressources;
+    }
+
+    /**
+     * Récupérer la taille de terrain
+     *
+     * @return La taille du terrain, en nombre de tile par côté
+     */
+    public int getTaille() {
+        return taille;
     }
 
     /**

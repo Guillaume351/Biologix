@@ -30,7 +30,7 @@ public class TerrainGenerator {
 
     public TerrainGenerator(PerlinParams perlinParams, int nombreCreaturesInitial) {
         this.perlinParams = perlinParams;
-        this.generatedTerrain = this.generateTerrain();
+        this.generatedTerrain = this.generateTerrain(300); //TODO : remplacer le 300
         this.generatedTerrain.getEntites().addAll(creaturesPopulate(nombreCreaturesInitial));
         //TODO : remplacer 20 par un param
         this.generatedTerrain.getEntites().addAll(resourcePopulate(20));
@@ -45,7 +45,7 @@ public class TerrainGenerator {
      *
      * @return Le terrain généré
      */
-    private Terrain generateTerrain() {
+    private Terrain generateTerrain(int taille) {
         //TODO : Séparer dans des méthodes avec des paramètres changeable pour rendre la génération modifiable
         Meteo meteo = this.initMeteo();
 
@@ -61,7 +61,7 @@ public class TerrainGenerator {
 
         //TODO entites.addAll(creaturesPopulate());
 
-        return new Terrain(meteo, entites, altitudeMap, 9.81, 0.4);
+        return new Terrain(meteo, entites, altitudeMap, 9.81, 0.4, taille);
     }
 
     /**
