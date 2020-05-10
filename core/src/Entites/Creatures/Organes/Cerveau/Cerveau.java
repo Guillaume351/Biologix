@@ -62,7 +62,8 @@ public class Cerveau {
         Vector2 Vdanger = entrees.getVecteurDanger();
         retour.setVolonteAttaque(agressivite * normer(Vdanger.len() + gloutonerie * VtailleRelative.len()));
         retour.setVolonteDefense(peur * normer(Vdanger.len()));
-        Vector2 Vnid = positionNid.sub(creatureHote.getPosition());
+        Vector2 Vnid = new Vector2(positionNid);
+        Vnid.sub(creatureHote.getPosition());
 
         float sgn;
         if (creatureHote.getSexe().getEnceinte()) {

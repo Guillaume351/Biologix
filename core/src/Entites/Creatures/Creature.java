@@ -433,6 +433,7 @@ public class Creature extends Entite {
 
     public void update(InputsCerveau entrees, double dt) {
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
+
         /* Créature la plus proche */
         List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
         Creature creatureLaPlusProche = null;
