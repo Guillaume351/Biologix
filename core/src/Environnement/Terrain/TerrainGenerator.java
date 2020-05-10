@@ -9,6 +9,7 @@ import Utils.Perlin.PerlinParams;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Génére un terrain et une population de créatures et ressources
@@ -37,7 +38,7 @@ public class TerrainGenerator {
 
         // On génère et ajoute les populations au terra
         ArrayList<Ressource> ressources = resourcePopulate();
-        ArrayList<Creature> creatures = creaturesPopulate();
+        //ArrayList<Creature> creatures = creaturesPopulate();
 
         List<Entite> entites = new ArrayList<>();
         //TODO entites.addAll(ressources);
@@ -74,7 +75,11 @@ public class TerrainGenerator {
      *
      * @return : Une liste de créatures initiale
      */
-    public ArrayList<Creature> creaturesPopulate() {
-        return null;
+    public ArrayList<Creature> creaturesPopulate(Terrain terrain) {
+        ArrayList<Creature> testCreatures = new ArrayList<Creature>();
+        for (int i = 0; i<10; i++){
+            testCreatures.add(new Creature(new Random(), terrain));
+        }
+        return testCreatures;
     }
 }

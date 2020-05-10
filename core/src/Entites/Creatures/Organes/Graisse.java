@@ -94,7 +94,8 @@ public class Graisse extends OrganeThermique {
      * @return Quantite max d'energie pouvant etre stockee dans cet organe
      */
     public double getEnergieMaxStockable() {
-        return getTailleMaxActuel(this.getCreatureHote().getAge()) * efficaciteEnergetique;
+        //return getTailleMaxActuel(this.getCreatureHote().getAge()) * efficaciteEnergetique;
+        return getTailleMaxActuel(0) * efficaciteEnergetique;
     }
 
     /**

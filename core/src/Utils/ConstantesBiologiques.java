@@ -76,8 +76,8 @@ public class ConstantesBiologiques {
     public static double tempInterneMin;
 
     /*POSITION*/
-    public static double XMAX;
-    public static double YMAX;
+    public static double XMAX = 300;
+    public static double YMAX = 300;
 
     /*RESSOURCES*/
     public static double tempExterieureMin;
