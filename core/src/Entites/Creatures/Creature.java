@@ -229,6 +229,10 @@ public class Creature extends Entite {
         return result;
     }
 
+
+    public double getValeurViande() {
+        return 0;
+    }
     public Vector2 getOrientation() {
         return orientation;
     }

@@ -1,12 +1,10 @@
 package Entites.Ressources;
 
-import Entites.Creatures.Creature;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class Arbre extends Vegetal {
@@ -40,10 +38,10 @@ public class Arbre extends Vegetal {
 
     double getTailleMax() {return this.tailleMax;}
 
-    void grandir(double hauteur, double dt) {
-        grandir(dt);
-        if (getTaille() + hauteur < getTailleMax() ) {
-            this.taille += hauteur*dt;
+    void grandir(double croissance, double dt) {
+        update(dt);
+        if (getTaille() + croissance * dt < getTailleMax()) {
+            this.taille += croissance * dt;
         } else { setTaille(this.tailleMax*dt); }
     }
 
