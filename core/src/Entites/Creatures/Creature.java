@@ -420,7 +420,11 @@ public class Creature extends Entite {
 
         /* Créature la plus proche */
         List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
-        Creature creatureLaPlusProche = (Creature) (Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1)).get(0);
+        Creature creatureLaPlusProche = null;
+        List<Localisable> creaProximite = Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1);
+        if (creaProximite.size() != 0) {
+            creatureLaPlusProche = (Creature) creaProximite.get(0);
+        }
 
         update_age(dt);
 
