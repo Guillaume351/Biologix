@@ -2,16 +2,18 @@ package Environnement.Terrain;
 
 import Entites.Creatures.Creature;
 import Entites.Entite;
-import Entites.Ressources.*;
+import Entites.Ressources.Arbre;
+import Entites.Ressources.Fruit;
+import Entites.Ressources.Ressource;
+import Entites.Ressources.Viande;
 import Environnement.Meteo.Meteo;
 import Environnement.Meteo.MeteoMap;
 import Utils.Perlin.PerlinParams;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import java.awt.*;
 
 /**
  * Génére un terrain et une population de créatures et ressources
@@ -56,11 +58,6 @@ public class TerrainGenerator {
         //ArrayList<Creature> creatures = creaturesPopulate();
 
         List<Entite> entites = new ArrayList<>();
-        //TODO entites.addAll(ressources);
-        //TODO entites.addAll(creatures);
-
-
-        //TODO entites.addAll(creaturesPopulate());
 
         return new Terrain(meteo, entites, altitudeMap, 9.81, 0.4, taille);
     }

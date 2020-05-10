@@ -178,6 +178,7 @@ public class Creature extends Entite {
      * @return Energie dépensée pour le déplacement réalisé
      */
     public double deplacer(double dt) {
+        System.out.println(this.toString() + getPosition());
         //deplace la creature et renvoie l'energie dépensee
         double z0 = this.terrain.getAltitudes().getValeur(getPosition());
         getPosition().add(orientation.scl((float) (dt * vitesse)));
@@ -187,6 +188,7 @@ public class Creature extends Entite {
         double Epot = masse * (z1 - z0) * this.terrain.getGravite();
         //Energie Cinetique
         double Ecin = mouvement.getEnergieDepenseeParUniteMasse(dt, vitesse);
+
         return masse * Math.min(0, Epot + Ecin);
     }
 
@@ -426,9 +428,7 @@ public class Creature extends Entite {
     }
 
     public void update(InputsCerveau entrees, double dt) {
-
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
-
         /* Créature la plus proche */
         List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
         Creature creatureLaPlusProche = null;
@@ -475,6 +475,8 @@ public class Creature extends Entite {
 
     @Override
     public void update(double delta_t) {
+
         update(new InputsCerveau(this), delta_t);
+
     }
 }
