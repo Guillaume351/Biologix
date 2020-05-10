@@ -2,6 +2,7 @@ package Environnement.Terrain;
 
 import Entites.Creatures.Creature;
 import Entites.Entite;
+import Entites.Ressources.*;
 import Environnement.Meteo.Meteo;
 import Utils.Updatable;
 import com.badlogic.gdx.math.Vector2;
@@ -66,6 +67,36 @@ public class Terrain implements Updatable {
         }
 
         return creatures;
+    }
+
+    /**
+     * Obtenir la liste des Ressources presentes sur le terrain.
+     *
+     * @return la liste des viandes
+     */
+    public ArrayList[] getRessource() {
+        ArrayList[] ressources = new ArrayList[3];
+
+        ArrayList<Viande> viande = new ArrayList<Viande>();
+        ArrayList<Fruit> fruit = new ArrayList<Fruit>();
+        ArrayList<Arbre> arbre = new ArrayList<Arbre>();
+
+
+        for (Entite e : this.getEntites()) {
+            if (e instanceof Viande) {
+                viande.add((Viande) e);
+            }
+            if (e instanceof Fruit) {
+                fruit.add((Fruit) e);
+            }
+            if (e instanceof Arbre) {
+                arbre.add((Arbre) e);
+            }
+        }
+        ressources[0].add(viande);
+        ressources[1].add(fruit);
+        ressources[2].add(arbre);
+        return ressources;
     }
 
 

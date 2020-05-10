@@ -28,10 +28,11 @@ public class TerrainGenerator {
      */
     private Terrain generatedTerrain;
 
-    public TerrainGenerator(PerlinParams perlinParams, int nombreCreaturesInitial) {
+    public TerrainGenerator(PerlinParams perlinParams, int nombreCreaturesInitial, int nbViandeInitial) {
         this.perlinParams = perlinParams;
         this.generatedTerrain = this.generateTerrain();
         this.generatedTerrain.getEntites().addAll(creaturesPopulate(nombreCreaturesInitial));
+        this.generatedTerrain.getEntites().addAll(viandePopulate(nbViandeInitial));
     }
 
     public Terrain getGeneratedTerrain() {
@@ -77,17 +78,16 @@ public class TerrainGenerator {
     ArrayList[] tableauRessources = new ArrayList[3];  //3 types de resources différents
 
     /**
-     * Génère une population de ressources initiale pour le terrain
+     * Génère une population de viande initiale pour le terrain
      *
-     * @return : Une liste de ressources initiale
+     * @return : Une liste de viande initiale
      */
-    private ArrayList[] resourcePopulate(int nbViande) {
+    private ArrayList<Viande> viandePopulate(int nbViande) {
         ArrayList<Viande> listeViande = new ArrayList<Viande>();
         for (int i = 0; i<nbViande; i++){
             listeViande.add(new Viande(new Random(), this.generatedTerrain));
         }
-        tableauRessources[0].add(listeViande);
-        return tableauRessources;
+        return listeViande;
     }
     /**
      * Génère une population de créatures initiale pour le terrain

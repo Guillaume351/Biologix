@@ -2,7 +2,7 @@ package com.mygdx.game;
 
 import Entites.Creatures.Creature;
 import Entites.Creatures.CreatureRenderer;
-import Entites.Ressources.Ressource;
+import Entites.Ressources.*;
 import Entites.Ressources.RessourceRenderer;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
@@ -42,7 +42,7 @@ public class MyGdxGame extends ApplicationAdapter {
         PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(10000), 1);
 
         // On créer notre générateur de terrain
-        TerrainGenerator generator = new TerrainGenerator(perlinParams, 100);
+        TerrainGenerator generator = new TerrainGenerator(perlinParams, 100, 50);
 
         // On génère le terrain
         this.gameWorld = generator.getGeneratedTerrain();
@@ -77,6 +77,7 @@ public class MyGdxGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
         testCreature = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
+        ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessource(), batch);
 
 
         input.setInputProcessor(new CustomInputProcessor(camera));
@@ -112,6 +113,11 @@ public class MyGdxGame extends ApplicationAdapter {
         for (Creature c : testCreature.creatures) {
             c.update(0.05);
         }
+        //Afficher Ressources, ici viande
+        ressourceRenderer.renduRessource();
+        //for (Viande v : ressourceRenderer.tableauRessources[0]) {
+         //   v.update(0.05);
+        //}
     }
 
     @Override
