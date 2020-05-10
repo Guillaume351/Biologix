@@ -111,7 +111,7 @@ public class MyGdxGame extends ApplicationAdapter {
         this.ressourceRenderer.renduRessource();
         for (Entite c : gameWorld.getEntites()) {
 
-            c.update(2);
+            c.update(0.1);
         }
     }
 

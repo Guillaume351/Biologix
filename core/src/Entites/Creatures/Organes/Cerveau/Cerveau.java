@@ -54,7 +54,9 @@ public class Cerveau {
      */
     public OutputsCerveau getComportement(InputsCerveau entrees) {
         OutputsCerveau retour = new OutputsCerveau();
-        retour.setChampVision(creatureHote.getPerception().getAdaptationLumiere() * creatureHote.getPerception().getChampVisionOptimal());
+        double adaptationLumiere = creatureHote.getPerception().getAdaptationLumiere();
+        double champdeVisionOptimal = creatureHote.getPerception().getChampVisionOptimal();
+        retour.setChampVision(adaptationLumiere* champdeVisionOptimal);
         retour.setDistanceVision(creatureHote.getPerception().getAdaptationLumiere() * creatureHote.getPerception().getDistanceVisionOptimal());
         Vector2 Vnourriture = entrees.getVecteurNourriture();
         retour.setCoeffVoracite(normer(Vnourriture.len()));
@@ -85,7 +87,11 @@ public class Cerveau {
         );
 
         retour.setVitesse(creatureHote.getMouvement().getVitesseMax(this.creatureHote.getTerrain()) * normer(objectif.len()));
-        retour.setDirection(objectif.nor());
+        if (objectif.len() == 0 ){
+            retour.setDirection(new Vector2(1, 1));
+        } else {
+            retour.setDirection(new Vector2(objectif.nor()));
+        }
 
         return retour;
     }

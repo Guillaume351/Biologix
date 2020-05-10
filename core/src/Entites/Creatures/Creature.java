@@ -180,7 +180,7 @@ public class Creature extends Entite {
     public double deplacer(double dt) {
         //deplace la creature et renvoie l'energie dépensee
         double z0 = this.terrain.getAltitudes().getValeur(getPosition());
-        getPosition().add(orientation.scl((float) (dt * vitesse)));
+        getPosition().add(new Vector2(orientation).scl((float) (dt * vitesse)));
         double z1 = terrain.getAltitudes().getValeur(getPosition());
         //Energie Potentielle
         double masse = getMasse();
@@ -316,7 +316,8 @@ public class Creature extends Entite {
 
     public double update_deplacement(OutputsCerveau sortieCerveau, double dt){
         // Deplacement
-        this.orientation = sortieCerveau.getDirection();
+        this.orientation = new Vector2(sortieCerveau.getDirection());
+        this.vitesse = sortieCerveau.getVitesse();
         double energiePerdueDeplacement = this.deplacer(dt);
         return energiePerdueDeplacement;
     }
