@@ -80,7 +80,13 @@ public class ConstantesBiologiques {
     public static double YMAX = 300;
 
     /*RESSOURCES*/
+    public static double tempExterieureMin;
+    public static double tempExterieureIntermediaire;
+    public static double energieVegetalMax;
     public static double energieMaxStockable;
+    public static double coefficientFaible;
+    public static double coefficientMoyen;
+    public static double coefficientFort;
 
     /*arbre*/
     public static double tailleArbreMin;
@@ -91,7 +97,8 @@ public class ConstantesBiologiques {
     public static double dureeDeVieFruit;
 
     /*viande*/
-    public static double vitessePourritureMax;
-    public static double stabilitePourriture;
     public static double energieMaxStockableViande;
+
+
+
 }
