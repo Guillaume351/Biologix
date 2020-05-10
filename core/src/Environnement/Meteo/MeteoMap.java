@@ -15,6 +15,9 @@ public class MeteoMap implements Updatable {
 
     public MeteoMap(PerlinParams params, double min, double max) {
         //TODO : faire la Heightmap des moyennes
+        this.moyennes = new HeightMap(params, -30, 40);
+        //TODO : modifier les param !!!!
+        this.paramsTemporel = params;
         temps = 0;
     }
 
