@@ -20,6 +20,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Random;
 
+import static com.badlogic.gdx.Gdx.input;
+
 public class MyGdxGame extends ApplicationAdapter {
     Viewport viewport;
     SpriteBatch batch;
@@ -61,7 +63,7 @@ public class MyGdxGame extends ApplicationAdapter {
 
         viewport = new FillViewport(800, 480, camera);
 
-        
+
         camera.position.x = mapWidthInPixels * .5f;
         camera.position.y = mapHeightInPixels * .35f;
         camera.zoom = 16f;
@@ -72,6 +74,9 @@ public class MyGdxGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
         testCreature = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
+
+
+        input.setInputProcessor(new CustomInputProcessor(camera));
 
     }
 
@@ -86,19 +91,13 @@ public class MyGdxGame extends ApplicationAdapter {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // Gestion du déplacement de la caméra. TODO: a déplacer
-        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
+        if (input.isButtonPressed(Input.Buttons.LEFT)) {
 
-            camera.position.x -= Gdx.input.getDeltaX() * camera.zoom;
-            camera.position.y += Gdx.input.getDeltaY() * camera.zoom;
+            camera.position.x -= input.getDeltaX() * camera.zoom;
+            camera.position.y += input.getDeltaY() * camera.zoom;
         }
 
-        if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-            camera.zoom += (Gdx.input.getDeltaX() + Gdx.input.getDeltaY()) / 8.0;
 
-            // On impose un max et un min au zoom
-            camera.zoom = Math.min(camera.zoom, 20);
-            camera.zoom = Math.max(camera.zoom, 1);
-        }
 
         camera.update();
         this.mapRenderer.setView(camera);
