@@ -26,6 +26,13 @@ public class Arbre extends Vegetal {
         this.fruits = new ArrayList<Fruit>();
     }
 
+    public Arbre(Random r, Fruit fruit) {
+        super(fruit.getPosition(), r, fruit.getTerrain());
+        this.taille = ConstantesBiologiques.tailleArbreMin; // au début
+        this.tailleMax = getTailleMax();
+        this.fruits = new ArrayList<Fruit>();
+    }
+
     void setTaille(double taille) {
         this.taille = taille;
     }

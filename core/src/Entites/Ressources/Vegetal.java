@@ -9,7 +9,6 @@ import java.util.Random;
 
 public class Vegetal extends Ressource {
 
-    //TODO Constructeur...
     private double croissanceMax;
     private double ratioDecroissance; //Entre 0 et 1
     private double toleranceTemperature;
@@ -43,6 +42,10 @@ public class Vegetal extends Ressource {
         super(position);
         this.energieMaxStockable = ConstantesBiologiques.energieMaxStockable * r.nextDouble();
         this.energieVegetal = this.energieMaxStockable * r.nextDouble();
+        this.toleranceTemperature = ConstantesBiologiques.toleranceTemperatureVegetal * 2*r.nextDouble();
+        this.temperatureIdeale = ConstantesBiologiques.temperatureIdealeVegetal * 2*r.nextDouble();
+        this.croissanceMax = ConstantesBiologiques.croissanceMaxVegetal;
+        this.ratioDecroissance = r.nextDouble();
 
         this.terrain = terrain;
     }
