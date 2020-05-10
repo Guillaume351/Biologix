@@ -73,9 +73,6 @@ public class MyGdxGame extends ApplicationAdapter {
         batch.setProjectionMatrix(camera.combined);
         testCreature = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
 
-        //System.out.println(testCreature.creatureHote.getPosition().x);
-
-
     }
 
     @Override
@@ -96,7 +93,7 @@ public class MyGdxGame extends ApplicationAdapter {
         }
 
         if (Gdx.input.isButtonPressed(Input.Buttons.MIDDLE)) {
-            camera.zoom += (Gdx.input.getDeltaX() + Gdx.input.getDeltaY()) / 8;
+            camera.zoom += (Gdx.input.getDeltaX() + Gdx.input.getDeltaY()) / 8.0;
 
             // On impose un max et un min au zoom
             camera.zoom = Math.min(camera.zoom, 20);
