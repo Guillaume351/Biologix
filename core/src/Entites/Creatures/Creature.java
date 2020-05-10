@@ -30,6 +30,7 @@ public class Creature extends Entite {
     double temperatureInterne;
 
     Cerveau cerveau;
+    OutputsCerveau OutCerveau;
 
     AppareilRespiratoire appareilRespiratoire;
     Bouche bouche;
@@ -88,6 +89,7 @@ public class Creature extends Entite {
         perception.setCreatureHote(this);
         this.terrain = terrain;
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
+        OutCerveau = null;
     }
 
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
@@ -126,6 +128,7 @@ public class Creature extends Entite {
         perception.setCreatureHote(this);
         this.terrain = mere.getTerrain();
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
+        OutCerveau = null;
     }
 
     public void resetStatistiques_() {
@@ -376,8 +379,8 @@ public class Creature extends Entite {
     public double update_accouchement(){
         // Accouchement
         double energiePerdueAccouchement;
-        double epsilon = Math.abs(this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation);
-        if (this.getSexe().getEnceinte() && epsilon < 10e-11){
+        double epsilon = this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation;
+        if (this.getSexe().getEnceinte() && epsilon > 0) {
             this.getSexe().setEnceinte(false);
             energiePerdueAccouchement = this.getSexe().getDonEnergieEnfant();
             // TODO : ajout de la nouvelle créature sur la map
@@ -457,6 +460,6 @@ public class Creature extends Entite {
 
     @Override
     public void update(double delta_t) {
-
+        update(new InputsCerveau(this), delta_t);
     }
 }
