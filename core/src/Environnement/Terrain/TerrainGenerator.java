@@ -2,8 +2,7 @@ package Environnement.Terrain;
 
 import Entites.Creatures.Creature;
 import Entites.Entite;
-import Entites.Ressources.Ressource;
-import Entites.Ressources.Viande;
+import Entites.Ressources.*;
 import Environnement.Meteo.Meteo;
 import Environnement.Meteo.MeteoMap;
 import Utils.Perlin.PerlinParams;
@@ -11,6 +10,8 @@ import Utils.Perlin.PerlinParams;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import java.awt.*;
 
 /**
  * Génére un terrain et une population de créatures et ressources
@@ -28,12 +29,12 @@ public class TerrainGenerator {
      */
     private Terrain generatedTerrain;
 
-    public TerrainGenerator(PerlinParams perlinParams, int nombreCreaturesInitial) {
+    public TerrainGenerator(PerlinParams perlinParams, int nombreCreaturesInitial, int nbViandeInitial, int nbFruitInitial, int nbArbreInitial) {
         this.perlinParams = perlinParams;
         this.generatedTerrain = this.generateTerrain();
         this.generatedTerrain.getEntites().addAll(creaturesPopulate(nombreCreaturesInitial));
         //TODO : remplacer 20 par un param
-        this.generatedTerrain.getEntites().addAll(resourcePopulate(20));
+        this.generatedTerrain.getEntites().addAll(resourcePopulate(nbViandeInitial, nbFruitInitial, nbArbreInitial));
     }
 
     public Terrain getGeneratedTerrain() {
@@ -83,13 +84,18 @@ public class TerrainGenerator {
      *
      * @return : Une liste de ressources initiale
      */
-    private ArrayList<Ressource> resourcePopulate(int nbViande) {
-        ArrayList<Ressource> listeViande = new ArrayList<Ressource>();
-        //TODO : ajouter les autres types de ressources
+    private ArrayList<Ressource> resourcePopulate(int nbViande, int nbFruit, int nbArbre) {
+        ArrayList<Ressource> listeRessources = new ArrayList<Ressource>();
         for (int i = 0; i < nbViande; i++) {
-            listeViande.add(new Viande(new Random(), this.generatedTerrain));
+            listeRessources.add(new Viande(new Random(), this.generatedTerrain));
         }
-        return listeViande;
+        for (int j = 0; j < nbFruit; j++) {
+            listeRessources.add(new Fruit(new Random(), Color.RED, false, this.generatedTerrain, true));
+        }
+        for (int i = 0; i < nbArbre; i++) {
+            listeRessources.add(new Arbre(new Random(), this.generatedTerrain));
+        }
+        return listeRessources;
     }
 
     /**
