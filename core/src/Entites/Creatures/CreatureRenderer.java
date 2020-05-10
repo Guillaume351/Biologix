@@ -5,14 +5,20 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.ArrayList;
+
 public class CreatureRenderer {
 
     public Creature creatureHote;
+
+    public ArrayList<Creature> creatures;
+
     private SpriteBatch spriteBatchCreature;
     private Texture textureCreature;
 
-    public CreatureRenderer(Creature creatureHote, SpriteBatch batch){
-        this.creatureHote = creatureHote;
+    public CreatureRenderer(ArrayList<Creature> creatures, SpriteBatch batch){
+        this.creatures = creatures;
+        //this.creatureHote = creatureHote;
         this.spriteBatchCreature = batch;
         this.textureCreature = new Texture(Gdx.files.internal("creature1.png"));
     }
@@ -25,7 +31,11 @@ public class CreatureRenderer {
     }
 
     public void dessinerCreature(){
-        spriteBatchCreature.draw(textureCreature, 32 * this.creatureHote.getPosition().x, 32 * this.creatureHote.getPosition().y, 500, 500);
+        //spriteBatchCreature.draw(textureCreature, 32 * this.creatureHote.getPosition().x, 32 * this.creatureHote.getPosition().y, 500, 500);
+
+        for (Creature creat : this.creatures){
+            spriteBatchCreature.draw(textureCreature, 32 * creat.getPosition().x, 32 * creat.getPosition().y, 500, 500);
+        }
     }
 
 }

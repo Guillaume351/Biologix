@@ -73,8 +73,8 @@ public class MyGdxGame extends ApplicationAdapter {
         // Test créature
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
-        testCreature = new CreatureRenderer(new Creature(new Random(), this.gameWorld), batch);
-        System.out.println(testCreature.creatureHote.getPosition().x);
+        testCreature = new CreatureRenderer(generator.creaturesPopulate(this.gameWorld), batch);
+        //System.out.println(testCreature.creatureHote.getPosition().x);
 
 
     }
