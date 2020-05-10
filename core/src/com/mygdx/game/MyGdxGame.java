@@ -77,7 +77,7 @@ public class MyGdxGame extends ApplicationAdapter {
         batch = new SpriteBatch();
         batch.setProjectionMatrix(camera.combined);
         testCreature = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
-        ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessource(), batch);
+        //ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessource(), batch);
 
 
         input.setInputProcessor(new CustomInputProcessor(camera));
@@ -114,7 +114,7 @@ public class MyGdxGame extends ApplicationAdapter {
             c.update(0.05);
         }
         //Afficher Ressources, ici viande
-        ressourceRenderer.renduRessource();
+        //ressourceRenderer.renduRessource();
         //for (Viande v : ressourceRenderer.tableauRessources[0]) {
          //   v.update(0.05);
         //}
