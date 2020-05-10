@@ -326,16 +326,21 @@ public class Creature extends Entite {
         // Combattre
         double energiePerdueDefense;
         double energiePerdueAttaque;
-        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-            boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
-            if (!perteDeVieCombat) {
-                // TODO : faire mourir la créature
+        if (creatureLaPlusProche != null) {
+            if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+                boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+                if (!perteDeVieCombat) {
+                    // TODO : faire mourir la créature
+                }
+                energiePerdueDefense = this.defensif.getEnergieDepenseeDefense();
+                energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque();
+            } else {
+                energiePerdueDefense = 0;
+                energiePerdueAttaque = 0;
             }
-            energiePerdueDefense = this.defensif.getEnergieDepenseeDefense();
-            energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque();
         } else {
-            energiePerdueDefense = 0;
             energiePerdueAttaque = 0;
+            energiePerdueDefense = 0;
         }
         return energiePerdueAttaque + energiePerdueDefense;
     }
@@ -351,21 +356,24 @@ public class Creature extends Entite {
     public double update_reproduction(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau){
         // Se reproduire
         double energiePerdueReproduction;
-        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-            double volonteReproductive = sortieCerveau.getVolonteReproductive();
-            double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
-            Sexe sexeAutre = creatureLaPlusProche.getSexe();
-            boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
-            if (testReproduction) {
-                energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
-                if (this.getSexe().getGenre() == Genre.Femelle) {
-                    this.getSexe().setEnceinte(true);
-                    this.getSexe().setTempsDerniereReproduction(0);
-                    // TODO : quel facteur de mutation appliqué ?
-                    this.embryon = new Creature(this, creatureLaPlusProche, 0.5, new Random());
-                }
-                else if (this.getSexe().getGenre() == Genre.Male){
-                    energiePerdueReproduction += this.getSexe().getDonEnergieEnfant();
+        if (creatureLaPlusProche != null) {
+            if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+                double volonteReproductive = sortieCerveau.getVolonteReproductive();
+                double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
+                Sexe sexeAutre = creatureLaPlusProche.getSexe();
+                boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
+                if (testReproduction) {
+                    energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
+                    if (this.getSexe().getGenre() == Genre.Femelle) {
+                        this.getSexe().setEnceinte(true);
+                        this.getSexe().setTempsDerniereReproduction(0);
+                        // TODO : quel facteur de mutation appliqué ?
+                        this.embryon = new Creature(this, creatureLaPlusProche, 0.5, new Random());
+                    } else if (this.getSexe().getGenre() == Genre.Male) {
+                        energiePerdueReproduction += this.getSexe().getDonEnergieEnfant();
+                    }
+                } else {
+                    energiePerdueReproduction = 0;
                 }
             } else {
                 energiePerdueReproduction = 0;
@@ -393,8 +401,12 @@ public class Creature extends Entite {
     public boolean update_foie(Creature creatureLaPlusProche, double dt) {
         // Mise à jour des points de vie
         this.foie.soin(dt);
-        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-            return this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+        if (creatureLaPlusProche != null) {
+            if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+                return this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+            } else {
+                return true;
+            }
         } else {
             return true;
         }
