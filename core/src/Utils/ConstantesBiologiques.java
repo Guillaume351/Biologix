@@ -100,5 +100,6 @@ public class ConstantesBiologiques {
     public static double energieMaxStockableViande;
 
 
-
+    public static double vitessePourritureMax;
+    public static double stabilitePourriture;
 }
