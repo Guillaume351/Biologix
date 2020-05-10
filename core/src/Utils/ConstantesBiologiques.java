@@ -83,9 +83,14 @@ public class ConstantesBiologiques {
     public static double tempExterieureMin;
     public static double tempExterieureIntermediaire;
     public static double energieVegetalMax;
+    public static double energieMaxStockable;
     public static double coefficientFaible;
     public static double coefficientMoyen;
     public static double coefficientFort;
+
+    /*arbre*/
+    public static double tailleArbreMin;
+    public static double tailleArbreMax;
 
     /*fruit*/
     public static double forcePoisonIntermediaire;

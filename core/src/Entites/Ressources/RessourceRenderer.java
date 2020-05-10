@@ -34,7 +34,7 @@ public class RessourceRenderer {
     }
 
     /**
-     * Dessine les viandes
+     * Dessine les ressources
      */
     public void dessinerViande() {
 
@@ -42,6 +42,12 @@ public class RessourceRenderer {
             //TODO : faire un switch avec les différents types de ressources
             if (ressource instanceof Viande) {
                 spriteBatchCreature.draw(textureViande, 32 * ressource.getPosition().x, 32 * ressource.getPosition().y, 32 * 2, 32 * 2);
+            }
+            if (ressource instanceof Fruit) {
+                spriteBatchCreature.draw(textureFruit, 32 * ressource.getPosition().x, 32 * ressource.getPosition().y, 32 * 2, 32 * 2);
+            }
+            if (ressource instanceof Arbre) {
+                spriteBatchCreature.draw(textureArbre, 32 * ressource.getPosition().x, 32 * ressource.getPosition().y, 32 * 2, 96 * 2);
             }
 
         }

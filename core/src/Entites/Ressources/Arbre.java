@@ -2,10 +2,12 @@ package Entites.Ressources;
 
 import Entites.Creatures.Creature;
 import Environnement.Terrain.Terrain;
+import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Arbre extends Vegetal {
 
@@ -17,14 +19,12 @@ public class Arbre extends Vegetal {
     /**
      * Constructeur de l'arbre
      *
-     * @param energieMaxStockable
-     * @param energieVegetal
-     * @param taille
+     * @param : r, terrain
      */
-    public Arbre(Vector2 position, double energieMaxStockable, double energieVegetal, double taille, Terrain terrain) {
-        super(position, energieMaxStockable, energieVegetal, terrain);
-        this.taille = taille;
-        this.tailleMax = tailleMax;
+    public Arbre(Random r, Terrain terrain) {
+        super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())), r, terrain);
+        this.taille = ConstantesBiologiques.tailleArbreMin; // au début
+        this.tailleMax = getTailleMax();
         this.fruits = new ArrayList<Fruit>();
     }
 
@@ -33,7 +33,7 @@ public class Arbre extends Vegetal {
     }
 
     void setTailleMax(double taille) {
-        this.tailleMax = taille;
+        this.tailleMax = ConstantesBiologiques.tailleArbreMax;
     }
 
     double getTaille() {return this.taille;}

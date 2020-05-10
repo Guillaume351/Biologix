@@ -5,11 +5,12 @@ import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 public class Vegetal extends Ressource {
 
     private double energieMaxStockable; // l'énergie maximale stockable par la plante
     private double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
-    private double energieVegetalMax = ConstantesBiologiques.energieVegetalMax;
     MeteoMap meteo;
 
     @Override
@@ -35,10 +36,10 @@ public class Vegetal extends Ressource {
      * @param energieMaxStockable
      * @param energieVegetal
      */
-    public Vegetal(Vector2 position, double energieMaxStockable, double energieVegetal, Terrain terrain) {
+    public Vegetal(Vector2 position, Random r, Terrain terrain) {
         super(position);
-        this.energieVegetal = energieVegetal;
-        this.energieMaxStockable = energieMaxStockable;
+        this.energieVegetal = ConstantesBiologiques.energieMaxStockable * r.nextDouble();
+        this.energieMaxStockable = ConstantesBiologiques.energieMaxStockable;
         this.terrain = terrain;
     }
 
