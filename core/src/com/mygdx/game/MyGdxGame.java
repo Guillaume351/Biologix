@@ -110,7 +110,7 @@ public class MyGdxGame extends ApplicationAdapter {
         creatureRenderer.renduCreature();
         this.ressourceRenderer.renduRessource();
         for (Entite c : gameWorld.getEntites()) {
-            ;
+
             c.update(0.5);
         }
     }

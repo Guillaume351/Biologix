@@ -29,20 +29,21 @@ public class Cerveau {
         this.amourDuNid = r.nextDouble();
         this.envie_reproductive = r.nextDouble();
         // TODO : il faudra init la position avant le cerveau
-        this.positionNid = creatureHote.getPosition();
+        this.positionNid = new Vector2(creatureHote.getPosition());
     }
 
-    public Cerveau(Creature creatureHote, Cerveau cerveauPere, Cerveau cerveauMere, double mutation, Random r){
+    public Cerveau(Creature creatureHote, Cerveau cerveauPere, Cerveau cerveauMere, double mutation, Random r) {
         this.creatureHote = creatureHote;
-        this.gloutonerie = (cerveauPere.gloutonerie + cerveauMere.gloutonerie + r.nextDouble()*mutation)/(2 + mutation);
-        this.peur = (cerveauPere.peur + cerveauMere.peur + r.nextDouble()*mutation)/(2 + mutation);
-        this.agressivite = (cerveauPere.agressivite + cerveauMere.agressivite + r.nextDouble()*mutation)/(2 + mutation);
-        this.gregarite = (cerveauPere.gregarite + cerveauMere.gregarite + (2*r.nextDouble() - 1)*mutation)/(2 + mutation);
-        this.bravoure = (cerveauPere.bravoure + cerveauMere.bravoure + (2*r.nextDouble() - 1)*mutation)/(2 + mutation);
-        this.prevoyance = (cerveauPere.prevoyance + cerveauMere.prevoyance + r.nextDouble()*mutation)/(2 + mutation);
-        this.amourDuNid = (cerveauPere.amourDuNid + cerveauMere.amourDuNid + r.nextDouble()*mutation)/(2 + mutation);
-        this.envie_reproductive = (cerveauPere.envie_reproductive + cerveauMere.envie_reproductive + r.nextDouble()*mutation)/(2 + mutation);
-        this.positionNid = cerveauMere.positionNid.lerp(cerveauPere.positionNid, r.nextFloat());
+        this.gloutonerie = (cerveauPere.gloutonerie + cerveauMere.gloutonerie + r.nextDouble() * mutation) / (2 + mutation);
+        this.peur = (cerveauPere.peur + cerveauMere.peur + r.nextDouble() * mutation) / (2 + mutation);
+        this.agressivite = (cerveauPere.agressivite + cerveauMere.agressivite + r.nextDouble() * mutation) / (2 + mutation);
+        this.gregarite = (cerveauPere.gregarite + cerveauMere.gregarite + (2 * r.nextDouble() - 1) * mutation) / (2 + mutation);
+        this.bravoure = (cerveauPere.bravoure + cerveauMere.bravoure + (2 * r.nextDouble() - 1) * mutation) / (2 + mutation);
+        this.prevoyance = (cerveauPere.prevoyance + cerveauMere.prevoyance + r.nextDouble() * mutation) / (2 + mutation);
+        this.amourDuNid = (cerveauPere.amourDuNid + cerveauMere.amourDuNid + r.nextDouble() * mutation) / (2 + mutation);
+        this.envie_reproductive = (cerveauPere.envie_reproductive + cerveauMere.envie_reproductive + r.nextDouble() * mutation) / (2 + mutation);
+        this.positionNid = new Vector2(cerveauMere.positionNid);
+        this.positionNid.lerp(cerveauPere.positionNid, r.nextFloat());
     }
 
 
@@ -82,6 +83,7 @@ public class Cerveau {
         ).add(
                 VtailleRelative.scl((float) (gloutonerie * creatureHote.getDigestion().getRegimeAlimentaire()))
         );
+
         retour.setVitesse(creatureHote.getMouvement().getVitesseMax(this.creatureHote.getTerrain()) * normer(objectif.len()));
         retour.setDirection(objectif.nor());
 

@@ -178,7 +178,6 @@ public class Creature extends Entite {
      * @return Energie dépensée pour le déplacement réalisé
      */
     public double deplacer(double dt) {
-        System.out.println(this.toString() + getPosition());
         //deplace la creature et renvoie l'energie dépensee
         double z0 = this.terrain.getAltitudes().getValeur(getPosition());
         getPosition().add(orientation.scl((float) (dt * vitesse)));
