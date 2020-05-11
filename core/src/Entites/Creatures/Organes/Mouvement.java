@@ -32,6 +32,19 @@ public class Mouvement extends Organe {
         }
     }
 
+    public boolean estAquatique() {
+        return (potentielNageoire > 0.5);
+    }
+
+    public boolean estTerrestre() {
+        return potentielNageoire <= 0.5;
+    }
+
+    public boolean estDansMilieuNaturel(Terrain terrain) {
+        boolean dansEau = terrain.estDansEau(this.getCreatureHote());
+        return dansEau && this.estAquatique() || !dansEau && this.estTerrestre();
+    }
+
     /**
      * Calcule l'energie depensee pour réaliser un déplacement (par unité de masse)
      *

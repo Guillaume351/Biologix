@@ -175,4 +175,8 @@ public class Terrain implements Updatable {
         //TODO
         temps += delta_t;
     }
+
+    public Vector2 vectPointeurChgtMilieu(Creature creatureHote) {
+        return null;
+    }
 }

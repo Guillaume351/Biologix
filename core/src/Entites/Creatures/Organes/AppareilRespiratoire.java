@@ -39,6 +39,10 @@ public class AppareilRespiratoire extends Organe {
         return this.getMasse(0) * this.densiteOxygene;
     }
 
+
+    public double getPourcentageOxygene() {
+        return getQuantiteOxygene() / getQuantiteOxygeneMax();
+    }
     public boolean perteOxygene(double dt){
         double pertePotentielle = this.getCreatureHote().getMasse() * ConstantesBiologiques.rapportMasseConsommationOxygene * dt;
         if (this.quantiteOxygene - pertePotentielle < 0){
@@ -64,6 +68,27 @@ public class AppareilRespiratoire extends Organe {
         } else {
             this.quantiteOxygene += gainPotentiel;
             return true;
+        }
+    }
+
+    public boolean estAquatique() {
+        return (potentielBranchie > 0.5);
+    }
+
+    public boolean estTerrestre() {
+        return potentielBranchie <= 0.5;
+    }
+
+    public boolean estDansMilieuNaturel(Terrain terrain) {
+        boolean dansEau = terrain.estDansEau(this.getCreatureHote());
+        return dansEau && this.estAquatique() || !dansEau && this.estTerrestre();
+    }
+
+    public double detresseRespiratoire(Terrain terrain) {
+        if (!estDansMilieuNaturel(terrain)) {
+            return 1.0 - getPourcentageOxygene();
+        } else {
+            return 0;
         }
     }
 }

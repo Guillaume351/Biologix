@@ -16,6 +16,7 @@ public class Cerveau {
     double prevoyance;
     double amourDuNid;
     double envie_reproductive;
+    double comportement_amphibien;
     Vector2 positionNid;
 
     public Cerveau(Creature creatureHote, Random r){
@@ -27,6 +28,7 @@ public class Cerveau {
         this.bravoure = 2*r.nextDouble() - 1;
         this.prevoyance = r.nextDouble();
         this.amourDuNid = r.nextDouble();
+        this.comportement_amphibien = r.nextDouble();
         this.envie_reproductive = r.nextDouble();
         // TODO : il faudra init la position avant le cerveau
         this.positionNid = new Vector2(creatureHote.getPosition());
@@ -41,6 +43,7 @@ public class Cerveau {
         this.bravoure = (cerveauPere.bravoure + cerveauMere.bravoure + (2 * r.nextDouble() - 1) * mutation) / (2 + mutation);
         this.prevoyance = (cerveauPere.prevoyance + cerveauMere.prevoyance + r.nextDouble() * mutation) / (2 + mutation);
         this.amourDuNid = (cerveauPere.amourDuNid + cerveauMere.amourDuNid + r.nextDouble() * mutation) / (2 + mutation);
+        this.comportement_amphibien = (cerveauPere.comportement_amphibien + cerveauMere.comportement_amphibien + r.nextDouble() * mutation) / (2 + mutation);
         this.envie_reproductive = (cerveauPere.envie_reproductive + cerveauMere.envie_reproductive + r.nextDouble() * mutation) / (2 + mutation);
         this.positionNid = new Vector2(cerveauMere.positionNid);
         this.positionNid.lerp(cerveauPere.positionNid, r.nextFloat());
@@ -67,6 +70,13 @@ public class Cerveau {
         retour.setVolonteDefense(peur * normer(Vdanger.len()));
         Vector2 Vnid = new Vector2(positionNid);
         Vnid.sub(creatureHote.getPosition());
+        double changementMilieu = 0;
+        if (!creatureHote.getMouvement().estDansMilieuNaturel(creatureHote.getTerrain())) {
+            changementMilieu = creatureHote.getAppareilRespiratoire().detresseRespiratoire(creatureHote.getTerrain()) * (1.0 - this.comportement_amphibien);
+        } else {
+            changementMilieu = (1.0 - creatureHote.getAppareilRespiratoire().detresseRespiratoire(creatureHote.getTerrain())) * this.comportement_amphibien;
+        }
+        Vector2 vecteurMilieu = new Vector2(creatureHote.getTerrain().vectPointeurChgtMilieu(creatureHote)).scl((float) changementMilieu);
 
         float sgn;
         if (creatureHote.getSexe().getEnceinte()) {
