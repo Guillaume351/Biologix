@@ -24,6 +24,7 @@ public class HeightMap {
         this.max = max;
     }
 
+    //TODO Remplacer par un appel a un tableau...
     public double getValeur(double x, double y) {
         return min + (max - min) * (1.0 + PerlinGenerator.perlin2D(x, y, params)) / 2.0;
     }

@@ -176,9 +176,9 @@ public class Terrain implements Updatable {
         temps += delta_t;
     }
 
-    static int DIV_ANG = 10;
+    static int DIV_ANG = 5;
     static float RMAX = 200;
-    static int DIV_R = 9;
+    static int DIV_R = 5;
 
     public Vector2 vectPointeurChgtMilieu(Creature creature) {
         boolean local = estDansEau(creature);
