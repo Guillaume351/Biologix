@@ -74,7 +74,7 @@ public class Cerveau {
         if (!creatureHote.getMouvement().estDansMilieuNaturel(creatureHote.getTerrain())) {
             changementMilieu = creatureHote.getAppareilRespiratoire().detresseRespiratoire(creatureHote.getTerrain()) * (1.0 - this.comportement_amphibien);
         } else {
-            changementMilieu = (1.0 - creatureHote.getAppareilRespiratoire().detresseRespiratoire(creatureHote.getTerrain())) * this.comportement_amphibien;
+            changementMilieu = this.comportement_amphibien;
         }
         Vector2 vecteurMilieu = new Vector2(creatureHote.getTerrain().vectPointeurChgtMilieu(creatureHote)).scl((float) changementMilieu);
 
