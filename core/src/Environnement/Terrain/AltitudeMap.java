@@ -33,7 +33,7 @@ public class AltitudeMap extends HeightMap {
         for (int i = 0; i < nbPas; i++) {
             float k = (float) i / (float) nbPas;
             //Altitude du terrain au point du parcours
-            double hloc = getValeur(A.lerp(B, k));
+            double hloc = getValeur(new Vector2(A).lerp(B, k));
             //Altitude de la ligne de vue en ce point du parcours
             double hview = (1.0 - k) * h1 + k * h2;
             if (hview + h0 < hloc) {

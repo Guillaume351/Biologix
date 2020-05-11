@@ -176,7 +176,35 @@ public class Terrain implements Updatable {
         temps += delta_t;
     }
 
-    public Vector2 vectPointeurChgtMilieu(Creature creatureHote) {
-        return null;
+    static int DIV_ANG = 10;
+    static float RMAX = 200;
+    static int DIV_R = 9;
+
+    public Vector2 vectPointeurChgtMilieu(Creature creature) {
+        boolean local = estDansEau(creature);
+        boolean recherche = local;
+        int nAng = 0;
+        int nRay = 1;
+        double r = 0;
+        double teta = 0;
+        double niveauMer = this.altitudes.hauteurMer(pourcentageEau);
+        while (local == recherche && nRay < DIV_R) {
+            nAng++;
+            if (nAng > DIV_ANG) {
+                nAng = 0;
+                nRay++;
+            }
+            r = (RMAX / DIV_R) * (double) nRay;
+            teta = (2.0 * Math.PI / DIV_ANG) * (double) nAng;
+            double altitude = this.altitudes.getValeur(creature.getPosition().x + r * Math.cos(teta), creature.getPosition().y + r * Math.sin(teta));
+            recherche = !(altitude >= niveauMer);
+        }
+        if (recherche != local) {
+            return new Vector2((float) Math.cos(teta), (float) Math.sin(teta));
+        } else {
+            return new Vector2(0, 0);
+        }
     }
+
+
 }
