@@ -14,8 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.mygdx.game.MyGdxGame;
 
-import javax.xml.soap.Text;
-
 public class EcranDemarrage implements Screen {
 
     private MyGdxGame jeu;
@@ -23,11 +21,9 @@ public class EcranDemarrage implements Screen {
     private TextButton.TextButtonStyle styleBouton;
     public TextButton boutonLancer;
     public GestionBouton gestionBouton;
-    private TextureAtlas boutonAtlas;
 
     public EcranDemarrage(MyGdxGame jeu){
         this.stage = new Stage();
-        this.boutonAtlas = new TextureAtlas(Gdx.files.internal("buttons/buttons.pack"));
         this.styleBouton = new TextButton.TextButtonStyle();
         this.styleBouton.font = new BitmapFont();
         this.boutonLancer = new TextButton("Lancer la simulation", this.styleBouton);
