@@ -21,8 +21,10 @@ public class EcranDemarrage implements Screen {
     private TextButton.TextButtonStyle styleBouton;
     public TextButton boutonLancer;
     public GestionBouton gestionBouton;
+    public boolean lancerJeu;
 
     public EcranDemarrage(MyGdxGame jeu){
+        this.lancerJeu = false;
         this.stage = new Stage();
         this.styleBouton = new TextButton.TextButtonStyle();
         this.styleBouton.font = new BitmapFont();
@@ -50,6 +52,8 @@ public class EcranDemarrage implements Screen {
         //Gdx.gl.glClearColor(1, 1, 1, 1);
         //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         //stage.act();
+        Gdx.input.setInputProcessor(stage);
+        stage.addActor(this.boutonLancer);
         stage.draw();
 
     }
@@ -84,7 +88,8 @@ public class EcranDemarrage implements Screen {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
             System.out.println("test");
-            jeu.setScreen(jeu.ecranSimulation);
+            lancerJeu = true;
+            //jeu.setScreen(jeu.ecranSimulation);
             return true;
         }
 

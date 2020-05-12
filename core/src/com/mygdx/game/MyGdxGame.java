@@ -40,4 +40,14 @@ public class MyGdxGame extends Game {
         this.ecranSimulation = new EcranSimulation();
         setScreen(ecranDemarrage);
     }
+
+    @Override
+    public void render () {
+
+        if (screen != null) screen.render(Gdx.graphics.getDeltaTime());
+
+        if (this.ecranDemarrage.lancerJeu && getScreen() != this.ecranSimulation){
+            setScreen(this.ecranSimulation);
+        }
+    }
 }
