@@ -81,11 +81,10 @@ public class EcranSimulation implements Screen {
         creatureRenderer = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
         ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessources(), batch);
 
-        input.setInputProcessor(new CustomInputProcessor(camera));
-
     }
     @Override
     public void show() {
+        input.setInputProcessor(new CustomInputProcessor(camera));
 
     }
 
