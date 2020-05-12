@@ -65,7 +65,9 @@ public class Localisateur {
         TreeMap<Double, Localisable> dct = new TreeMap<Double, Localisable>();
         for (Localisable item : autres) {
             //Vecteur de distance entre les deux objets
-            Vector2 dist = item.getPosition().sub(position);
+            Vector2 dist = new Vector2(item.getPosition());
+            dist.sub(item.getPosition());
+
             //Angle absolu en rad entre la direction et le vecteur distance
             double angle = Math.abs(dist.angleRad(direction));
             if (angle < ouverture) {
@@ -80,7 +82,8 @@ public class Localisateur {
         List<Localisable> dct = new ArrayList<>();
         for (Localisable item : autres) {
             //Vecteur de distance entre les deux objets
-            Vector2 dist = item.getPosition().sub(position);
+            Vector2 dist = new Vector2(item.getPosition());
+            dist.sub(item.getPosition());
             //Angle absolu en rad entre la direction et le vecteur distance
             double angle = Math.abs(dist.angleRad(direction));
             //Si angle et distance ok, garder l'objet

@@ -2,96 +2,100 @@ package Utils;
 
 public class ConstantesBiologiques {
 
-    public static double tempsGestation;
+    public static double tempsGestation = 1000;
 
-    public static double rayonInteraction;
+    public static double rayonInteraction = 32;
 
-    public static double rapportMasseConsommationOxygene;
-    public static double rapportMasseProductionOxygene;
+    public static double rapportMasseConsommationOxygene = 0.1;
+    public static double rapportMasseProductionOxygene = 0.2;
 
-    public static double tailleOrganeMin;
-    public static double tailleOrganeMax;
+    public static double tailleOrganeMin = 0.5;
+    public static double tailleOrganeMax = 1;
 
-    public static double tempsCroissanceMin;
-    public static double tempsCroissanceMax;
+    public static double tempsCroissanceMin = 100;
+    public static double tempsCroissanceMax = 10000;
 
-    public static double densiteMin;
-    public static double densiteMax;
+    public static double densiteMin = 0.3;
+    public static double densiteMax = 0.8;
 
-    public static double coutSubsistanceRelatif;
+    public static double coutSubsistanceRelatif = 2;
 
 
-    public static double efficaciteReproductiveMin;
-    public static double efficaciteReproductiveMax;
+    public static double efficaciteReproductiveMin = 0.1;
+    public static double efficaciteReproductiveMax = 2;
 
     /* Appareil respiratoire */
-    public static double densiteOxygeneMin;
-    public static double densiteOxygeneMax;
+    public static double densiteOxygeneMin = 1;
+    public static double densiteOxygeneMax = 3;
 
     /* Bouche */
-    public static double efficaciteVoracite;    // sera > 1
-    public static double capaciteVoraciteMin;
-    public static double capaciteVoraciteMax;
+    public static double efficaciteVoracite = 4;    // sera > 1
+    public static double capaciteVoraciteMin = 2;
+    public static double capaciteVoraciteMax = 3;
 
     /* Defensif */
-    public static double densiteDefenseMin;
-    public static double densiteDefenseMax;
+    public static double densiteDefenseMin = 2;
+    public static double densiteDefenseMax = 2;
 
     /* Foie */
-    public static double coeffDeBlessure;
-    public static double densiteDeSoinMin;
-    public static double densiteDeSoinMax;
-    public static double densiteDePvMin;
-    public static double densiteDePvMax;
+    public static double coeffDeBlessure = 0.87;
+    public static double densiteDeSoinMin = 1;
+    public static double densiteDeSoinMax = 2;
+    public static double densiteDePvMin = 32;
+    public static double densiteDePvMax = 64;
 
     /* Graisse */
-    public static double efficaciteEnrgetiqueMin;
-    public static double efficaciteEnergetiqueMax;
-    public static double rendementAccouchement;
-    public static double coutCroissanceRelatif;
+    public static double efficaciteEnrgetiqueMin = 1;
+    public static double efficaciteEnergetiqueMax = 2;
+    public static double rendementAccouchement = 3;
+    public static double coutCroissanceRelatif = 0.75;
 
 
     /*Mouvement*/
-    public static double coeffFrottement;
-    public static double vitesseMaxMax;
-    public static double vitesseMaxMin;
+    public static double coeffFrottement = 1;
+    public static double vitesseMaxMax = 3;
+    public static double vitesseMaxMin = 1;
 
     /*Sexe*/
-    public static double distanceGenetiqueMaxRepro;
+    public static double distanceGenetiqueMaxRepro = 1;
 
     /*Offensif*/
-    public static double puissanceAttaqueMax;
-    public static double puissanceAttaqueMin;
+    public static double puissanceAttaqueMax = 2;
+    public static double puissanceAttaqueMin = 1;
 
     /*Thermique*/
-    public static double isolationMax;
-    public static double isolationMin;
+    public static double isolationMax = 2;
+    public static double isolationMin = 1;
 
     /*Vision*/
-    public static double densiteDistVision;
-    public static double densiteChampVision;
+    public static double densiteDistVision = 50000000;
+    public static double densiteChampVision = 30000000;
 
     /*Creature*/
-    public static double tempInterneMax;
-    public static double tempInterneMin;
+    public static double tempInterneMax = 43;
+    public static double tempInterneMin = 30;
 
     /*POSITION*/
     public static double XMAX = 300;
     public static double YMAX = 300;
 
     /*RESSOURCES*/
-    public static double tempExterieureMin;
-    public static double tempExterieureIntermediaire;
-    public static double energieVegetalMax;
-    public static double coefficientFaible;
-    public static double coefficientMoyen;
-    public static double coefficientFort;
+    public static double energieMaxStockable = 100;
+
+    /*arbre*/
+    public static double tailleArbreMin = 0.5;
+    public static double tailleArbreMax = 2;
 
     /*fruit*/
-    public static double forcePoisonIntermediaire;
-    public static double dureeDeVieFruit;
+    public static double dureeDeVieFruit = 100;
 
+    /*viande*/
+    public static double energieMaxStockableViande = 20;
 
+    public static double vitessePourritureMax = 10;
+    public static double stabilitePourriture = 3;
 
-
+    public static int toleranceTemperatureVegetal;
+    public static int temperatureIdealeVegetal;
+    public static double croissanceMaxVegetal;
 }

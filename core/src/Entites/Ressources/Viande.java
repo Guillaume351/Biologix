@@ -1,16 +1,15 @@
 package Entites.Ressources;
 
-import Environnement.Meteo.MeteoMap;
+import Entites.Creatures.Creature;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.Random;
+
 
 public class Viande extends Ressource {
-
     double tauxDePourriture; // définit si une viande est pourrie. tauxdePourriture + getquantiteEnergie = EnergieMaxStockable
-    private double energieMaxStockable; // l'énergie pax stockable de la plante,
-    MeteoMap meteo;
 
     @Override
     public double getQuantiteEnergie() {
@@ -27,25 +26,39 @@ public class Viande extends Ressource {
         this.quantiteEnergie = quantiteEnergie;
     }
 
+    public Viande(Random r, Creature victime) {
+        super(victime.getPosition());
+        this.terrain = victime.getTerrain();
+        this.tauxDePourriture = 0;
+        this.quantiteEnergie = victime.getValeurViande();
+    }
+
+    /**
+     * Constructeur de l'objet viande
+     *
+     * @param r, terrain
+     */
+    public Viande(Random r, Terrain terrain) {
+        super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
+        this.quantiteEnergie = ConstantesBiologiques.energieMaxStockableViande * r.nextDouble();
+        this.tauxDePourriture = 0; //pas pourrie au début
+        this.terrain = terrain;
+    }
+
     /**
      * La viande perd de l'énergie dans le temps
      * @param retrait
      */
-    void retirerEnergie(double retrait) {
-        this.quantiteEnergie = quantiteEnergie - retrait;
+    boolean retirerEnergie(double retrait) {
+        if (retrait < quantiteEnergie) {
+            this.quantiteEnergie = quantiteEnergie - retrait;
+            return true;
+        } else {
+            this.quantiteEnergie = 0;
+            return false;
+        }
     }
 
-    /**
-     * Constructeur de l'objet viade
-     *
-     * @param quantiteEnergie
-     */
-    public Viande(Vector2 position, double quantiteEnergie, Terrain terrain) {
-        super(position);
-        this.quantiteEnergie = quantiteEnergie;
-        this.tauxDePourriture = 0; //pas pourrie au début
-        this.terrain = terrain;
-    }
 
     void setTauxDePourriture(double tauxDePourriture) {
         this.tauxDePourriture = tauxDePourriture;
@@ -64,32 +77,23 @@ public class Viande extends Ressource {
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
-        return this.tauxDePourriture >= this.energieMaxStockable/2;        //valeur à discuter
+        return this.tauxDePourriture > getQuantiteEnergie();
+    }
+
+    public double getVitessePourriture(double temperature) {
+        return ConstantesBiologiques.vitessePourritureMax * Math.exp(-ConstantesBiologiques.stabilitePourriture / temperature);
     }
 
     /**
      * La viande pourrit dans le temps... son énergie se transforme en pourriture
      */
-    void evoluer(double dt) {
-        double pourriture = 0.1;
-        double coefficient;
-        double temperature = meteo.getTemp(getPosition().x, getPosition().y);
+    public void update(double dt) {
 
-        //on set le coefficient en fonction de la température extérieure
-        if (temperature < ConstantesBiologiques.tempExterieureIntermediaire && temperature > ConstantesBiologiques.tempExterieureMin) {
-            coefficient = ConstantesBiologiques.coefficientMoyen;
-        } else if (temperature > ConstantesBiologiques.tempExterieureIntermediaire) {
-            coefficient = ConstantesBiologiques.coefficientFort;
-        } else {
-            coefficient = ConstantesBiologiques.coefficientFaible;//trop froid
-        }
+        double temperature = this.terrain.getMeteo().getTemp().getTemp(getPosition().x, getPosition().y, terrain);
 
-        ajouterPourriture(coefficient * pourriture * dt);
-        retirerEnergie(coefficient * pourriture * dt);
+        double vitesse = getVitessePourriture(temperature);
+        ajouterPourriture(vitesse * dt);
+        retirerEnergie(vitesse * dt);
     }
 
-    @Override
-    public void update(int delta_t) {
-        //TODO
-    }
 }

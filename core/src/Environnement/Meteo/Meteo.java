@@ -14,8 +14,7 @@ public class Meteo {
     int horloge;
     boolean jour;
 
-    //coefficient modificateur de la meteo, il evolue avec dt, permet à la temperature d'evoluer
-    double coefTemp;
+
 
     public Meteo(MeteoMap temp, MeteoMap humidite, TypeMeteo meteo, double dureeJour, double dureeNuit, double densiteNuages) {
         this.temp = temp;
@@ -122,11 +121,6 @@ public class Meteo {
         }
     }
 
-
-    public double getValeurTemp(double x, double y) {
-        return coefTemp * this.getTemp().moyennes.getValeur(x,y);
-    }
-
     /**
      * Densité des nuages (dépend de la météo : ensoleillé 0, très nuageux 1)
      */
@@ -188,18 +182,18 @@ public class Meteo {
      */
     public void modifierTempGlobale(double dt, Random r) {
         if ((this.jour && this.horloge < (int)dtParJour(dt)/2) || (!this.jour && this.horloge > (int)dtParJour(dt)/2)) {
-            coefTemp = coefTemp + r.nextInt(1) * dt;
+            getTemp().coefTemp = getTemp().coefTemp + r.nextInt(1) * dt;
         } else {
-            coefTemp = coefTemp - r.nextInt(1) * dt;
+            getTemp().coefTemp = getTemp().coefTemp - r.nextInt(1) * dt;
         }
     }
     /**
-     * Evolution locale de la meteo (influence d'un joueur)
+     * Evolution locale de la temperature (influence d'un joueur)
      * @param x_epicentre point centrale de la modification
      * @param y_epicentre point centrale de la modification
      * @param dt
      */
-    public void modifierMeteoLocal(double x_epicentre, double y_epicentre, double dt) {
+    public void modifierTempLocal(double x_epicentre, double y_epicentre, double dt) {
         //TODO
     }
 

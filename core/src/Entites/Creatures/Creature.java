@@ -15,9 +15,7 @@ import Utils.Position.Localisable;
 import Utils.Position.Localisateur;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class Creature extends Entite {
 
@@ -30,6 +28,7 @@ public class Creature extends Entite {
     double temperatureInterne;
 
     Cerveau cerveau;
+    OutputsCerveau OutCerveau;
 
     AppareilRespiratoire appareilRespiratoire;
     Bouche bouche;
@@ -88,10 +87,11 @@ public class Creature extends Entite {
         perception.setCreatureHote(this);
         this.terrain = terrain;
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
+        OutCerveau = null;
     }
 
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
-        super(new Vector2(0f, 0f));
+        super(new Vector2(mere.getPosition()));
         resetStatistiques_();
         double alea = ConstantesBiologiques.tempInterneMin + (ConstantesBiologiques.tempInterneMax - ConstantesBiologiques.tempInterneMin) * r.nextDouble();
         this.temperatureInterne = (mere.temperatureInterne + pere.temperatureInterne + alea * mutation) / (2 + mutation);
@@ -126,6 +126,7 @@ public class Creature extends Entite {
         perception.setCreatureHote(this);
         this.terrain = mere.getTerrain();
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
+        OutCerveau = null;
     }
 
     public void resetStatistiques_() {
@@ -179,13 +180,14 @@ public class Creature extends Entite {
     public double deplacer(double dt) {
         //deplace la creature et renvoie l'energie dépensee
         double z0 = this.terrain.getAltitudes().getValeur(getPosition());
-        getPosition().add(orientation.scl((float) (dt * vitesse)));
+        getPosition().add(new Vector2(orientation).scl((float) (dt * vitesse)));
         double z1 = terrain.getAltitudes().getValeur(getPosition());
         //Energie Potentielle
         double masse = getMasse();
         double Epot = masse * (z1 - z0) * this.terrain.getGravite();
         //Energie Cinetique
         double Ecin = mouvement.getEnergieDepenseeParUniteMasse(dt, vitesse);
+
         return masse * Math.min(0, Epot + Ecin);
     }
 
@@ -226,6 +228,10 @@ public class Creature extends Entite {
         return result;
     }
 
+
+    public double getValeurViande() {
+        return 0;
+    }
     public Vector2 getOrientation() {
         return orientation;
     }
@@ -300,6 +306,7 @@ public class Creature extends Entite {
         this.sexe.updateSexe(sortieCerveau, dt);
         this.offensif.updateOffensif(sortieCerveau);
         this.defensif.updateDefensif(sortieCerveau);
+        this.perception.updatePerception(sortieCerveau, dt, this.getTerrain().getMeteo().getLuminosite(terrain.getTemps()));
     }
 
     public void update_age(double dt){
@@ -309,7 +316,8 @@ public class Creature extends Entite {
 
     public double update_deplacement(OutputsCerveau sortieCerveau, double dt){
         // Deplacement
-        this.orientation = sortieCerveau.getDirection();
+        this.orientation = new Vector2(sortieCerveau.getDirection());
+        this.vitesse = sortieCerveau.getVitesse();
         double energiePerdueDeplacement = this.deplacer(dt);
         return energiePerdueDeplacement;
     }
@@ -323,16 +331,21 @@ public class Creature extends Entite {
         // Combattre
         double energiePerdueDefense;
         double energiePerdueAttaque;
-        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-            boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
-            if (!perteDeVieCombat) {
-                // TODO : faire mourir la créature
+        if (creatureLaPlusProche != null) {
+            if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+                boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+                if (!perteDeVieCombat) {
+                    // TODO : faire mourir la créature
+                }
+                energiePerdueDefense = this.defensif.getEnergieDepenseeDefense();
+                energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque();
+            } else {
+                energiePerdueDefense = 0;
+                energiePerdueAttaque = 0;
             }
-            energiePerdueDefense = this.defensif.getEnergieDepenseeDefense();
-            energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque();
         } else {
-            energiePerdueDefense = 0;
             energiePerdueAttaque = 0;
+            energiePerdueDefense = 0;
         }
         return energiePerdueAttaque + energiePerdueDefense;
     }
@@ -340,7 +353,8 @@ public class Creature extends Entite {
     public double update_manger(OutputsCerveau sortieCerveau){
         // Manger
         double coeffVoracite = sortieCerveau.getCoeffVoracite();
-        List<Localisable> ressourcesAccessibles = (List) (Localisateur.getPlusProcheQue(this.getPosition(), this.perception.getRessourcessVisibles(), ConstantesBiologiques.rayonInteraction)).values();
+        Collection<Localisable> ressourcesAccessiblesMap = (Localisateur.getPlusProcheQue(this.getPosition(), this.perception.getRessourcessVisibles(), ConstantesBiologiques.rayonInteraction)).values();
+        ArrayList<Localisable> ressourcesAccessibles = new ArrayList<Localisable>(ressourcesAccessiblesMap);
         double energieGagneeManger = this.bouche.manger(ressourcesAccessibles, coeffVoracite);
         return energieGagneeManger;
     }
@@ -348,21 +362,24 @@ public class Creature extends Entite {
     public double update_reproduction(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau){
         // Se reproduire
         double energiePerdueReproduction;
-        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-            double volonteReproductive = sortieCerveau.getVolonteReproductive();
-            double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
-            Sexe sexeAutre = creatureLaPlusProche.getSexe();
-            boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
-            if (testReproduction) {
-                energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
-                if (this.getSexe().getGenre() == Genre.Femelle) {
-                    this.getSexe().setEnceinte(true);
-                    this.getSexe().setTempsDerniereReproduction(0);
-                    // TODO : quel facteur de mutation appliqué ?
-                    this.embryon = new Creature(this, creatureLaPlusProche, 0.5, new Random());
-                }
-                else if (this.getSexe().getGenre() == Genre.Male){
-                    energiePerdueReproduction += this.getSexe().getDonEnergieEnfant();
+        if (creatureLaPlusProche != null) {
+            if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+                double volonteReproductive = sortieCerveau.getVolonteReproductive();
+                double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
+                Sexe sexeAutre = creatureLaPlusProche.getSexe();
+                boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
+                if (testReproduction) {
+                    energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
+                    if (this.getSexe().getGenre() == Genre.Femelle) {
+                        this.getSexe().setEnceinte(true);
+                        this.getSexe().setTempsDerniereReproduction(0);
+                        // TODO : quel facteur de mutation appliqué ?
+                        this.embryon = new Creature(this, creatureLaPlusProche, 0.5, new Random());
+                    } else if (this.getSexe().getGenre() == Genre.Male) {
+                        energiePerdueReproduction += this.getSexe().getDonEnergieEnfant();
+                    }
+                } else {
+                    energiePerdueReproduction = 0;
                 }
             } else {
                 energiePerdueReproduction = 0;
@@ -376,8 +393,8 @@ public class Creature extends Entite {
     public double update_accouchement(){
         // Accouchement
         double energiePerdueAccouchement;
-        double epsilon = Math.abs(this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation);
-        if (this.getSexe().getEnceinte() && epsilon < 10e-11){
+        double epsilon = this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation;
+        if (this.getSexe().getEnceinte() && epsilon > 0) {
             this.getSexe().setEnceinte(false);
             energiePerdueAccouchement = this.getSexe().getDonEnergieEnfant();
             // TODO : ajout de la nouvelle créature sur la map
@@ -390,8 +407,12 @@ public class Creature extends Entite {
     public boolean update_foie(Creature creatureLaPlusProche, double dt) {
         // Mise à jour des points de vie
         this.foie.soin(dt);
-        if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-            return this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+        if (creatureLaPlusProche != null) {
+            if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
+                return this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+            } else {
+                return true;
+            }
         } else {
             return true;
         }
@@ -406,18 +427,21 @@ public class Creature extends Entite {
     public double update_thermique(double dt){
         Meteo meteo = terrain.getMeteo();
         MeteoMap temperatureMap = meteo.getTemp();
-        double temperature = temperatureMap.getTemp(this.getPosition().x, this.getPosition().y);
+        double temperature = temperatureMap.getTemp(this.getPosition().x, this.getPosition().y, terrain);
         return getPertesThermiques(temperature, dt);
 
     }
 
     public void update(InputsCerveau entrees, double dt) {
-
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
 
         /* Créature la plus proche */
         List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
-        Creature creatureLaPlusProche = (Creature) (Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1)).get(0);
+        Creature creatureLaPlusProche = null;
+        List<Localisable> creaProximite = Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1);
+        if (creaProximite.size() != 0) {
+            creatureLaPlusProche = (Creature) creaProximite.get(0);
+        }
 
         update_age(dt);
 
@@ -456,7 +480,9 @@ public class Creature extends Entite {
 
 
     @Override
-    public void update(int delta_t) {
-        //TODO
+    public void update(double delta_t) {
+
+        update(new InputsCerveau(this), delta_t);
+
     }
 }

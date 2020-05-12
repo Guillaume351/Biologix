@@ -1,18 +1,19 @@
 package Entites.Ressources;
 
-import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.math.Vector2;
 
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.Random;
 
 public class Vegetal extends Ressource {
 
+    private double croissanceMax;
+    private double ratioDecroissance; //Entre 0 et 1
+    private double toleranceTemperature;
+    private double temperatureIdeale;
     private double energieMaxStockable; // l'énergie maximale stockable par la plante
     private double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
-    private double energieVegetalMax = ConstantesBiologiques.energieVegetalMax;
-    MeteoMap meteo;
 
     @Override
     public double getQuantiteEnergie() {
@@ -34,13 +35,16 @@ public class Vegetal extends Ressource {
     /**
      * Constructeur du Végétal, par défaut non empoisonné
      *
-     * @param energieMaxStockable
-     * @param energieVegetal
      */
-    public Vegetal(Vector2 position, double energieMaxStockable, double energieVegetal, Terrain terrain) {
+    public Vegetal(Vector2 position, Random r, Terrain terrain) {
         super(position);
-        this.energieVegetal = energieVegetal;
-        this.energieMaxStockable = energieMaxStockable;
+        this.energieMaxStockable = ConstantesBiologiques.energieMaxStockable * r.nextDouble();
+        this.energieVegetal = this.energieMaxStockable * r.nextDouble();
+        this.toleranceTemperature = ConstantesBiologiques.toleranceTemperatureVegetal * 2*r.nextDouble();
+        this.temperatureIdeale = ConstantesBiologiques.temperatureIdealeVegetal * 2*r.nextDouble();
+        this.croissanceMax = ConstantesBiologiques.croissanceMaxVegetal;
+        this.ratioDecroissance = r.nextDouble();
+
         this.terrain = terrain;
     }
 
@@ -70,43 +74,17 @@ public class Vegetal extends Ressource {
         }
     }
 
+    public double getCroissance(double temperature) {
+        return (Math.exp(-Math.pow(temperature - temperatureIdeale, 2) / toleranceTemperature) - ratioDecroissance) * croissanceMax;
+    }
+
     /**
      * Petite fonction pour faire grandir une plante
      * @param dt
      */
-    public void grandir(double dt) {
-
-        double deltaEvergie = this.energieMaxStockable - this.getQuantiteEnergie();
-        double energieGagnee = 0.1;
-        double energieDepensee = 0.1;
-        double coefficientGagne;             // qui va limiter la croissance d'une plante quand il fait froid par exemple
-        double coefficientDepense;
-        double temperature = meteo.getTemp(getPosition().x, getPosition().y);
-
-        //on set le coefficient en fonction de la température extérieure
-        if (temperature < ConstantesBiologiques.tempExterieureIntermediaire && temperature > ConstantesBiologiques.tempExterieureMin) {
-            coefficientGagne = ConstantesBiologiques.coefficientFaible; // la plante grandit lentement
-            coefficientDepense = ConstantesBiologiques.coefficientMoyen; // la plante dépense bcp d'énergie pour grandir
-        } else if (temperature > ConstantesBiologiques.tempExterieureIntermediaire) {
-            coefficientGagne = ConstantesBiologiques.coefficientMoyen;
-            coefficientDepense = ConstantesBiologiques.coefficientFaible; // easy peasy
-        } else { coefficientGagne = 0;//trop froid
-            coefficientDepense = ConstantesBiologiques.coefficientFort; // aie aie aie la plante va pourrir
-        }
-
-        // Energie gagnée
-        if (coefficientGagne*energieGagnee <= deltaEvergie) {
-            this.setQuantiteEnergie((getQuantiteEnergie() + coefficientGagne*energieGagnee*dt));    // la plante gagne en ressource
-        } else {
-            this.setQuantiteEnergie(energieMaxStockable*dt);
-        }
-
-        // Energie dépensée
-        if ((this.energieVegetal - coefficientDepense*energieDepensee) >= 0) {
-            setEnergieVegetal(this.energieVegetal - coefficientDepense*energieDepensee*dt);       // la plante dépense de l'énergie en grandissant
-        } else {
-            setEnergieVegetal(0);       // si elle en dépense trop, elle meurt
-        }
+    public void update(double dt) {
+        double temperature = this.terrain.getMeteo().getTemp().getTemp(getPosition().x, getPosition().y, terrain);
+        setQuantiteEnergie(Math.max(0, getQuantiteEnergie() + getCroissance(temperature) * dt));
     }
 
     /**
@@ -118,8 +96,4 @@ public class Vegetal extends Ressource {
         return (this.energieVegetal == 0);
     }
 
-    @Override
-    public void update(int delta_t) {
-        //TODO
-    }
 }

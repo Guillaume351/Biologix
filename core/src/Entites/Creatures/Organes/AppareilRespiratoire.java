@@ -1,10 +1,8 @@
 package Entites.Creatures.Organes;
 
-import Entites.Creatures.Creature;
 import Entites.Creatures.Organe;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
-import com.badlogic.gdx.ApplicationAdapter;
 
 import java.util.Random;
 
@@ -19,7 +17,7 @@ public class AppareilRespiratoire extends Organe {
         super(r);
         this.potentielBranchie = r.nextDouble();
         this.densiteOxygene = ConstantesBiologiques.densiteOxygeneMin + (ConstantesBiologiques.densiteOxygeneMax - ConstantesBiologiques.densiteOxygeneMin) * r.nextDouble();
-        this.quantiteOxygene = getQuantiteOxygeneMax();
+        this.quantiteOxygene = getQuantiteOxygeneMax0();
     }
 
     public AppareilRespiratoire(AppareilRespiratoire arMere, AppareilRespiratoire arPere, Random r, double mutation){
@@ -34,10 +32,17 @@ public class AppareilRespiratoire extends Organe {
     }
 
     public double getQuantiteOxygeneMax(){
-        //return this.getMasse(this.getCreatureHote().getAge()) * this.densiteOxygene;
+        return this.getMasse(this.getCreatureHote().getAge()) * this.densiteOxygene;
+    }
+
+    private double getQuantiteOxygeneMax0() {
         return this.getMasse(0) * this.densiteOxygene;
     }
 
+
+    public double getPourcentageOxygene() {
+        return getQuantiteOxygene() / getQuantiteOxygeneMax();
+    }
     public boolean perteOxygene(double dt){
         double pertePotentielle = this.getCreatureHote().getMasse() * ConstantesBiologiques.rapportMasseConsommationOxygene * dt;
         if (this.quantiteOxygene - pertePotentielle < 0){
@@ -63,6 +68,27 @@ public class AppareilRespiratoire extends Organe {
         } else {
             this.quantiteOxygene += gainPotentiel;
             return true;
+        }
+    }
+
+    public boolean estAquatique() {
+        return (potentielBranchie > 0.5);
+    }
+
+    public boolean estTerrestre() {
+        return potentielBranchie <= 0.5;
+    }
+
+    public boolean estDansMilieuNaturel(Terrain terrain) {
+        boolean dansEau = terrain.estDansEau(this.getCreatureHote());
+        return dansEau && this.estAquatique() || !dansEau && this.estTerrestre();
+    }
+
+    public double detresseRespiratoire(Terrain terrain) {
+        if (!estDansMilieuNaturel(terrain)) {
+            return 1.0 - getPourcentageOxygene();
+        } else {
+            return 0;
         }
     }
 }

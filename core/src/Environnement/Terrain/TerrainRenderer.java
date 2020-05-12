@@ -1,6 +1,5 @@
-package Utils;
+package Environnement.Terrain;
 
-import Environnement.Terrain.Terrain;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,35 +15,28 @@ public class TerrainRenderer {
     private TiledMap map;
 
     /**
+     * Taille en pixel d'un tile
+     */
+    public static final int TILE_SIZE = 32;
+    /**
      * La taille de la map qui est render
      */
-    private int height;
-    private int width;
+    private int taille;
 
 
-    public TerrainRenderer(Terrain terrain, int height, int width) {
-        this.height = height;
-        this.width = width;
+    public TerrainRenderer(Terrain terrain, int taille) {
+        this.taille = taille;
         this.map = convertToTiledMap(terrain);
 
     }
 
     /**
-     * Récupérer la hauteur du terrain render
+     * Récupérer la taille du terrain
      *
      * @return
      */
-    public int getHeight() {
-        return height;
-    }
-
-    /**
-     * Récupérer la largeur du terrain render
-     *
-     * @return
-     */
-    public int getWidth() {
-        return width;
+    public int getTaille() {
+        return taille;
     }
 
 
@@ -59,16 +51,15 @@ public class TerrainRenderer {
         TiledMap map = new TiledMap();
         MapLayers layers = map.getLayers();
 
-        TiledMapTileLayer layer1 = new TiledMapTileLayer(width, height, 32, 32);
+        TiledMapTileLayer layer1 = new TiledMapTileLayer(taille, taille, TILE_SIZE, TILE_SIZE);
 
         TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v2.jpg"))));
         TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v2.jpg"))));
         TextureRegion angle = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("angle_v2.jpg"))));
 
 
-
-        for (int i = 0; i < width; i++) {
-            for (int k = 0; k < height; k++) {
+        for (int i = 0; i < taille; i++) {
+            for (int k = 0; k < taille; k++) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                 StaticTiledMapTile staticTiledMapTile;
                 if (terrain.getAltitudes().getValeur(i, k) > terrain.getPourcentageEau()) {
@@ -76,10 +67,6 @@ public class TerrainRenderer {
                 } else {
                     staticTiledMapTile = new StaticTiledMapTile(eau);
                 }
-
-
-
-
                 cell.setTile(staticTiledMapTile);
                 layer1.setCell(i, k, cell);
             }

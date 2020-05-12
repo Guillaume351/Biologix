@@ -16,7 +16,7 @@ public class Graisse extends OrganeThermique {
     public Graisse(Random r){
         super(r);
         this.efficaciteEnergetique = ConstantesBiologiques.efficaciteEnrgetiqueMin + (ConstantesBiologiques.efficaciteEnergetiqueMax - ConstantesBiologiques.efficaciteEnrgetiqueMin) * r.nextDouble();
-        this.energie = getEnergieMaxStockable();
+        this.energie = getEnergieMaxStockable0();
     }
 
     public Graisse(Graisse graisseMere, Graisse graissePere, Random r, double mutation){
@@ -24,7 +24,7 @@ public class Graisse extends OrganeThermique {
         Graisse alea = new Graisse(r);
         this.efficaciteEnergetique = (graisseMere.efficaciteEnergetique + graissePere.efficaciteEnergetique + alea.efficaciteEnergetique * mutation) / (2 + mutation);
         this.energie = 0;
-        this.addEnergie((graisseMere.getCreatureHote().getSexe().getDonEnergieEnfant() + graissePere.getCreatureHote().getSexe().getDonEnergieEnfant()) * ConstantesBiologiques.rendementAccouchement);
+        this.addEnergie0((graisseMere.getCreatureHote().getSexe().getDonEnergieEnfant() + graissePere.getCreatureHote().getSexe().getDonEnergieEnfant()) * ConstantesBiologiques.rendementAccouchement);
     }
 
     /**
@@ -94,7 +94,10 @@ public class Graisse extends OrganeThermique {
      * @return Quantite max d'energie pouvant etre stockee dans cet organe
      */
     public double getEnergieMaxStockable() {
-        //return getTailleMaxActuel(this.getCreatureHote().getAge()) * efficaciteEnergetique;
+        return getTailleMaxActuel(this.getCreatureHote().getAge()) * efficaciteEnergetique;
+    }
+
+    private double getEnergieMaxStockable0() {
         return getTailleMaxActuel(0) * efficaciteEnergetique;
     }
 
@@ -108,6 +111,18 @@ public class Graisse extends OrganeThermique {
         if (nrj + energie > getEnergieMaxStockable()) {
             //On ne peut pas stocker toute l'energie, l'organe dépasserait sa taille max;
             energie = getEnergieMaxStockable();
+            return false;
+        } else {
+            energie += nrj;
+            return true;
+        }
+    }
+
+    private boolean addEnergie0(double nrj) {
+        //Stocke de l'energie
+        if (nrj + energie > getEnergieMaxStockable0()) {
+            //On ne peut pas stocker toute l'energie, l'organe dépasserait sa taille max;
+            energie = getEnergieMaxStockable0();
             return false;
         } else {
             energie += nrj;

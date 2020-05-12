@@ -16,6 +16,7 @@ public class Cerveau {
     double prevoyance;
     double amourDuNid;
     double envie_reproductive;
+    double comportement_amphibien;
     Vector2 positionNid;
 
     public Cerveau(Creature creatureHote, Random r){
@@ -27,22 +28,25 @@ public class Cerveau {
         this.bravoure = 2*r.nextDouble() - 1;
         this.prevoyance = r.nextDouble();
         this.amourDuNid = r.nextDouble();
+        this.comportement_amphibien = r.nextDouble();
         this.envie_reproductive = r.nextDouble();
         // TODO : il faudra init la position avant le cerveau
-        this.positionNid = creatureHote.getPosition();
+        this.positionNid = new Vector2(creatureHote.getPosition());
     }
 
-    public Cerveau(Creature creatureHote, Cerveau cerveauPere, Cerveau cerveauMere, double mutation, Random r){
+    public Cerveau(Creature creatureHote, Cerveau cerveauPere, Cerveau cerveauMere, double mutation, Random r) {
         this.creatureHote = creatureHote;
-        this.gloutonerie = (cerveauPere.gloutonerie + cerveauMere.gloutonerie + r.nextDouble()*mutation)/(2 + mutation);
-        this.peur = (cerveauPere.peur + cerveauMere.peur + r.nextDouble()*mutation)/(2 + mutation);
-        this.agressivite = (cerveauPere.agressivite + cerveauMere.agressivite + r.nextDouble()*mutation)/(2 + mutation);
-        this.gregarite = (cerveauPere.gregarite + cerveauMere.gregarite + (2*r.nextDouble() - 1)*mutation)/(2 + mutation);
-        this.bravoure = (cerveauPere.bravoure + cerveauMere.bravoure + (2*r.nextDouble() - 1)*mutation)/(2 + mutation);
-        this.prevoyance = (cerveauPere.prevoyance + cerveauMere.prevoyance + r.nextDouble()*mutation)/(2 + mutation);
-        this.amourDuNid = (cerveauPere.amourDuNid + cerveauMere.amourDuNid + r.nextDouble()*mutation)/(2 + mutation);
-        this.envie_reproductive = (cerveauPere.envie_reproductive + cerveauMere.envie_reproductive + r.nextDouble()*mutation)/(2 + mutation);
-        this.positionNid = cerveauMere.positionNid.lerp(cerveauPere.positionNid, r.nextFloat());
+        this.gloutonerie = (cerveauPere.gloutonerie + cerveauMere.gloutonerie + r.nextDouble() * mutation) / (2 + mutation);
+        this.peur = (cerveauPere.peur + cerveauMere.peur + r.nextDouble() * mutation) / (2 + mutation);
+        this.agressivite = (cerveauPere.agressivite + cerveauMere.agressivite + r.nextDouble() * mutation) / (2 + mutation);
+        this.gregarite = (cerveauPere.gregarite + cerveauMere.gregarite + (2 * r.nextDouble() - 1) * mutation) / (2 + mutation);
+        this.bravoure = (cerveauPere.bravoure + cerveauMere.bravoure + (2 * r.nextDouble() - 1) * mutation) / (2 + mutation);
+        this.prevoyance = (cerveauPere.prevoyance + cerveauMere.prevoyance + r.nextDouble() * mutation) / (2 + mutation);
+        this.amourDuNid = (cerveauPere.amourDuNid + cerveauMere.amourDuNid + r.nextDouble() * mutation) / (2 + mutation);
+        this.comportement_amphibien = (cerveauPere.comportement_amphibien + cerveauMere.comportement_amphibien + r.nextDouble() * mutation) / (2 + mutation);
+        this.envie_reproductive = (cerveauPere.envie_reproductive + cerveauMere.envie_reproductive + r.nextDouble() * mutation) / (2 + mutation);
+        this.positionNid = new Vector2(cerveauMere.positionNid);
+        this.positionNid.lerp(cerveauPere.positionNid, r.nextFloat());
     }
 
 
@@ -53,7 +57,9 @@ public class Cerveau {
      */
     public OutputsCerveau getComportement(InputsCerveau entrees) {
         OutputsCerveau retour = new OutputsCerveau();
-        retour.setChampVision(creatureHote.getPerception().getAdaptationLumiere() * creatureHote.getPerception().getChampVisionOptimal());
+        double adaptationLumiere = creatureHote.getPerception().getAdaptationLumiere();
+        double champdeVisionOptimal = creatureHote.getPerception().getChampVisionOptimal();
+        retour.setChampVision(adaptationLumiere* champdeVisionOptimal);
         retour.setDistanceVision(creatureHote.getPerception().getAdaptationLumiere() * creatureHote.getPerception().getDistanceVisionOptimal());
         Vector2 Vnourriture = entrees.getVecteurNourriture();
         retour.setCoeffVoracite(normer(Vnourriture.len()));
@@ -62,7 +68,15 @@ public class Cerveau {
         Vector2 Vdanger = entrees.getVecteurDanger();
         retour.setVolonteAttaque(agressivite * normer(Vdanger.len() + gloutonerie * VtailleRelative.len()));
         retour.setVolonteDefense(peur * normer(Vdanger.len()));
-        Vector2 Vnid = positionNid.sub(creatureHote.getPosition());
+        Vector2 Vnid = new Vector2(positionNid);
+        Vnid.sub(creatureHote.getPosition());
+        double changementMilieu = 0;
+        if (!creatureHote.getMouvement().estDansMilieuNaturel(creatureHote.getTerrain())) {
+            changementMilieu = creatureHote.getAppareilRespiratoire().detresseRespiratoire(creatureHote.getTerrain()) * (1.0 - this.comportement_amphibien);
+        } else {
+            changementMilieu = this.comportement_amphibien;
+        }
+        Vector2 vecteurMilieu = new Vector2(creatureHote.getTerrain().vectPointeurChgtMilieu(creatureHote)).scl((float) changementMilieu);
 
         float sgn;
         if (creatureHote.getSexe().getEnceinte()) {
@@ -81,8 +95,13 @@ public class Cerveau {
         ).add(
                 VtailleRelative.scl((float) (gloutonerie * creatureHote.getDigestion().getRegimeAlimentaire()))
         );
+
         retour.setVitesse(creatureHote.getMouvement().getVitesseMax(this.creatureHote.getTerrain()) * normer(objectif.len()));
-        retour.setDirection(objectif.nor());
+        if (objectif.len() == 0 ){
+            retour.setDirection(new Vector2(1, 1));
+        } else {
+            retour.setDirection(new Vector2(objectif.nor()));
+        }
 
         return retour;
     }
