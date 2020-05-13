@@ -126,6 +126,7 @@ public class EcranSimulation implements Screen {
             }
         }
         this.gameWorld.setEntites(updateEntites);
+        this.creatureRenderer.setCreatures(this.gameWorld.getCreatures());
         // TODO : les créatures meurent toutes directement
         //System.out.println(this.gameWorld.getCreatures().size());
 

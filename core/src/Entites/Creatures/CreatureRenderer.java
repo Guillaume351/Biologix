@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 public class CreatureRenderer {
 
-    public Creature creatureHote;
 
     public ArrayList<Creature> creatures;
 
@@ -19,6 +18,10 @@ public class CreatureRenderer {
         this.creatures = creatures;
         this.spriteBatchCreature = batch;
         this.textureCreature = new Texture(Gdx.files.internal("creature1.png"));
+    }
+
+    public void setCreatures(ArrayList<Creature> creatures){
+        this.creatures = creatures;
     }
 
 
