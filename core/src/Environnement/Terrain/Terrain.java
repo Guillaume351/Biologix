@@ -90,6 +90,7 @@ public class Terrain implements Updatable {
     }
 
 
+
     /**
      * Obtenir la liste des ressources presente sur le terrain.
      *

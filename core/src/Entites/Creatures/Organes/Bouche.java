@@ -72,6 +72,7 @@ public class Bouche extends Organe {
      * @return energie extraite moins energie depensee pour manger.
      */
     public double manger(List<Localisable> nourritureAccesible, double coeffVoracite) {
+        Localisable nouritureMangee = null;
         //Energie max que l'on peut mettre dans la bouche
         double EnergieMaxMangeable = getEnergieMaxMangeable(coeffVoracite);
         //energies RECUPERABLES par la creature triees dans l'ordre croissant
@@ -84,9 +85,12 @@ public class Bouche extends Organe {
             Map.Entry<Double, Ressource> mapentry = (Map.Entry<Double, Ressource>) iterator.next();
             if (mapentry.getValue().getQuantiteEnergie() < EnergieMaxMangeable) {
                 //Il existe une nourriture ou l'on peut repurerer plus d'energie, et que l'on peut mettre dans la bouche.
+                nouritureMangee = mapentry.getValue();
                 energieRecuperee = mapentry.getKey();
             }
         }
+        // TODO : retirer la nouriture mangée de la liste
+        nourritureAccesible.remove(nouritureMangee);
         return energieRecuperee - getEnergieDepenseeManger(coeffVoracite);
     }
 

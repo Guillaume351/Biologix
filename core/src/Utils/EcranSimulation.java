@@ -1,5 +1,6 @@
 package Utils;
 
+import Entites.Creatures.Creature;
 import Entites.Creatures.CreatureRenderer;
 import Entites.Entite;
 import Entites.Ressources.RessourceRenderer;
@@ -7,6 +8,7 @@ import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Environnement.Terrain.TerrainRenderer;
 import Utils.Perlin.PerlinParams;
+import Utils.Position.Localisable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -20,6 +22,10 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CustomInputProcessor;
 
+import javax.swing.text.html.HTMLDocument;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import static Environnement.Terrain.TerrainRenderer.TILE_SIZE;
@@ -108,10 +114,20 @@ public class EcranSimulation implements Screen {
         // Affichage créature
         batch.setProjectionMatrix(camera.combined);
         creatureRenderer.renduCreature();
+        boolean vivant;
         this.ressourceRenderer.renduRessource();
+        List<Entite> updateEntites = new ArrayList<>(gameWorld.getEntites());
         for (Entite c : gameWorld.getEntites()) {
             c.update(0.1);
+            if (c instanceof Creature){
+                if (!((Creature) c).getEnVie()){
+                    updateEntites.remove(c);
+                }
+            }
         }
+        this.gameWorld.setEntites(updateEntites);
+        // TODO : les créatures meurent toutes directement
+        //System.out.println(this.gameWorld.getCreatures().size());
 
     }
 

@@ -32,8 +32,8 @@ public class EcranDemarrage implements Screen {
         this.gestionBouton = new GestionBouton();
         this.boutonLancer.addListener(this.gestionBouton);
 
-        boutonLancer.setSize(Gdx.graphics.getWidth()/5, Gdx.graphics.getHeight()/5);
-        boutonLancer.setPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        boutonLancer.setSize(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
+        boutonLancer.setPosition(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
         boutonLancer.setTransform(true);
         /*utton2.scaleBy(0.5f); */
 
