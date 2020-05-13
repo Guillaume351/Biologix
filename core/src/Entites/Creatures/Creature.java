@@ -179,9 +179,9 @@ public class Creature extends Entite {
      */
     public double deplacer(double dt) {
         //deplace la creature et renvoie l'energie dépensee
-        double z0 = this.terrain.getAltitudes().getValeur(getPosition());
+        double z0 = this.terrain.getAltitude(getPosition());
         getPosition().add(new Vector2(orientation).scl((float) (dt * vitesse)));
-        double z1 = terrain.getAltitudes().getValeur(getPosition());
+        double z1 = terrain.getAltitude(getPosition());
         //Energie Potentielle
         double masse = getMasse();
         double Epot = masse * (z1 - z0) * this.terrain.getGravite();
@@ -373,8 +373,7 @@ public class Creature extends Entite {
                     if (this.getSexe().getGenre() == Genre.Femelle) {
                         this.getSexe().setEnceinte(true);
                         this.getSexe().setTempsDerniereReproduction(0);
-                        // TODO : quel facteur de mutation appliqué ?
-                        this.embryon = new Creature(this, creatureLaPlusProche, 0.5, new Random());
+                        this.embryon = new Creature(this, creatureLaPlusProche, ConstantesBiologiques.mutationGenerale, new Random());
                     } else if (this.getSexe().getGenre() == Genre.Male) {
                         energiePerdueReproduction += this.getSexe().getDonEnergieEnfant();
                     }

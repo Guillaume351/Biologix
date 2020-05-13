@@ -4,6 +4,7 @@ import Entites.Creatures.Creature;
 import Entites.Entite;
 import Entites.Ressources.Ressource;
 import Environnement.Meteo.Meteo;
+import Utils.ConstantesBiologiques;
 import Utils.Updatable;
 import com.badlogic.gdx.math.Vector2;
 
@@ -13,12 +14,17 @@ import java.util.List;
 
 public class Terrain implements Updatable {
     double temps = 0;
+    static int DIV_ANG = 20;
+    static float RMAX = 300f;
+    static int DIV_R = 40;
 
     public double getTemps() {
         return temps;
     }
     private Meteo meteo;
     private List<Entite> entites;
+    int subdivX = (int) (3 * ConstantesBiologiques.XMAX);
+
     private AltitudeMap altitudes;
     private double gravite;
     private double pourcentageEau;
@@ -28,16 +34,7 @@ public class Terrain implements Updatable {
      * Taille du terrain. Correspond au nombre de tile (tileset carré)
      */
     private int taille;
-
-
-    public Terrain(Meteo meteo, List<Entite> entites, AltitudeMap altitudes, double gravite, double pourcentageEau, int taille) {
-        this.meteo = meteo;
-        this.entites = entites;
-        this.altitudes = altitudes;
-        this.gravite = gravite;
-        this.pourcentageEau = pourcentageEau;
-        this.taille = taille;
-    }
+    int subdivY = (int) (3 * ConstantesBiologiques.YMAX);
 
     /**
      * Renvoie la meteo de la carte
@@ -63,6 +60,17 @@ public class Terrain implements Updatable {
         return entites;
     }
 
+    TerrainInfo[][] quadrillage;
+
+    public Terrain(Meteo meteo, List<Entite> entites, AltitudeMap altitudes, double gravite, double pourcentageEau, int taille) {
+        this.meteo = meteo;
+        this.entites = entites;
+        this.altitudes = altitudes;
+        this.gravite = gravite;
+        this.pourcentageEau = pourcentageEau;
+        this.taille = taille;
+        genererQuadrillage();
+    }
 
     /**
      * Obtenir la liste des créatures presente sur le terrain.
@@ -117,10 +125,6 @@ public class Terrain implements Updatable {
         this.entites = entites;
     }
 
-    /**
-     * Obtenir la carte d'altitude du terrain.
-     * @return la carte d'altitude
-     */
     public AltitudeMap getAltitudes() {
         return altitudes;
     }
@@ -176,11 +180,44 @@ public class Terrain implements Updatable {
         temps += delta_t;
     }
 
-    static int DIV_ANG = 5;
-    static float RMAX = 200;
-    static int DIV_R = 5;
+    public TerrainInfo getTerrainLocal(double x, double y) {
+        int X = (int) (Math.min(1, Math.max(0, x / ConstantesBiologiques.XMAX)) * (subdivX - 1));
+        int Y = (int) (Math.min(1, Math.max(0, y / ConstantesBiologiques.YMAX)) * (subdivY - 1));
+        return quadrillage[X][Y];
+    }
+
+    public void genererQuadrillage() {
+        this.quadrillage = new TerrainInfo[subdivX][subdivY];
+        for (int i = 0; i < subdivX; i++) {
+            for (int j = 0; j < subdivY; j++) {
+                double x = (i / (double) (subdivX - 1)) * ConstantesBiologiques.XMAX;
+                double y = (j / (double) (subdivY - 1)) * ConstantesBiologiques.YMAX;
+                this.quadrillage[i][j] = new TerrainInfo(this.getAltitudes().getValeur(new Vector2((float) x, (float) y)));
+            }
+        }
+    }
+
+    /**
+     * Obtenir la carte d'altitude du terrain.
+     *
+     * @return la carte d'altitude
+     */
+    public double getAltitude(Vector2 position) {
+        return getTerrainLocal(position.x, position.y).getAltitude();
+    }
 
     public Vector2 vectPointeurChgtMilieu(Creature creature) {
+        TerrainInfo ti = getTerrainLocal(creature.getPosition().x, creature.getPosition().y);
+        Vector2 vect = ti.getChgtMilieu();
+        if (vect == null) {
+            vect = calcVectPointeurChgtMilieu(creature);
+            ti.setChgtMilieu(vect);
+        }
+
+        return new Vector2(vect);
+    }
+
+    public Vector2 calcVectPointeurChgtMilieu(Creature creature) {
         boolean local = estDansEau(creature);
         boolean recherche = local;
         int nAng = 0;
@@ -204,6 +241,32 @@ public class Terrain implements Updatable {
         } else {
             return new Vector2(0, 0);
         }
+    }
+
+    public boolean LigneDeVue(Vector2 A, Vector2 B, double delta, double h0) {
+        //delta : taille d'un pas
+        //h0 : elevation de la ligne de vue
+        int nbPas = (int) (A.dst(B) / delta);
+        //Altitude en a
+        double h1 = getAltitude(A);
+        //Altitude en b
+        double h2 = getAltitude(B);
+        //resultat
+        boolean ok = true;
+        //parcourir le trajet
+        for (int i = 0; i < nbPas; i++) {
+            float k = (float) i / (float) nbPas;
+            //Altitude du terrain au point du parcours
+            double hloc = getAltitude(new Vector2(A).lerp(B, k));
+            //Altitude de la ligne de vue en ce point du parcours
+            double hview = (1.0 - k) * h1 + k * h2;
+            if (hview + h0 < hloc) {
+                //Si la ligne de vue passe sous le terrain
+                ok = false;
+                break;
+            }
+        }
+        return ok;
     }
 
 

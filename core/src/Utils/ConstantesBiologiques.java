@@ -2,6 +2,7 @@ package Utils;
 
 public class ConstantesBiologiques {
 
+    public static double mutationGenerale = 0.5;
     public static double tempsGestation = 1000;
 
     public static double rayonInteraction = 32;
@@ -68,8 +69,8 @@ public class ConstantesBiologiques {
     public static double isolationMin = 1;
 
     /*Vision*/
-    public static double densiteDistVision = 50000000;
-    public static double densiteChampVision = 30000000;
+    public static double densiteDistVision = 0.5;
+    public static double densiteChampVision = 30;
 
     /*Creature*/
     public static double tempInterneMax = 43;

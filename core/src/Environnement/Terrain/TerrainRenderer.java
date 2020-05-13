@@ -8,6 +8,7 @@ import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
+import com.badlogic.gdx.math.Vector2;
 
 public class TerrainRenderer {
 
@@ -57,12 +58,12 @@ public class TerrainRenderer {
         TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v2.jpg"))));
         TextureRegion angle = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("angle_v2.jpg"))));
 
-
+        //TODO Facteur d echelle ???
         for (int i = 0; i < taille; i++) {
             for (int k = 0; k < taille; k++) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                 StaticTiledMapTile staticTiledMapTile;
-                if (terrain.getAltitudes().getValeur(i, k) > terrain.getPourcentageEau()) {
+                if (terrain.getAltitude(new Vector2(i, k)) > terrain.getPourcentageEau()) {
                     staticTiledMapTile = new StaticTiledMapTile(terre);
                 } else {
                     staticTiledMapTile = new StaticTiledMapTile(eau);

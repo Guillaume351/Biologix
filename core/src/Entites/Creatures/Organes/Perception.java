@@ -60,7 +60,7 @@ public class Perception extends Organe {
         List<Localisable> result = Localisateur.getDansChampVision(this.getCreatureHote().getPosition(), this.getCreatureHote().getOrientation(), (List) entitesMap, this.champVision, this.distanceVue);
         List<Localisable> retour = new ArrayList<>();
         for (Localisable l : result) {
-            if (getCreatureHote().getTerrain().getAltitudes().LigneDeVue(getCreatureHote().getPosition(), l.getPosition(), 10, getCreatureHote().getTaille())) {
+            if (getCreatureHote().getTerrain().LigneDeVue(getCreatureHote().getPosition(), l.getPosition(), 10, getCreatureHote().getTaille())) {
                 retour.add(l);
             }
         }
