@@ -13,6 +13,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -34,6 +35,20 @@ public class EcranSimulation implements Screen {
 
     Viewport viewport;
     SpriteBatch batch;
+
+    /**
+     * Batch d'affichage des statistiques
+     */
+    SpriteBatch creatureStatsUI;
+
+    /**
+     * Entitée pour laquelle on affiche les statistiques
+     */
+    Entite entiteSelectionne;
+
+    /**
+     * Le terrain de la game
+     */
     Terrain gameWorld;
     TiledMap map;
     MapRenderer mapRenderer;
@@ -42,6 +57,10 @@ public class EcranSimulation implements Screen {
     CreatureRenderer creatureRenderer;
     RessourceRenderer ressourceRenderer;
 
+    /**
+     * Police d'écriture
+     */
+    BitmapFont font = new BitmapFont();
 
     public EcranSimulation() {
 
@@ -81,17 +100,17 @@ public class EcranSimulation implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1f);
         mapRenderer.setView(camera);
 
+
+        // Initilialisation de l'afficheur des stats de créature
+        this.creatureStatsUI = new SpriteBatch();
+
+
         // Test créature & ressource
         batch = new SpriteBatch();
+        // On projette sur la caméra
         batch.setProjectionMatrix(camera.combined);
         creatureRenderer = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
         ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessources(), batch);
-
-        //TODO : retirer
-        for (Entite entite : this.gameWorld.getEntites()) {
-            System.out.println(entite.getPosition());
-        }
-
     }
 
     @Override
@@ -99,6 +118,7 @@ public class EcranSimulation implements Screen {
         input.setInputProcessor(new CustomInputProcessor(camera));
 
     }
+
 
     @Override
     public void render(float delta) {
@@ -123,7 +143,8 @@ public class EcranSimulation implements Screen {
 
                 for (Entite entite : this.gameWorld.getEntites()) {
                     if (entite.getPosition().dst2(new Vector2(touchPos.x / (float) TILE_SIZE, touchPos.y / (float) TILE_SIZE)) < 20) {
-                        System.out.println(entite);
+                        //System.out.println(entite);
+                        this.entiteSelectionne = entite;
                     }
 
                 }
@@ -156,6 +177,25 @@ public class EcranSimulation implements Screen {
         // TODO : les créatures meurent toutes directement
         //System.out.println(this.gameWorld.getCreatures().size());
 
+
+        if (this.entiteSelectionne != null) { // Si on a selectionné une créature
+            this.creatureStatsUI.begin();
+            String textDeStats = "Position : " + this.entiteSelectionne.getPosition().toString();
+
+            if (this.entiteSelectionne instanceof Creature) {
+                textDeStats += "\nNom : " + ((Creature) this.entiteSelectionne).getNom() + " " + ((Creature) this.entiteSelectionne).getPrenom();
+                textDeStats += "\nAge : " + ((Creature) this.entiteSelectionne).getAge();
+                textDeStats += "\nMasse : " + ((Creature) this.entiteSelectionne).getMasse();
+                textDeStats += "\nTempérature : " + ((Creature) this.entiteSelectionne).getTemperatureInterne();
+                textDeStats += "\nTaille : " + ((Creature) this.entiteSelectionne).getTaille();
+            }
+
+
+            font.draw(this.creatureStatsUI, textDeStats, this.viewport.getWorldWidth() / 2, (this.viewport.getWorldHeight() / 2 - 100));
+
+            this.creatureStatsUI.end();
+        }
+
     }
 
     @Override
@@ -181,5 +221,6 @@ public class EcranSimulation implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
+        this.creatureStatsUI.dispose();
     }
 }
