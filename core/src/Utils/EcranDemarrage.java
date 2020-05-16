@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -11,6 +12,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.MyGdxGame;
+
+import java.util.Random;
 
 public class EcranDemarrage implements Screen {
 
@@ -30,13 +33,22 @@ public class EcranDemarrage implements Screen {
     public ImageButton boutonOptions;
     public TextureRegionDrawable imageBoutonOptions;
 
+    private SpriteBatch spriteBatchFond;
+    private Texture textureFond;
+
+    private int i;
+
 
     public EcranDemarrage(MyGdxGame jeu){
+        this.i = 0;
         this.jeu = jeu;
 
         this.lancerJeu = false;
         this.stage = new Stage();
         this.table = new Table();
+
+        this.spriteBatchFond = new SpriteBatch();
+        this.textureFond = new Texture(Gdx.files.internal("creature1.png"));
 
         this.petittest = new Texture(Gdx.files.internal("ui/bouton_lancer_partie.png"));
         this.imageBoutonLancer = new TextureRegionDrawable(this.petittest);
@@ -72,12 +84,21 @@ public class EcranDemarrage implements Screen {
 
     @Override
     public void render(float delta) {
-        //Gdx.gl.glClearColor(1, 1, 1, 1);
-        //Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //stage.act();
+        if (i % 50 == 0) {
+            Gdx.gl.glClearColor((float) 0.2, (float) 0.2, (float) 0.2, 0);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            //stage.act();
+            Random rand = new Random();
+            this.spriteBatchFond.begin();
+            for (int j = 0; j < 10; j++) {
+                this.spriteBatchFond.draw(this.textureFond, rand.nextInt(500), rand.nextInt(500), 100, 100);
+            }
+            this.spriteBatchFond.end();
+        }
         Gdx.input.setInputProcessor(this.stage);
         //stage.addActor(this.boutonLancer);
         stage.draw();
+        i++;
 
     }
 
