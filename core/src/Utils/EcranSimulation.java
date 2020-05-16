@@ -3,7 +3,7 @@ package Utils;
 import Entites.Creatures.Creature;
 import Entites.Creatures.CreatureRenderer;
 import Entites.Entite;
-import Entites.Ressources.RessourceRenderer;
+import Entites.Ressources.*;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Environnement.Terrain.TerrainRenderer;
@@ -13,10 +13,13 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CustomInputProcessor;
@@ -32,6 +35,20 @@ public class EcranSimulation implements Screen {
 
     Viewport viewport;
     SpriteBatch batch;
+
+    /**
+     * Batch d'affichage des statistiques
+     */
+    SpriteBatch creatureStatsUI;
+
+    /**
+     * Entitée pour laquelle on affiche les statistiques
+     */
+    Entite entiteSelectionne;
+
+    /**
+     * Le terrain de la game
+     */
     Terrain gameWorld;
     TiledMap map;
     MapRenderer mapRenderer;
@@ -40,8 +57,12 @@ public class EcranSimulation implements Screen {
     CreatureRenderer creatureRenderer;
     RessourceRenderer ressourceRenderer;
 
+    /**
+     * Police d'écriture
+     */
+    BitmapFont font = new BitmapFont();
 
-    public EcranSimulation(){
+    public EcranSimulation() {
 
         // Nos parametres de génération de map pour le test
         PerlinParams perlinParams = new PerlinParams(3, 0.01, 0.5, new Random().nextInt(10000), 1);
@@ -69,6 +90,7 @@ public class EcranSimulation implements Screen {
         // Les paramètres de notre caméras. TODO : faire davantage de tests pour obtenir une vue plus éloignée
         camera = new OrthographicCamera(800.f, 480.f);
 
+
         viewport = new FillViewport(800, 480, camera);
 
 
@@ -78,18 +100,25 @@ public class EcranSimulation implements Screen {
         mapRenderer = new OrthogonalTiledMapRenderer(this.map, 1f);
         mapRenderer.setView(camera);
 
+
+        // Initilialisation de l'afficheur des stats de créature
+        this.creatureStatsUI = new SpriteBatch();
+
+
         // Test créature & ressource
         batch = new SpriteBatch();
+        // On projette sur la caméra
         batch.setProjectionMatrix(camera.combined);
         creatureRenderer = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
         ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessources(), batch);
-
     }
+
     @Override
     public void show() {
         input.setInputProcessor(new CustomInputProcessor(camera));
 
     }
+
 
     @Override
     public void render(float delta) {
@@ -98,11 +127,32 @@ public class EcranSimulation implements Screen {
 
         // Gestion du déplacement de la caméra. TODO: a déplacer
         if (input.isButtonPressed(Input.Buttons.LEFT)) {
-
-            camera.position.x -= input.getDeltaX() * camera.zoom;
-            camera.position.y += input.getDeltaY() * camera.zoom;
+            if (input.getDeltaX() != 0 || input.getDeltaY() != 0) {
+                camera.position.x -= input.getDeltaX() * camera.zoom;
+                camera.position.y += input.getDeltaY() * camera.zoom;
+            }
         }
 
+        if (input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if (!(input.getDeltaX() != 0 || input.getDeltaY() != 0)) {
+
+                Vector3 touchPos = new Vector3();
+                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                camera.unproject(touchPos);
+                System.out.println(touchPos.x / 32f + ":" + touchPos.y / 32f);
+
+                for (Entite entite : this.gameWorld.getEntites()) {
+                    if (entite.getPosition().dst2(new Vector2(touchPos.x / (float) TILE_SIZE, touchPos.y / (float) TILE_SIZE)) < 20) {
+                        //System.out.println(entite);
+                        this.entiteSelectionne = entite;
+                    }
+
+                }
+
+
+            }
+
+        }
 
         camera.update();
         this.mapRenderer.setView(camera);
@@ -116,8 +166,8 @@ public class EcranSimulation implements Screen {
         List<Entite> updateEntites = new ArrayList<>(gameWorld.getEntites());
         for (Entite c : gameWorld.getEntites()) {
             c.update(0.1);
-            if (c instanceof Creature){
-                if (!((Creature) c).getEnVie()){
+            if (c instanceof Creature) {
+                if (!((Creature) c).getEnVie()) {
                     updateEntites.remove(c);
                 }
             }
@@ -126,6 +176,45 @@ public class EcranSimulation implements Screen {
         this.creatureRenderer.setCreatures(this.gameWorld.getCreatures());
         // TODO : les créatures meurent toutes directement
         //System.out.println(this.gameWorld.getCreatures().size());
+
+
+        if (this.entiteSelectionne != null) { // Si on a selectionné une créature
+            this.creatureStatsUI.begin();
+            String textDeStats = "Position : " + this.entiteSelectionne.getPosition().toString();
+
+            if (this.entiteSelectionne instanceof Creature) {
+                textDeStats += "\nNom : " + ((Creature) this.entiteSelectionne).getNom() + " " + ((Creature) this.entiteSelectionne).getPrenom();
+                textDeStats += "\nAge : " + ((Creature) this.entiteSelectionne).getAge();
+                textDeStats += "\nMasse : " + ((Creature) this.entiteSelectionne).getMasse();
+                textDeStats += "\nEnergie : " + ((Creature) this.entiteSelectionne).getGraisse().getEnergie();
+                textDeStats += "\nTempérature : " + ((Creature) this.entiteSelectionne).getTemperatureInterne();
+                textDeStats += "\nTaille : " + ((Creature) this.entiteSelectionne).getTaille();
+                textDeStats += ((Creature) this.entiteSelectionne).getEnVie() ? "" : "\nDécédée";
+            }
+
+            if (this.entiteSelectionne instanceof Viande) {
+                textDeStats += "\nViande ";
+                textDeStats += ((Viande) this.entiteSelectionne).estPourrie() ? "Pourrie" : "Consommable";
+
+            }
+
+            if (this.entiteSelectionne instanceof Arbre) {
+                textDeStats += "\nArbre ";
+            }
+
+            if (this.entiteSelectionne instanceof Fruit) {
+                textDeStats += "\nFruit ";
+            }
+
+            if (this.entiteSelectionne instanceof Ressource) {
+                textDeStats += "\nEnergie : " + ((Ressource) this.entiteSelectionne).getQuantiteEnergie();
+            }
+
+
+            font.draw(this.creatureStatsUI, textDeStats, this.viewport.getWorldWidth() / 2, (this.viewport.getWorldHeight() / 2));
+
+            this.creatureStatsUI.end();
+        }
 
     }
 
@@ -152,5 +241,6 @@ public class EcranSimulation implements Screen {
     @Override
     public void dispose() {
         batch.dispose();
+        this.creatureStatsUI.dispose();
     }
 }
