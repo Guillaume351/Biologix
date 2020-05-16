@@ -13,6 +13,7 @@ import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
 import Utils.Position.Localisable;
 import Utils.Position.Localisateur;
+import Utils.Stats.Stat;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.*;
@@ -192,7 +193,7 @@ public class Creature extends Entite {
         //Energie Cinetique
         double Ecin = mouvement.getEnergieDepenseeParUniteMasse(dt, vitesse);
 
-        return masse * Math.min(0, Epot + Ecin);
+        return masse * Math.max(0, Epot + Ecin);
     }
 
     /**
@@ -443,6 +444,7 @@ public class Creature extends Entite {
 
     public boolean update(InputsCerveau entrees, double dt) {
 
+        Stat stat = new Stat();
         boolean vivant = true;
 
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
@@ -460,32 +462,33 @@ public class Creature extends Entite {
         update_organes(sortieCerveau, dt);
 
         double energiePerdueSubsistance = getCoutSubsistance(dt);
-
+        stat.setEnergiePerdueSubsistance(energiePerdueSubsistance);
         /* Mise à jour de l'oxygène */
         boolean encoreOxygene = update_oxygene(dt);
 
         double energiePerdueThermiquement = update_thermique(dt);
-
+        stat.setEnergiePerdueThermiquement(energiePerdueThermiquement);
         double energiePerdueDeplacement = update_deplacement(sortieCerveau, dt);
-
+        stat.setEnergiePerdueDeplacement(energiePerdueDeplacement);
         /* Mise à jour des points de vie */
         boolean encorePdv = update_foie(creatureLaPlusProche,dt);
 
         double energiePerdueCombat = update_combat(creatureLaPlusProche);
-
+        stat.setEnergiePerdueCombat(energiePerdueCombat);
         double energieGagneeManger = update_manger(sortieCerveau);
-
+        stat.setEnergieGagneeManger(energieGagneeManger);
         double energiePerdueReproduction = update_reproduction(creatureLaPlusProche, sortieCerveau);
-
+        stat.setEnergiePerdueReproduction(energiePerdueReproduction);
         double energiePerdueAccouchement = update_accouchement();
-
+        stat.setEnergiePerdueAccouchement(energiePerdueAccouchement);
         double energiePerdue = energiePerdueThermiquement + energiePerdueSubsistance + energiePerdueDeplacement + energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat + energiePerdueAccouchement;
-
+        stat.setEnergieStockee(this.graisse.getEnergie());
+        stat.setQuantiteOxygene(this.appareilRespiratoire.getQuantiteOxygene());
+        stat.afficherStats();
         /* Mise à jour de l'énergie */
         boolean encoreEnergie = update_graisse(energieGagneeManger, energiePerdue);
 
         if (!encoreOxygene || !encorePdv || !encoreEnergie){
-            System.out.println("Quantite d'energie : " + this.graisse.getEnergie());
             this.enVie = false;
             vivant = false;
             // TODO : faire mourir la créature !!!

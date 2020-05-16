@@ -1,4 +1,4 @@
-package Utils;
+package Utils.Stats;
 
 import java.util.List;
 
