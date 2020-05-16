@@ -46,8 +46,8 @@ public class ConstantesBiologiques {
     public static double densiteDePvMax = 64;
 
     /* Graisse */
-    public static double efficaciteEnrgetiqueMin = 1;
-    public static double efficaciteEnergetiqueMax = 2;
+    public static double efficaciteEnrgetiqueMin = 100;
+    public static double efficaciteEnergetiqueMax = 2000;
     public static double rendementAccouchement = 3;
     public static double coutCroissanceRelatif = 0.75;
 
@@ -84,8 +84,8 @@ public class ConstantesBiologiques {
     public static double energieMaxStockable = 100;
 
     /*arbre*/
-    public static double tailleArbreMin = 0.5;
-    public static double tailleArbreMax = 2;
+    public static double tailleArbreMin = 3;
+    public static double tailleArbreMax = 10;
 
     /*fruit*/
     public static double dureeDeVieFruit = 100;
@@ -101,5 +101,5 @@ public class ConstantesBiologiques {
     public static double croissanceMaxVegetal;
 
     /*Rendu*/
-    public static double PixelsParCoord = 3;
+    public static double PixelsParCoord = 32;
 }
