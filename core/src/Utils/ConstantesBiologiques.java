@@ -99,4 +99,7 @@ public class ConstantesBiologiques {
     public static int toleranceTemperatureVegetal;
     public static int temperatureIdealeVegetal;
     public static double croissanceMaxVegetal;
+
+    /*Rendu*/
+    public static double PixelsParCoord = 3;
 }

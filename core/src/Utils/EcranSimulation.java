@@ -54,7 +54,7 @@ public class EcranSimulation implements Screen {
         this.gameWorld = generator.getGeneratedTerrain();
 
         // On créer notre outil de rendu de terrain
-        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld, 300);
+        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld);
         this.camera = new OrthographicCamera();
 
         // On récupère le terrain convertit en TileSet
