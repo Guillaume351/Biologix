@@ -30,7 +30,7 @@ public class ConstantesBiologiques {
     public static double densiteOxygeneMax = 3;
 
     /* Bouche */
-    public static double efficaciteVoracite = 4;    // sera > 1
+    public static double efficaciteVoracite = 20;    // sera > 1
     public static double capaciteVoraciteMin = 2;
     public static double capaciteVoraciteMax = 3;
 
@@ -91,9 +91,9 @@ public class ConstantesBiologiques {
     public static double dureeDeVieFruit = 100;
 
     /*viande*/
-    public static double energieMaxStockableViande = 20;
+    public static double energieMaxStockableViande = 2000;
 
-    public static double vitessePourritureMax = 10;
+    public static double vitessePourritureMax = 0.3;
     public static double stabilitePourriture = 3;
 
     public static int toleranceTemperatureVegetal;
