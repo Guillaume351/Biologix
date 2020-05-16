@@ -5,6 +5,7 @@ import Entites.Entite;
 import Entites.Ressources.Ressource;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Statisticien {
@@ -26,6 +27,26 @@ public class Statisticien {
         nbBlessures = new ArrayList<>();
         nbAccouchement = new ArrayList<>();
         nbReproduction = new ArrayList<>();
+    }
+
+    private static List<Integer> histogramme(List<Double> valeurs, int nbSubdiv) {
+        List<Integer> retour = new ArrayList<>();
+        if (valeurs.size() > 0) {
+            Collections.sort(valeurs);
+            double min = valeurs.get(0);
+            double max = valeurs.get(valeurs.size() - 1);
+            int indice = 0;
+            for (int i = 1; i <= nbSubdiv; i++) {
+                int indivDansClasse = 0;
+                double borneMax = i * (max - min) / nbSubdiv + min;
+                while (valeurs.get(indice) <= borneMax && indice < valeurs.size()) {
+                    indivDansClasse++;
+                    indice++;
+                }
+                retour.add(indivDansClasse);
+            }
+        }
+        return retour;
     }
 
     public void collecter(List<Entite> entites) {
@@ -59,6 +80,7 @@ public class Statisticien {
         historiqueStatsIndividuelles.add(statsActuelles);
         historiqueStatsGlobales.add(new Stat(statsActuelles));
         historiqueAgeMoyen.add(sommeAge / nbCrea);
+
         historiqueAges.add(ages);
         historiqueEnergiesDisponibles.add(energieDispo);
         nbBlessures.add(bless);
