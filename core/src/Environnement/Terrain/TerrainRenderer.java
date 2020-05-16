@@ -87,7 +87,7 @@ public class TerrainRenderer {
             }
         }
         layers.add(layer1);
-        layer2.setOpacity(0.35f);
+        layer2.setOpacity(0.36f);
         layers.add(layer2);
         return map;
     }
