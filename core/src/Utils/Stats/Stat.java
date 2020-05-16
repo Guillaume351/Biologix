@@ -11,6 +11,7 @@ public class Stat {
     double energiePerdueReproduction = 0;
     double energiePerdueAccouchement = 0;
     double energieStockee;
+    double quantiteOxygene;
 
     public Stat() {
         this.energiePerdueSubsistance = 0;
@@ -19,9 +20,11 @@ public class Stat {
         this.energiePerdueCombat = 0;
         this.energiePerdueReproduction = 0;
         this.energiePerdueAccouchement = 0;
+        this.quantiteOxygene = 0;
     }
 
     public Stat(List<Stat> stats) {
+        this();
         for (Stat s : stats) {
             this.energiePerdueSubsistance += s.energiePerdueSubsistance;
             this.energiePerdueThermiquement += s.energiePerdueThermiquement;
@@ -30,7 +33,16 @@ public class Stat {
             this.energieGagneeManger += s.energieGagneeManger;
             this.energiePerdueReproduction += s.energiePerdueReproduction;
             this.energiePerdueAccouchement += s.energiePerdueAccouchement;
+            this.quantiteOxygene += s.quantiteOxygene;
         }
+    }
+
+    public double getQuantiteOxygene() {
+        return quantiteOxygene;
+    }
+
+    public void setQuantiteOxygene(double quantiteOxygene) {
+        this.quantiteOxygene = quantiteOxygene;
     }
 
     public double getEnergieStockee() {
@@ -55,6 +67,7 @@ public class Stat {
         System.out.println("Bilan : " + (energieGagneeManger - energiePerdueTotal));
         System.out.println("Stock : " + energieStockee);
         System.out.println("Gains/Stock : " + energieGagneeManger / energieStockee);
+        System.out.println("O2 : " + quantiteOxygene);
     }
 
     public double getEnergiePerdueSubsistance() {

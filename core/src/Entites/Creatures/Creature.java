@@ -483,12 +483,12 @@ public class Creature extends Entite {
         stat.setEnergiePerdueAccouchement(energiePerdueAccouchement);
         double energiePerdue = energiePerdueThermiquement + energiePerdueSubsistance + energiePerdueDeplacement + energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat + energiePerdueAccouchement;
         stat.setEnergieStockee(this.graisse.getEnergie());
+        stat.setQuantiteOxygene(this.appareilRespiratoire.getQuantiteOxygene());
         stat.afficherStats();
         /* Mise à jour de l'énergie */
         boolean encoreEnergie = update_graisse(energieGagneeManger, energiePerdue);
 
         if (!encoreOxygene || !encorePdv || !encoreEnergie){
-            System.out.println("Quantite d'energie : " + this.graisse.getEnergie());
             this.enVie = false;
             vivant = false;
             // TODO : faire mourir la créature !!!

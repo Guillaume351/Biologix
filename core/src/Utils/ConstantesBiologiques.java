@@ -8,7 +8,7 @@ public class ConstantesBiologiques {
     public static double rayonInteraction = 32;
 
     public static double rapportMasseConsommationOxygene = 0.1;
-    public static double rapportMasseProductionOxygene = 0.2;
+    public static double rapportMasseProductionOxygene = 10;
 
     public static double tailleOrganeMin = 0.5;
     public static double tailleOrganeMax = 1;
@@ -46,8 +46,8 @@ public class ConstantesBiologiques {
     public static double densiteDePvMax = 64;
 
     /* Graisse */
-    public static double efficaciteEnrgetiqueMin = 100;
-    public static double efficaciteEnergetiqueMax = 2000;
+    public static double efficaciteEnrgetiqueMin = 200;
+    public static double efficaciteEnergetiqueMax = 9000;
     public static double rendementAccouchement = 3;
     public static double coutCroissanceRelatif = 0.75;
 
