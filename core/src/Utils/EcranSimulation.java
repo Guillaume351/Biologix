@@ -8,7 +8,6 @@ import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Environnement.Terrain.TerrainRenderer;
 import Utils.Perlin.PerlinParams;
-import Utils.Position.Localisable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -22,9 +21,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CustomInputProcessor;
 
-import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -56,7 +53,7 @@ public class EcranSimulation implements Screen {
         this.gameWorld = generator.getGeneratedTerrain();
 
         // On créer notre outil de rendu de terrain
-        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld, 300);
+        TerrainRenderer renderTerrain = new TerrainRenderer(this.gameWorld);
         this.camera = new OrthographicCamera();
 
         // On récupère le terrain convertit en TileSet

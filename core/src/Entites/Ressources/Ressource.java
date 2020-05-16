@@ -28,4 +28,7 @@ public abstract class Ressource extends Entite {
         this.quantiteEnergie = quantiteEnergie;
     }
 
+    public double getTaille() {
+        return 1;
+    }
 }
