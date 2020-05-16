@@ -63,13 +63,17 @@ public class EcranSimulation implements Screen {
      */
     BitmapFont font = new BitmapFont();
 
-    public EcranSimulation() {
+    public EcranSimulation(){
+        this(100);
+    }
+
+    public EcranSimulation(int nombreCreatures) {
 
         // Nos parametres de génération de map pour le test
         PerlinParams perlinParams = new PerlinParams(3, 0.01, 0.5, new Random().nextInt(10000), 1);
 
         // On créer notre générateur de terrain
-        TerrainGenerator generator = new TerrainGenerator(perlinParams, 100, 25, 25, 25);
+        TerrainGenerator generator = new TerrainGenerator(perlinParams, nombreCreatures, 25, 25, 25);
 
         // On génère le terrain
         this.gameWorld = generator.getGeneratedTerrain();

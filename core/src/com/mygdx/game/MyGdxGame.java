@@ -33,16 +33,18 @@ public class MyGdxGame extends Game {
 
     EcranDemarrage ecranDemarrage;
     public EcranSimulation ecranSimulation;
-    EcranOptions ecranOptions;
+    public EcranOptions ecranOptions;
+    int i = 0;
 
     @Override
     public void create() {
-        InputEvent event = new InputEvent();
-        this.ecranDemarrage = new EcranDemarrage();
+        //this.ecranDemarrage = new EcranDemarrage();
         this.ecranOptions = new EcranOptions();
-        this.ecranSimulation = new EcranSimulation();
+        this.ecranDemarrage = new EcranDemarrage(this);
+        //this.ecranSimulation = new EcranSimulation();
         //setScreen(ecranOptions);
         setScreen(ecranDemarrage);
+
     }
 
     @Override
@@ -50,8 +52,34 @@ public class MyGdxGame extends Game {
 
         if (screen != null) screen.render(Gdx.graphics.getDeltaTime());
 
-        if (this.ecranDemarrage.lancerJeu && getScreen() != this.ecranSimulation){
+        if (this.ecranOptions.retourEcranDemarrage && getScreen() == this.ecranOptions){
+            //setScreen(ecranSimulation);
+            setScreen(this.ecranDemarrage);
+            this.ecranOptions.retourEcranDemarrage = false;
+        }
+
+       if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && this.ecranOptions.nbCreatureValide){
+            int nombreCreatures = Integer.parseInt(this.ecranOptions.nombreCreatures.getText());
+            this.ecranSimulation = new EcranSimulation(nombreCreatures);
             setScreen(this.ecranSimulation);
+           //setScreen(ecranOptions);
+       }
+       else if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && !this.ecranOptions.nbCreatureValide){
+           this.ecranSimulation = new EcranSimulation();
+           setScreen(this.ecranSimulation);
+       }
+
+
+        if (this.ecranDemarrage.options && getScreen() == this.ecranDemarrage){
+            setScreen(this.ecranOptions);
+            this.ecranDemarrage.options = false;
+            //setScreen(ecranOptions);
+        }
+
+        if (this.getScreen() == this.ecranSimulation && i == 0){
+            this.ecranDemarrage.dispose();
+            this.ecranOptions.dispose();
+            i++;
         }
     }
 }

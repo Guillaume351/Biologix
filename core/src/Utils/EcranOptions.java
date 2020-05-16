@@ -6,13 +6,17 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.loaders.AssetLoader;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 import java.awt.*;
 
@@ -22,39 +26,75 @@ public class EcranOptions implements Screen {
     private Table table;
     private Skin skin;
 
-    private TextField nombreCreatures;
+    public TextField nombreCreatures;
     private TextField.TextFieldStyle style;
-    private MyTextInputListener test;
+
+    private Label labelNbCreatures;
+    private Label.LabelStyle styleLabel;
+    private BitmapFont bitmapLabel;
+
+    private ImageButton boutonValider;
+
+    public boolean nbCreatureValide;
+    public boolean retourEcranDemarrage;
+
+    private Texture styleBg;
 
     public EcranOptions(){
-        //this.style = new TextField.TextFieldStyle(new BitmapFont(new FileHandle("test.txt"),new TextureRegion(new Texture(Gdx.files.internal("arbre.png")))), Color.WHITE, null, null, null);
-        //this.skin = new Skin( Gdx.files.internal( "ui/defaultskin.json" ));
+        this.retourEcranDemarrage = false;
+        this.nbCreatureValide = false;
+        this.bitmapLabel = new BitmapFont(Gdx.files.internal("default.fnt"));
+        this.styleLabel = new Label.LabelStyle(this.bitmapLabel, Color.WHITE);
+        this.labelNbCreatures = new Label("Nombre de créatures :", this.styleLabel);
         this.style = new TextField.TextFieldStyle(new BitmapFont(Gdx.files.internal("default.fnt")), Color.WHITE, null, null, null);
+        this.style.fontColor = Color.BLACK;
+        this.styleBg = new Texture(Gdx.files.internal("ui/case_nb_creatures.png"));
+        this.style.background = new TextureRegionDrawable(this.styleBg);
+        this.style.cursor = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/curseur_nb_creatures.png")));
         this.table = new Table();
         this.stage = new Stage();
-        this.nombreCreatures = new TextField("Nombre de créatures : ", this.style);
+        this.nombreCreatures = new TextField("", this.style);
         this.nombreCreatures.setWidth(200);
-        int ok = this.nombreCreatures.getMaxLength();
-        //this.nombreCreatures.addLister();
-        //this.nombreCreatures.appendText("test");
-        //this.nombreCreatures.clear();
-        System.out.println(ok);
+        this.nombreCreatures.setMessageText("100");  // nombre de créatures par défaut
+        this.nombreCreatures.setTextFieldListener(new TextField.TextFieldListener() {
+            @Override
+            public void keyTyped(TextField textField, char c) {
+                if (c == '\t'){
+                    try {
+                        int nbCreat = Integer.parseInt(nombreCreatures.getText());
+                        nbCreatureValide = true;
+                    }
+                    catch (NumberFormatException e)
+                    {
+                        // TODO : il faudra ajouter un label pour dire d'entrer un entier
+                        System.out.println("Il faut entrer un entier !");
+                        nbCreatureValide = false;
+                    }
+                }
+            }
+        });
+
+        this.boutonValider = new ImageButton(new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/retour_ecran_dem.png"))));
+        this.boutonValider.addListener(new GestionBoutonValider());
+        this.table.setFillParent(true);
+        this.table.add(this.labelNbCreatures);
+        this.table.row();
+        this.table.add(this.nombreCreatures);
+        this.table.row();
+        this.table.add(this.boutonValider).pad(100);
+
+        this.stage.addActor(this.table);
         Gdx.input.setInputProcessor(stage);
-
-        this.test = new MyTextInputListener();
-
-        this.stage.addActor(this.nombreCreatures);
     }
 
     @Override
-    public void show() {
+    public void show(){
 
     }
 
     @Override
     public void render(float delta) {
-        Gdx.input.setInputProcessor(stage);
-        stage.addActor(this.table);
+        Gdx.input.setInputProcessor(this.stage);
         stage.draw();
     }
 
@@ -75,21 +115,29 @@ public class EcranOptions implements Screen {
 
     @Override
     public void hide() {
-
+        //this.table.clear();
+        //this.stage.clear();
+        //this.stage.dispose();
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     @Override
     public void dispose() {
+        this.stage.dispose();
+    }
+
+    public class GestionBoutonValider extends InputListener {
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+            if (nbCreatureValide) {
+                retourEcranDemarrage = true;
+            }
+            return true;
+        }
+
 
     }
 
-    public class MyTextInputListener implements Input.TextInputListener {
-        @Override
-        public void input (String text) {
-        }
-
-        @Override
-        public void canceled () {
-        }
-    }
 }
