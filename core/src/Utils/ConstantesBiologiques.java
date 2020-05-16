@@ -102,4 +102,5 @@ public class ConstantesBiologiques {
 
     /*Rendu*/
     public static double PixelsParCoord = 32;
+    public static boolean AltLayer = false;
 }
