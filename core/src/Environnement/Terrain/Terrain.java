@@ -5,6 +5,7 @@ import Entites.Entite;
 import Entites.Ressources.Ressource;
 import Environnement.Meteo.Meteo;
 import Utils.ConstantesBiologiques;
+import Utils.Stats.Statisticien;
 import Utils.Updatable;
 import com.badlogic.gdx.math.Vector2;
 
@@ -29,6 +30,8 @@ public class Terrain implements Updatable {
     private double gravite;
     private double pourcentageEau;
 
+
+    Statisticien statisticien;
 
     /**
      * Taille du terrain. Correspond au nombre de tile (tileset carré)
@@ -69,6 +72,7 @@ public class Terrain implements Updatable {
         this.gravite = gravite;
         this.pourcentageEau = pourcentageEau;
         this.taille = taille;
+        this.statisticien = new Statisticien();
         genererQuadrillage();
     }
 
@@ -179,6 +183,7 @@ public class Terrain implements Updatable {
     public void update(double delta_t) {
         //TODO
         temps += delta_t;
+        statisticien.collecter(entites);
     }
 
     public TerrainInfo getTerrainLocal(double x, double y) {
