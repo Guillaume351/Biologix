@@ -3,7 +3,7 @@ package Utils;
 import Entites.Creatures.Creature;
 import Entites.Creatures.CreatureRenderer;
 import Entites.Entite;
-import Entites.Ressources.RessourceRenderer;
+import Entites.Ressources.*;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Environnement.Terrain.TerrainRenderer;
@@ -186,12 +186,32 @@ public class EcranSimulation implements Screen {
                 textDeStats += "\nNom : " + ((Creature) this.entiteSelectionne).getNom() + " " + ((Creature) this.entiteSelectionne).getPrenom();
                 textDeStats += "\nAge : " + ((Creature) this.entiteSelectionne).getAge();
                 textDeStats += "\nMasse : " + ((Creature) this.entiteSelectionne).getMasse();
+                textDeStats += "\nEnergie : " + ((Creature) this.entiteSelectionne).getGraisse().getEnergie();
                 textDeStats += "\nTempérature : " + ((Creature) this.entiteSelectionne).getTemperatureInterne();
                 textDeStats += "\nTaille : " + ((Creature) this.entiteSelectionne).getTaille();
+                textDeStats += ((Creature) this.entiteSelectionne).getEnVie() ? "" : "\nDécédée";
+            }
+
+            if (this.entiteSelectionne instanceof Viande) {
+                textDeStats += "\nViande ";
+                textDeStats += ((Viande) this.entiteSelectionne).estPourrie() ? "Pourrie" : "Consommable";
+
+            }
+
+            if (this.entiteSelectionne instanceof Arbre) {
+                textDeStats += "\nArbre ";
+            }
+
+            if (this.entiteSelectionne instanceof Fruit) {
+                textDeStats += "\nFruit ";
+            }
+
+            if (this.entiteSelectionne instanceof Ressource) {
+                textDeStats += "\nEnergie : " + ((Ressource) this.entiteSelectionne).getQuantiteEnergie();
             }
 
 
-            font.draw(this.creatureStatsUI, textDeStats, this.viewport.getWorldWidth() / 2, (this.viewport.getWorldHeight() / 2 - 100));
+            font.draw(this.creatureStatsUI, textDeStats, this.viewport.getWorldWidth() / 2, (this.viewport.getWorldHeight() / 2));
 
             this.creatureStatsUI.end();
         }
