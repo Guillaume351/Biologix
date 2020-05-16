@@ -8,7 +8,6 @@ import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Environnement.Terrain.TerrainRenderer;
 import Utils.Perlin.PerlinParams;
-import Utils.Position.Localisable;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -18,13 +17,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CustomInputProcessor;
 
-import javax.swing.text.html.HTMLDocument;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
@@ -72,6 +70,7 @@ public class EcranSimulation implements Screen {
         // Les paramètres de notre caméras. TODO : faire davantage de tests pour obtenir une vue plus éloignée
         camera = new OrthographicCamera(800.f, 480.f);
 
+
         viewport = new FillViewport(800, 480, camera);
 
 
@@ -101,9 +100,16 @@ public class EcranSimulation implements Screen {
 
         // Gestion du déplacement de la caméra. TODO: a déplacer
         if (input.isButtonPressed(Input.Buttons.LEFT)) {
+            if (input.getDeltaX() > 0 || input.getDeltaY() > 0) {
+                camera.position.x -= input.getDeltaX() * camera.zoom;
+                camera.position.y += input.getDeltaY() * camera.zoom;
+            } else {
+                Vector3 touchPos = new Vector3();
+                touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+                camera.unproject(touchPos);
+                System.out.println(touchPos.x + ":" + touchPos.y);
+            }
 
-            camera.position.x -= input.getDeltaX() * camera.zoom;
-            camera.position.y += input.getDeltaY() * camera.zoom;
         }
 
 
