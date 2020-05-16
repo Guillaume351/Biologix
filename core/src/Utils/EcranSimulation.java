@@ -17,6 +17,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapRenderer;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -42,7 +43,7 @@ public class EcranSimulation implements Screen {
     RessourceRenderer ressourceRenderer;
 
 
-    public EcranSimulation(){
+    public EcranSimulation() {
 
         // Nos parametres de génération de map pour le test
         PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(10000), 1);
@@ -86,7 +87,13 @@ public class EcranSimulation implements Screen {
         creatureRenderer = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
         ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessources(), batch);
 
+        //TODO : retirer
+        for (Entite entite : this.gameWorld.getEntites()) {
+            System.out.println(entite.getPosition());
+        }
+
     }
+
     @Override
     public void show() {
         input.setInputProcessor(new CustomInputProcessor(camera));
@@ -100,18 +107,31 @@ public class EcranSimulation implements Screen {
 
         // Gestion du déplacement de la caméra. TODO: a déplacer
         if (input.isButtonPressed(Input.Buttons.LEFT)) {
-            if (input.getDeltaX() > 0 || input.getDeltaY() > 0) {
+            if (input.getDeltaX() != 0 || input.getDeltaY() != 0) {
                 camera.position.x -= input.getDeltaX() * camera.zoom;
                 camera.position.y += input.getDeltaY() * camera.zoom;
-            } else {
+            }
+        }
+
+        if (input.isButtonJustPressed(Input.Buttons.LEFT)) {
+            if (!(input.getDeltaX() != 0 || input.getDeltaY() != 0)) {
+
                 Vector3 touchPos = new Vector3();
                 touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                 camera.unproject(touchPos);
-                System.out.println(touchPos.x + ":" + touchPos.y);
+                System.out.println(touchPos.x / 32f + ":" + touchPos.y / 32f);
+
+                for (Entite entite : this.gameWorld.getEntites()) {
+                    if (entite.getPosition().dst2(new Vector2(touchPos.x / (float) TILE_SIZE, touchPos.y / (float) TILE_SIZE)) < 20) {
+                        System.out.println(entite);
+                    }
+
+                }
+
+
             }
 
         }
-
 
         camera.update();
         this.mapRenderer.setView(camera);
@@ -125,8 +145,8 @@ public class EcranSimulation implements Screen {
         List<Entite> updateEntites = new ArrayList<>(gameWorld.getEntites());
         for (Entite c : gameWorld.getEntites()) {
             c.update(0.1);
-            if (c instanceof Creature){
-                if (!((Creature) c).getEnVie()){
+            if (c instanceof Creature) {
+                if (!((Creature) c).getEnVie()) {
                     updateEntites.remove(c);
                 }
             }
