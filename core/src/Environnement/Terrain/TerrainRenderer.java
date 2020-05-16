@@ -11,8 +11,6 @@ import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.tiles.StaticTiledMapTile;
 import com.badlogic.gdx.math.Vector2;
 
-import static Utils.ConstantesBiologiques.AltLayer;
-
 public class TerrainRenderer {
 
     // Contient le terrain sous forme de TiledMap
@@ -91,7 +89,7 @@ public class TerrainRenderer {
         layers.add(layer1);
         layer2.setOpacity(0.36f);
         // On ajoute la layer d'altitudes seulement si elle est activée (cause du lag)
-        if (AltLayer) {
+        if (ConstantesBiologiques.AltLayer) {
             layers.add(layer2);
         }
         return map;

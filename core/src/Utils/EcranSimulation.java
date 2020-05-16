@@ -24,6 +24,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CustomInputProcessor;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -179,16 +180,17 @@ public class EcranSimulation implements Screen {
 
 
         if (this.entiteSelectionne != null) { // Si on a selectionné une créature
+            DecimalFormat df = new DecimalFormat("0.00##");
             this.creatureStatsUI.begin();
             String textDeStats = "Position : " + this.entiteSelectionne.getPosition().toString();
 
             if (this.entiteSelectionne instanceof Creature) {
                 textDeStats += "\nNom : " + ((Creature) this.entiteSelectionne).getNom() + " " + ((Creature) this.entiteSelectionne).getPrenom();
-                textDeStats += "\nAge : " + ((Creature) this.entiteSelectionne).getAge();
-                textDeStats += "\nMasse : " + ((Creature) this.entiteSelectionne).getMasse();
-                textDeStats += "\nEnergie : " + ((Creature) this.entiteSelectionne).getGraisse().getEnergie();
-                textDeStats += "\nTempérature : " + ((Creature) this.entiteSelectionne).getTemperatureInterne();
-                textDeStats += "\nTaille : " + ((Creature) this.entiteSelectionne).getTaille();
+                textDeStats += "\nAge : " + (int) (((Creature) this.entiteSelectionne).getAge());
+                textDeStats += "\nMasse : " + df.format(((Creature) this.entiteSelectionne).getMasse());
+                textDeStats += "\nEnergie : " + df.format(((Creature) this.entiteSelectionne).getGraisse().getEnergie());
+                textDeStats += "\nTempérature : " + df.format(((Creature) this.entiteSelectionne).getTemperatureInterne());
+                textDeStats += "\nTaille : " + df.format(((Creature) this.entiteSelectionne).getTaille());
                 textDeStats += ((Creature) this.entiteSelectionne).getEnVie() ? "" : "\nDécédée";
             }
 
