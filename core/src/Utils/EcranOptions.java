@@ -118,9 +118,6 @@ public class EcranOptions implements Screen {
 
     @Override
     public void hide() {
-        //this.table.clear();
-        //this.stage.clear();
-        //this.stage.dispose();
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }

@@ -58,7 +58,6 @@ public class EcranDemarrage implements Screen {
         this.boutonLancer.setSize(300, 30);
         this.boutonLancer.setPosition(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
         this.boutonLancer.setTransform(true);
-        /*utton2.scaleBy(0.5f); */
 
         this.imageBoutonOptions = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/bouton_options.png")));
         this.boutonOptions = new ImageButton(this.imageBoutonOptions);
@@ -96,7 +95,6 @@ public class EcranDemarrage implements Screen {
             this.spriteBatchFond.end();
         }
         Gdx.input.setInputProcessor(this.stage);
-        //stage.addActor(this.boutonLancer);
         stage.draw();
         i++;
 
@@ -119,8 +117,6 @@ public class EcranDemarrage implements Screen {
 
     @Override
     public void hide() {
-        //this.petittest.dispose();
-        //this.stage.dispose();
         if (!this.jeu.ecranOptions.retourEcranDemarrage) {
             Gdx.gl.glClearColor(0, 0, 0, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
