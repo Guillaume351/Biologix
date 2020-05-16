@@ -209,7 +209,7 @@ public class EcranSimulation implements Screen {
             }
 
             if (this.entiteSelectionne instanceof Ressource) {
-                textDeStats += "\nEnergie : " + ((Ressource) this.entiteSelectionne).getQuantiteEnergie();
+                textDeStats += "\nEnergie : " + df.format(((Ressource) this.entiteSelectionne).getQuantiteEnergie());
             }
 
 
