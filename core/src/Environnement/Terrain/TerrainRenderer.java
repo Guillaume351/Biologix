@@ -1,5 +1,6 @@
 package Environnement.Terrain;
 
+import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
@@ -20,13 +21,14 @@ public class TerrainRenderer {
      */
     public static final int TILE_SIZE = 32;
     /**
-     * La taille de la map qui est render
+     * La taille de la map qui est render en cases
      */
     private int taille;
 
 
-    public TerrainRenderer(Terrain terrain, int taille) {
-        this.taille = taille;
+    public TerrainRenderer(Terrain terrain) {
+        double nbPixelsMap = ConstantesBiologiques.XMAX * ConstantesBiologiques.PixelsParCoord;
+        this.taille = (int) (nbPixelsMap / TILE_SIZE);
         this.map = convertToTiledMap(terrain);
 
     }
@@ -57,13 +59,13 @@ public class TerrainRenderer {
         TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v2.jpg"))));
         TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v2.jpg"))));
         TextureRegion angle = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("angle_v2.jpg"))));
-
+        double echelle = TILE_SIZE / ConstantesBiologiques.PixelsParCoord;
         //TODO Facteur d echelle ???
         for (int i = 0; i < taille; i++) {
             for (int k = 0; k < taille; k++) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                 StaticTiledMapTile staticTiledMapTile;
-                if (terrain.getAltitude(new Vector2(i, k)) > terrain.getPourcentageEau()) {
+                if (terrain.getAltitude(new Vector2((float) (i * echelle), (float) (k * echelle))) > terrain.getPourcentageEau()) {
                     staticTiledMapTile = new StaticTiledMapTile(terre);
                 } else {
                     staticTiledMapTile = new StaticTiledMapTile(eau);

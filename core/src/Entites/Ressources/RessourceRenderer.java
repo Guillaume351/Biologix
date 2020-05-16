@@ -1,5 +1,6 @@
 package Entites.Ressources;
 
+import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -45,18 +46,21 @@ public class RessourceRenderer {
 
         for (Ressource ressource : this.ressources) {
             //TODO : faire un switch avec les différents types de ressources
+            int x = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getPosition().x);
+            int y = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getPosition().y);
+            int taille = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getTaille());
             if (ressource instanceof Viande) {
                 if (((Viande) ressource).estPourrie()) {
-                    spriteBatchCreature.draw(textureViandePourrie, 32 * ressource.getPosition().x, 32 * ressource.getPosition().y, 32 * 2, 32 * 2);
+                    spriteBatchCreature.draw(textureViandePourrie, x, y, taille, taille);
                 } else {
-                    spriteBatchCreature.draw(textureViande, 32 * ressource.getPosition().x, 32 * ressource.getPosition().y, 32 * 2, 32 * 2);
+                    spriteBatchCreature.draw(textureViande, x, y, taille, taille);
                 }
             }
             if (ressource instanceof Fruit) {
-                spriteBatchCreature.draw(textureFruit, 32 * ressource.getPosition().x, 32 * ressource.getPosition().y, 32 * 2, 32 * 2);
+                spriteBatchCreature.draw(textureFruit, x, y, taille, taille);
             }
             if (ressource instanceof Arbre) {
-                spriteBatchCreature.draw(textureArbre, 32 * ressource.getPosition().x, 32 * ressource.getPosition().y, 32 * 2, 96 * 2);
+                spriteBatchCreature.draw(textureArbre, x, y, taille, taille);
             }
 
         }

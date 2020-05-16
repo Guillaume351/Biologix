@@ -1,5 +1,6 @@
 package Entites.Creatures;
 
+import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,9 +38,13 @@ public class CreatureRenderer {
     public void dessinerCreature() {
         //spriteBatchCreature.draw(textureCreature, 32 * this.creatureHote.getPosition().x, 32 * this.creatureHote.getPosition().y, 500, 500);
 
+
         for (Creature creat : this.creatures) {
-            //TODO : remplacer 32
-            spriteBatchCreature.draw(textureCreature, 32 * creat.getPosition().x, 32 * creat.getPosition().y, 32 * 2, 32 * 2);
+            int x = (int) (ConstantesBiologiques.PixelsParCoord * creat.getPosition().x);
+            int y = (int) (ConstantesBiologiques.PixelsParCoord * creat.getPosition().y);
+            int taille = (int) (creat.getTaille() * ConstantesBiologiques.PixelsParCoord);
+
+            spriteBatchCreature.draw(textureCreature, x, y, taille, taille);
         }
     }
 

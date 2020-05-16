@@ -373,7 +373,6 @@ public class Creature extends Entite {
         double energiePerdueReproduction;
         if (creatureLaPlusProche != null) {
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-                double volonteReproductive = sortieCerveau.getVolonteReproductive();
                 double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
                 Sexe sexeAutre = creatureLaPlusProche.getSexe();
                 boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);

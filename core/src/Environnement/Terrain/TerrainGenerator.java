@@ -70,7 +70,7 @@ public class TerrainGenerator {
     public Meteo initMeteo() {
         //TODO : rendre les parametres modifiables.
         //TODO : rendre random la météo iniale
-        return new Meteo(new MeteoMap(perlinParams, -10, 30), new MeteoMap(perlinParams, 0, 100), Meteo.TypeMeteo.SOLEIL, 20, 10, 0.4);
+        return new Meteo(new MeteoMap(perlinParams, 1, 30), new MeteoMap(perlinParams, 1, 100), Meteo.TypeMeteo.SOLEIL, 20, 10, 0.4);
     }
 
 
