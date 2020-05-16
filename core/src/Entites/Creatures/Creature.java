@@ -11,6 +11,7 @@ import Environnement.Meteo.Meteo;
 import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
+import Utils.GenerateurNom;
 import Utils.Position.Localisable;
 import Utils.Position.Localisateur;
 import Utils.Stats.Stat;
@@ -20,43 +21,8 @@ import java.util.*;
 
 public class Creature extends Entite {
 
-    boolean enVie;
-
-    Creature embryon;
-
-    Vector2 orientation;
-
-    double vitesse;
-    double age;
-    double temperatureInterne;
-
-    Cerveau cerveau;
-    OutputsCerveau OutCerveau;
-
-    AppareilRespiratoire appareilRespiratoire;
-    Bouche bouche;
-    Defensif defensif;
-    Digestion digestion;
-    Ecailles ecailles;
-    Foie foie;
-    Fourrure fourrure;
-    Graisse graisse;
-    Offensif offensif;
-    Sexe sexe;
-    Mouvement mouvement;
-    Perception perception;
-    List<Organe> organes;
-    Terrain terrain;
-
-    //Statistiques
-    public boolean reproduction_;
-    public boolean accouchement_;
-    public boolean blessure_;
-    private Stat stat;
-
-    public Stat getStat() {
-        return stat;
-    }
+    String nom;
+    String prenom;
 
     public Creature(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
@@ -95,6 +61,9 @@ public class Creature extends Entite {
         this.terrain = terrain;
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
         OutCerveau = null;
+        this.nom = GenerateurNom.genererNomPropre(r);
+        this.prenom = GenerateurNom.genererNomPropre(r);
+        System.out.println(this.prenom + " " + this.nom);
     }
 
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
@@ -135,6 +104,66 @@ public class Creature extends Entite {
         this.terrain = mere.getTerrain();
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
         OutCerveau = null;
+        if (r.nextInt(2) == 0) {
+            this.nom = pere.nom;
+        } else {
+            this.nom = mere.nom;
+        }
+        this.prenom = GenerateurNom.genererNomPropre(r);
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    boolean enVie;
+
+    Creature embryon;
+
+    Vector2 orientation;
+
+    double vitesse;
+    double age;
+    double temperatureInterne;
+
+    Cerveau cerveau;
+    OutputsCerveau OutCerveau;
+
+    AppareilRespiratoire appareilRespiratoire;
+    Bouche bouche;
+    Defensif defensif;
+    Digestion digestion;
+    Ecailles ecailles;
+    Foie foie;
+    Fourrure fourrure;
+    Graisse graisse;
+    Offensif offensif;
+    Sexe sexe;
+    Mouvement mouvement;
+    Perception perception;
+    List<Organe> organes;
+    Terrain terrain;
+
+    //Statistiques
+    public boolean reproduction_;
+    public boolean accouchement_;
+    public boolean blessure_;
+    private Stat stat;
+
+    public Stat getStat() {
+        return stat;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
     public void resetStatistiques_() {
