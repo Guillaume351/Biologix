@@ -87,8 +87,10 @@ public class Foie extends Organe {
             double deltaEnergie = energieAttaqueAdversaire - energieDefense;
             if (deltaEnergie > 0){
                 perteDeVie = deltaEnergie * ConstantesBiologiques.coeffDeBlessure;
+                this.getCreatureHote().blessure_ = true;
             } else {
                 perteDeVie = 0;
+                this.getCreatureHote().blessure_ = false;
             }
             return subVie(perteDeVie);
 

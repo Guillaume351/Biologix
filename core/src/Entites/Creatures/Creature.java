@@ -11,6 +11,7 @@ import Environnement.Meteo.Meteo;
 import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
 import Utils.ConstantesBiologiques;
+import Utils.GenerateurNom;
 import Utils.Position.Localisable;
 import Utils.Position.Localisateur;
 import Utils.Stats.Stat;
@@ -20,40 +21,8 @@ import java.util.*;
 
 public class Creature extends Entite {
 
-    boolean enVie;
-
-    Creature embryon;
-
-    Vector2 orientation;
-
-    double vitesse;
-    double age;
-    double temperatureInterne;
-
-    Cerveau cerveau;
-    OutputsCerveau OutCerveau;
-
-    AppareilRespiratoire appareilRespiratoire;
-    Bouche bouche;
-    Defensif defensif;
-    Digestion digestion;
-    Ecailles ecailles;
-    Foie foie;
-    Fourrure fourrure;
-    Graisse graisse;
-    Offensif offensif;
-    Sexe sexe;
-    Mouvement mouvement;
-    Perception perception;
-    List<Organe> organes;
-    Terrain terrain;
-
-    //Statistiques
-    public boolean reproduction_;
-    public boolean accouchement_;
-    public boolean combat_;
-    public double energieDepensee_;
-    public double energieGagnee_;
+    String nom;
+    String prenom;
 
     public Creature(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
@@ -92,6 +61,9 @@ public class Creature extends Entite {
         this.terrain = terrain;
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
         OutCerveau = null;
+        this.nom = GenerateurNom.genererNomPropre(r);
+        this.prenom = GenerateurNom.genererNomPropre(r);
+        System.out.println(this.prenom + " " + this.nom);
     }
 
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
@@ -132,14 +104,73 @@ public class Creature extends Entite {
         this.terrain = mere.getTerrain();
         organes = Arrays.asList(appareilRespiratoire, bouche, defensif, digestion, ecailles, foie, fourrure, graisse, offensif, sexe, mouvement, perception);
         OutCerveau = null;
+        if (r.nextInt(2) == 0) {
+            this.nom = pere.nom;
+        } else {
+            this.nom = mere.nom;
+        }
+        this.prenom = GenerateurNom.genererNomPropre(r);
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    boolean enVie;
+
+    Creature embryon;
+
+    Vector2 orientation;
+
+    double vitesse;
+    double age;
+    double temperatureInterne;
+
+    Cerveau cerveau;
+    OutputsCerveau OutCerveau;
+
+    AppareilRespiratoire appareilRespiratoire;
+    Bouche bouche;
+    Defensif defensif;
+    Digestion digestion;
+    Ecailles ecailles;
+    Foie foie;
+    Fourrure fourrure;
+    Graisse graisse;
+    Offensif offensif;
+    Sexe sexe;
+    Mouvement mouvement;
+    Perception perception;
+    List<Organe> organes;
+    Terrain terrain;
+
+    //Statistiques
+    public boolean reproduction_;
+    public boolean accouchement_;
+    public boolean blessure_;
+    private Stat stat;
+
+    public Stat getStat() {
+        return stat;
+    }
+
+    public String getPrenom() {
+        return prenom;
+    }
+
+    public void setPrenom(String prenom) {
+        this.prenom = prenom;
     }
 
     public void resetStatistiques_() {
         reproduction_ = false;
         accouchement_ = false;
-        combat_ = false;
-        energieDepensee_ = 0;
-        energieGagnee_ = 0;
+        blessure_ = false;
+        stat = new Stat();
     }
 
     /**
@@ -342,7 +373,6 @@ public class Creature extends Entite {
         double energiePerdueAttaque;
         if (creatureLaPlusProche != null) {
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-                //System.out.println("combat");
                 boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
                 if (!perteDeVieCombat) {
                     // TODO : faire mourir la créature
@@ -379,6 +409,7 @@ public class Creature extends Entite {
                 boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
                 if (testReproduction) {
                     System.out.println("reproduction");
+                    reproduction_ = true;
                     energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
                     if (this.getSexe().getGenre() == Genre.Femelle) {
                         this.getSexe().setEnceinte(true);
@@ -389,6 +420,7 @@ public class Creature extends Entite {
                     }
                 } else {
                     energiePerdueReproduction = 0;
+                    reproduction_ = false;
                 }
             } else {
                 energiePerdueReproduction = 0;
@@ -402,14 +434,16 @@ public class Creature extends Entite {
     public double update_accouchement(){
         // Accouchement
         double energiePerdueAccouchement;
-        double epsilon = this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation;
-        if (this.getSexe().getEnceinte() && epsilon > 0) {
+        double delta = this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation;
+        if (this.getSexe().getEnceinte() && delta > 0) {
             this.getSexe().setEnceinte(false);
             energiePerdueAccouchement = this.getSexe().getDonEnergieEnfant();
             // TODO : ajout de la nouvelle créature sur la map
-            this.terrain.getCreatures().add(this.embryon);
+            this.terrain.getEntites().add(this.embryon);
+            accouchement_ = true;
         } else {
             energiePerdueAccouchement = 0;
+            accouchement_ = false;
         }
         return energiePerdueAccouchement;
     }
@@ -444,7 +478,6 @@ public class Creature extends Entite {
 
     public boolean update(InputsCerveau entrees, double dt) {
 
-        Stat stat = new Stat();
         boolean vivant = true;
 
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
@@ -484,7 +517,6 @@ public class Creature extends Entite {
         double energiePerdue = energiePerdueThermiquement + energiePerdueSubsistance + energiePerdueDeplacement + energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat + energiePerdueAccouchement;
         stat.setEnergieStockee(this.graisse.getEnergie());
         stat.setQuantiteOxygene(this.appareilRespiratoire.getQuantiteOxygene());
-        stat.afficherStats();
         /* Mise à jour de l'énergie */
         boolean encoreEnergie = update_graisse(energieGagneeManger, energiePerdue);
 
