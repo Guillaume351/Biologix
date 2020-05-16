@@ -7,6 +7,7 @@ import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Environnement.Terrain.TerrainRenderer;
 import Utils.EcranDemarrage;
+import Utils.EcranOptions;
 import Utils.EcranSimulation;
 import Utils.Perlin.PerlinParams;
 import com.badlogic.gdx.ApplicationAdapter;
@@ -32,12 +33,15 @@ public class MyGdxGame extends Game {
 
     EcranDemarrage ecranDemarrage;
     public EcranSimulation ecranSimulation;
+    EcranOptions ecranOptions;
 
     @Override
     public void create() {
         InputEvent event = new InputEvent();
-        this.ecranDemarrage = new EcranDemarrage(this);
+        this.ecranDemarrage = new EcranDemarrage();
+        this.ecranOptions = new EcranOptions();
         this.ecranSimulation = new EcranSimulation();
+        //setScreen(ecranOptions);
         setScreen(ecranDemarrage);
     }
 

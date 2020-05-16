@@ -2,43 +2,49 @@ package Utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.mygdx.game.MyGdxGame;
 
 public class EcranDemarrage implements Screen {
 
-    private MyGdxGame jeu;
     private Stage stage;
-    private TextButton.TextButtonStyle styleBouton;
-    public TextButton boutonLancer;
-    public GestionBouton gestionBouton;
     public boolean lancerJeu;
 
-    public EcranDemarrage(MyGdxGame jeu){
+    public GestionBoutonLancer gestionBoutonLancer;
+    public ImageButton boutonLancer;
+    public TextureRegionDrawable imageBoutonLancer;
+
+    public GestionBoutonOptions gestionBoutonOptions;
+    public ImageButton boutonOptions;
+    public TextureRegionDrawable imageBoutonOptions;
+
+    public EcranDemarrage(){
         this.lancerJeu = false;
         this.stage = new Stage();
-        this.styleBouton = new TextButton.TextButtonStyle();
-        this.styleBouton.font = new BitmapFont();
-        this.boutonLancer = new TextButton("Lancer la simulation", this.styleBouton);
-        this.gestionBouton = new GestionBouton();
-        this.boutonLancer.addListener(this.gestionBouton);
 
-        boutonLancer.setSize(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
-        boutonLancer.setPosition(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
-        boutonLancer.setTransform(true);
+        this.imageBoutonLancer = new TextureRegionDrawable(new Texture(Gdx.files.internal("arbre.png")));
+        this.boutonLancer = new ImageButton(this.imageBoutonLancer);
+        this.gestionBoutonLancer = new GestionBoutonLancer();
+        this.boutonLancer.addListener(this.gestionBoutonLancer);
+        this.boutonLancer.setSize(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
+        this.boutonLancer.setPosition(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
+        this.boutonLancer.setTransform(true);
         /*utton2.scaleBy(0.5f); */
 
+        this.imageBoutonOptions = new TextureRegionDrawable(new Texture(Gdx.files.internal("banane.png")));
+        this.boutonOptions = new ImageButton(this.imageBoutonOptions);
+        this.gestionBoutonOptions = new GestionBoutonOptions();
+        this.boutonOptions.addListener(this.gestionBoutonOptions);
+        //this.boutonOptions
+
         Gdx.input.setInputProcessor(stage);
-        stage.addActor(this.boutonLancer);
+        this.stage.addActor(this.boutonLancer);
+        this.stage.addActor(this.boutonOptions);
     }
 
 
@@ -83,13 +89,21 @@ public class EcranDemarrage implements Screen {
 
     }
 
-    public class GestionBouton extends InputListener {
+    public class GestionBoutonLancer extends InputListener {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-            System.out.println("test");
             lancerJeu = true;
-            //jeu.setScreen(jeu.ecranSimulation);
+            return true;
+        }
+
+    }
+
+    public class GestionBoutonOptions extends InputListener {
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+            //lancerJeu = true;
             return true;
         }
 
