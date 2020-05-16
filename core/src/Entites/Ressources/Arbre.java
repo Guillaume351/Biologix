@@ -41,7 +41,9 @@ public class Arbre extends Vegetal {
         this.tailleMax = ConstantesBiologiques.tailleArbreMax;
     }
 
-    double getTaille() {return this.taille;}
+    public double getTaille() {
+        return this.taille;
+    }
 
     double getTailleMax() {return this.tailleMax;}
 
