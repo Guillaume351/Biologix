@@ -50,9 +50,11 @@ public class RessourceRenderer {
             int y = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getPosition().y);
             int taille = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getTaille());
             if (ressource instanceof Viande) {
-                if (((Viande) ressource).estPourrie()) {
+                if (((Viande) ressource).getEtatPourriture() == "Pourri") {
                     spriteBatchCreature.draw(textureViandePourrie, x, y, taille, taille);
-                } else {
+                } else if (((Viande) ressource).getEtatPourriture() == "Moyen") {
+                    spriteBatchCreature.draw(textureViandeMoyenPourrie, x, y, taille, taille);
+                }else {
                     spriteBatchCreature.draw(textureViande, x, y, taille, taille);
                 }
             }

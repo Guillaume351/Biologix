@@ -40,7 +40,7 @@ public class Viande extends Ressource {
      */
     public Viande(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
-        this.quantiteEnergie = ConstantesBiologiques.energieMaxStockableViande * r.nextDouble();
+        this.quantiteEnergie = /**ConstantesBiologiques.energieMaxStockableViande * r.nextDouble();*/ 2;
         this.tauxDePourriture = 0; //pas pourrie au début
         this.terrain = terrain;
     }
@@ -77,7 +77,21 @@ public class Viande extends Ressource {
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
-        return this.tauxDePourriture > getQuantiteEnergie();
+        return this.tauxDePourriture > this.getQuantiteEnergie();
+    }
+
+    /**
+     * Savoir si une viande est pourrie ou non
+     * @return true si elle est pourrie, false sinon
+     */
+    public String getEtatPourriture() {
+        if (this.tauxDePourriture > this.getQuantiteEnergie()) {
+            return "Pourri";
+        } else if (this.tauxDePourriture > this.getQuantiteEnergie()/2) {
+            return "Moyen";
+        } else {
+            return "Sain";
+        }
     }
 
     public double getVitessePourriture(double temperature) {
