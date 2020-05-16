@@ -37,10 +37,12 @@ public class EcranOptions implements Screen {
 
     public boolean nbCreatureValide;
     public boolean retourEcranDemarrage;
+    public boolean pasDeChangement;
 
     private Texture styleBg;
 
     public EcranOptions(){
+        this.pasDeChangement = true;
         this.retourEcranDemarrage = false;
         this.nbCreatureValide = false;
         this.bitmapLabel = new BitmapFont(Gdx.files.internal("default.fnt"));
@@ -63,6 +65,7 @@ public class EcranOptions implements Screen {
                     try {
                         int nbCreat = Integer.parseInt(nombreCreatures.getText());
                         nbCreatureValide = true;
+                        pasDeChangement = false;
                     }
                     catch (NumberFormatException e)
                     {
@@ -131,7 +134,7 @@ public class EcranOptions implements Screen {
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-            if (nbCreatureValide) {
+            if (nbCreatureValide || pasDeChangement) {
                 retourEcranDemarrage = true;
             }
             return true;
