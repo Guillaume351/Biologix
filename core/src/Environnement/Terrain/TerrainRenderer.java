@@ -55,26 +55,40 @@ public class TerrainRenderer {
         MapLayers layers = map.getLayers();
 
         TiledMapTileLayer layer1 = new TiledMapTileLayer(taille, taille, TILE_SIZE, TILE_SIZE);
-
+        TiledMapTileLayer layer2 = new TiledMapTileLayer(taille, taille, TILE_SIZE, TILE_SIZE);
         TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v2.jpg"))));
-        TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v2.jpg"))));
         TextureRegion angle = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("angle_v2.jpg"))));
+        TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v2.jpg"))));
+        Pixmap alt = new Pixmap(Gdx.files.internal("terre_v2.jpg"));
         double echelle = TILE_SIZE / ConstantesBiologiques.PixelsParCoord;
         //TODO Facteur d echelle ???
         for (int i = 0; i < taille; i++) {
             for (int k = 0; k < taille; k++) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+                TiledMapTileLayer.Cell cell2 = new TiledMapTileLayer.Cell();
                 StaticTiledMapTile staticTiledMapTile;
-                if (terrain.getAltitude(new Vector2((float) (i * echelle), (float) (k * echelle))) > terrain.getPourcentageEau()) {
+                StaticTiledMapTile staticTiledMapTile2;
+                double altitude = terrain.getAltitude(new Vector2((float) (i * echelle), (float) (k * echelle)));
+                if (altitude > terrain.getPourcentageEau()) {
                     staticTiledMapTile = new StaticTiledMapTile(terre);
+
                 } else {
                     staticTiledMapTile = new StaticTiledMapTile(eau);
                 }
+                float hue = (float) ((altitude - terrain.getAltitudes().getMin()) / (terrain.getAltitudes().getMax() - terrain.getAltitudes().getMin()));
+                alt.setColor(hue, hue, hue, 1f);
+                alt.fill();
+                staticTiledMapTile2 = new StaticTiledMapTile(new TextureRegion(new Texture(alt)));
+
                 cell.setTile(staticTiledMapTile);
+                cell2.setTile(staticTiledMapTile2);
                 layer1.setCell(i, k, cell);
+                layer2.setCell(i, k, cell2);
             }
         }
         layers.add(layer1);
+        layer2.setOpacity(0.35f);
+        layers.add(layer2);
         return map;
     }
 
@@ -85,4 +99,6 @@ public class TerrainRenderer {
     public void setMap(TiledMap map) {
         this.map = map;
     }
+
+
 }

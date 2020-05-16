@@ -86,14 +86,14 @@ public class Cerveau {
         }
         retour.setVolonteReproductive(sgn * envie_reproductive * normer(creatureHote.getSexe().getTempsDerniereReproduction()));
 
-        Vector2 objectif = Vnourriture.scl((float) (gloutonerie + prevoyance * (1.0 - creatureHote.getGraisse().getProportionStocks()))).add(
-                Vgregarite.scl((float) (gregarite + retour.getVolonteReproductive()))
+        Vector2 objectif = Vnourriture.nor().scl((float) (gloutonerie + prevoyance * (1.0 - creatureHote.getGraisse().getProportionStocks()))).add(
+                Vgregarite.nor().scl((float) (gregarite + retour.getVolonteReproductive()))
         ).add(
-                Vdanger.scl((float) bravoure)
+                Vdanger.nor().scl((float) bravoure)
         ).add(
-                Vnid.scl((float) (amourDuNid * (1.0 - creatureHote.getPerception().getAdaptationLumiere())))
+                Vnid.nor().scl((float) (amourDuNid * (1.0 - creatureHote.getPerception().getAdaptationLumiere())))
         ).add(
-                VtailleRelative.scl((float) (gloutonerie * creatureHote.getDigestion().getRegimeAlimentaire()))
+                VtailleRelative.nor().scl((float) (gloutonerie * creatureHote.getDigestion().getRegimeAlimentaire()))
         );
 
         retour.setVitesse(creatureHote.getMouvement().getVitesseMax(this.creatureHote.getTerrain()) * normer(objectif.len()));

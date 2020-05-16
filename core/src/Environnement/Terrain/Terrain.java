@@ -24,7 +24,7 @@ public class Terrain implements Updatable {
     }
     private Meteo meteo;
     private List<Entite> entites;
-    int subdivX = (int) (3 * ConstantesBiologiques.XMAX);
+    int subdivX = (int) (8 * ConstantesBiologiques.XMAX);
 
     private AltitudeMap altitudes;
     private double gravite;
@@ -37,7 +37,7 @@ public class Terrain implements Updatable {
      * Taille du terrain. Correspond au nombre de tile (tileset carré)
      */
     private int taille;
-    int subdivY = (int) (3 * ConstantesBiologiques.YMAX);
+    int subdivY = (int) (8 * ConstantesBiologiques.YMAX);
 
     /**
      * Renvoie la meteo de la carte

@@ -44,7 +44,7 @@ public class EcranSimulation implements Screen {
     public EcranSimulation(){
 
         // Nos parametres de génération de map pour le test
-        PerlinParams perlinParams = new PerlinParams(2, 0.01, 0.5, new Random().nextInt(10000), 1);
+        PerlinParams perlinParams = new PerlinParams(3, 0.01, 0.5, new Random().nextInt(10000), 1);
 
         // On créer notre générateur de terrain
         TerrainGenerator generator = new TerrainGenerator(perlinParams, 100, 25, 25, 25);

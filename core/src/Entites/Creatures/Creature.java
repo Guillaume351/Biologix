@@ -23,10 +23,14 @@ public class Creature extends Entite {
 
     String nom;
     String prenom;
+    Creature pere;
+    Creature mere;
 
     public Creature(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
         resetStatistiques_();
+        this.pere = null;
+        this.mere = null;
         this.enVie = true;
         this.embryon = null;
         this.orientation = new Vector2((float) r.nextDouble(), (float) r.nextDouble());
@@ -69,6 +73,8 @@ public class Creature extends Entite {
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
         super(new Vector2(mere.getPosition()));
         resetStatistiques_();
+        this.pere = pere;
+        this.mere = mere;
         this.enVie = true;
         double alea = ConstantesBiologiques.tempInterneMin + (ConstantesBiologiques.tempInterneMax - ConstantesBiologiques.tempInterneMin) * r.nextDouble();
         this.temperatureInterne = (mere.temperatureInterne + pere.temperatureInterne + alea * mutation) / (2 + mutation);
