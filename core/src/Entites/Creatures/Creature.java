@@ -488,7 +488,6 @@ public class Creature extends Entite {
         double energiePerdue = energiePerdueThermiquement + energiePerdueSubsistance + energiePerdueDeplacement + energiePerdueDeplacement + energiePerdueReproduction + energiePerdueCombat + energiePerdueAccouchement;
         stat.setEnergieStockee(this.graisse.getEnergie());
         stat.setQuantiteOxygene(this.appareilRespiratoire.getQuantiteOxygene());
-        stat.afficherStats();
         /* Mise à jour de l'énergie */
         boolean encoreEnergie = update_graisse(energieGagneeManger, energiePerdue);
 

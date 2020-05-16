@@ -49,6 +49,7 @@ public class Statisticien {
         return retour;
     }
 
+
     public void collecter(List<Entite> entites) {
         List<Stat> statsActuelles = new ArrayList<Stat>();
         List<Double> ages = new ArrayList<Double>();
