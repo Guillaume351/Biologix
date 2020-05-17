@@ -59,7 +59,7 @@ public class TerrainRenderer {
         TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v2.jpg"))));
         TextureRegion angle = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("angle_v2.jpg"))));
         TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v2.jpg"))));
-        Pixmap alt = new Pixmap(Gdx.files.internal("terre_v2.jpg"));
+        Pixmap alt = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGBA8888);
         double echelle = TILE_SIZE / ConstantesBiologiques.PixelsParCoord;
         StaticTiledMapTile staticTiledMapTile;
         StaticTiledMapTile staticTiledMapTile2;
@@ -89,6 +89,7 @@ public class TerrainRenderer {
 
             }
         }
+        alt.dispose();
         layers.add(layer1);
         // On ajoute la layer d'altitudes seulement si elle est activée (cause du lag)
         if (ConstantesBiologiques.AltLayer) {
