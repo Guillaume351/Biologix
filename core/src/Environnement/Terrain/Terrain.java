@@ -73,7 +73,9 @@ public class Terrain implements Updatable {
         this.pourcentageEau = pourcentageEau;
         this.taille = taille;
         this.statisticien = new Statisticien();
+        System.out.println("Genere quadrillage");
         genererQuadrillage();
+        System.out.println("Generation finie");
     }
 
     /**
@@ -200,6 +202,7 @@ public class Terrain implements Updatable {
                 double y = (j / (double) (subdivY - 1)) * ConstantesBiologiques.YMAX;
                 this.quadrillage[i][j] = new TerrainInfo(this.getAltitudes().getValeur(new Vector2((float) x, (float) y)));
             }
+            System.out.println(i + "/" + subdivX);
         }
     }
 

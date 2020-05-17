@@ -43,6 +43,11 @@ public class EcranSimulation implements Screen {
     SpriteBatch creatureStatsUI;
 
     /**
+     * Batch pour l'affichage des caractéristiques (Temp, humidité) de la carte
+     */
+    SpriteBatch carteStatsUI;
+
+    /**
      * Entitée pour laquelle on affiche les statistiques
      */
     Entite entiteSelectionne;
@@ -109,6 +114,8 @@ public class EcranSimulation implements Screen {
         // Initilialisation de l'afficheur des stats de créature
         this.creatureStatsUI = new SpriteBatch();
 
+        //Initialisation de l'afficheur des stats de la carte
+        this.carteStatsUI = new SpriteBatch();
 
         // Test créature & ressource
         batch = new SpriteBatch();
@@ -219,6 +226,12 @@ public class EcranSimulation implements Screen {
             this.creatureStatsUI.end();
         }
 
+        DecimalFormat df2 = new DecimalFormat("0.00##");
+        this.carteStatsUI.begin();
+        String textStatsCarte = "Température : " ;
+        textStatsCarte += "\nHumidité : ";
+        font.draw(this.carteStatsUI,textStatsCarte,70,this.viewport.getWorldHeight() - 10);
+        this.carteStatsUI.end();
     }
 
     @Override
