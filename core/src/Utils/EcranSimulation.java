@@ -43,6 +43,11 @@ public class EcranSimulation implements Screen {
     SpriteBatch creatureStatsUI;
 
     /**
+     * Batch pour l'affichage des caractéristiques (Temp, humidité) de la carte
+     */
+    SpriteBatch carteStatsUI;
+
+    /**
      * Entitée pour laquelle on affiche les statistiques
      */
     Entite entiteSelectionne;
@@ -109,6 +114,8 @@ public class EcranSimulation implements Screen {
         // Initilialisation de l'afficheur des stats de créature
         this.creatureStatsUI = new SpriteBatch();
 
+        //Initialisation de l'afficheur des stats de la carte
+        this.carteStatsUI = new SpriteBatch();
 
         // Test créature & ressource
         batch = new SpriteBatch();
@@ -144,16 +151,13 @@ public class EcranSimulation implements Screen {
                 Vector3 touchPos = new Vector3();
                 touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                 camera.unproject(touchPos);
-                System.out.println(touchPos.x / 32f + ":" + touchPos.y / 32f);
+                System.out.println(touchPos.x / (float) ConstantesBiologiques.PixelsParCoord + ":" + touchPos.y / (float) ConstantesBiologiques.PixelsParCoord);
 
                 for (Entite entite : this.gameWorld.getEntites()) {
-                    if (entite.getPosition().dst2(new Vector2(touchPos.x / (float) TILE_SIZE, touchPos.y / (float) TILE_SIZE)) < 20) {
-                        //System.out.println(entite);
+                    if (entite.getPosition().dst2(new Vector2(touchPos.x / (float) ConstantesBiologiques.PixelsParCoord, touchPos.y / (float) ConstantesBiologiques.PixelsParCoord)) < 20) {
                         this.entiteSelectionne = entite;
                     }
-
                 }
-
 
             }
 
@@ -222,6 +226,12 @@ public class EcranSimulation implements Screen {
             this.creatureStatsUI.end();
         }
 
+        DecimalFormat df2 = new DecimalFormat("0.00##");
+        this.carteStatsUI.begin();
+        String textStatsCarte = "Température : " ;
+        textStatsCarte += "\nHumidité : ";
+        font.draw(this.carteStatsUI,textStatsCarte,70,this.viewport.getWorldHeight() - 10);
+        this.carteStatsUI.end();
     }
 
     @Override
