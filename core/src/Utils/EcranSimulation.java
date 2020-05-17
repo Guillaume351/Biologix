@@ -144,16 +144,13 @@ public class EcranSimulation implements Screen {
                 Vector3 touchPos = new Vector3();
                 touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                 camera.unproject(touchPos);
-                System.out.println(touchPos.x / 32f + ":" + touchPos.y / 32f);
+                System.out.println(touchPos.x / (float) ConstantesBiologiques.PixelsParCoord + ":" + touchPos.y / (float) ConstantesBiologiques.PixelsParCoord);
 
                 for (Entite entite : this.gameWorld.getEntites()) {
-                    if (entite.getPosition().dst2(new Vector2(touchPos.x / (float) TILE_SIZE, touchPos.y / (float) TILE_SIZE)) < 20) {
-                        //System.out.println(entite);
+                    if (entite.getPosition().dst2(new Vector2(touchPos.x / (float) ConstantesBiologiques.PixelsParCoord, touchPos.y / (float) ConstantesBiologiques.PixelsParCoord)) < 20) {
                         this.entiteSelectionne = entite;
                     }
-
                 }
-
 
             }
 
