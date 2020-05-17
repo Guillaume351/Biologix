@@ -233,7 +233,7 @@ public class EcranSimulation implements Screen {
         this.carteStatsUI.begin();
         String textStatsCarte = "Température : " ;
         textStatsCarte += "\nHumidité : ";
-        font.draw(this.carteStatsUI,textStatsCarte,30,this.viewport.getWorldHeight());
+        font.draw(this.carteStatsUI,textStatsCarte,70,this.viewport.getWorldHeight() - 10);
         this.carteStatsUI.end();
     }
 
