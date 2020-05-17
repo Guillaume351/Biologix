@@ -19,7 +19,7 @@ public class ConstantesBiologiques {
     public static double densiteMin = 0.3;
     public static double densiteMax = 0.8;
 
-    public static double coutSubsistanceRelatif = 2;
+    public static double coutSubsistanceRelatif = 0.3;
 
 
     public static double efficaciteReproductiveMin = 0.1;
@@ -61,12 +61,12 @@ public class ConstantesBiologiques {
     public static double distanceGenetiqueMaxRepro = 1;
 
     /*Offensif*/
-    public static double puissanceAttaqueMax = 2;
-    public static double puissanceAttaqueMin = 1;
+    public static double puissanceAttaqueMax = 0.9;
+    public static double puissanceAttaqueMin = 0.5;
 
     /*Thermique*/
-    public static double isolationMax = 2;
-    public static double isolationMin = 1;
+    public static double isolationMax = 10;
+    public static double isolationMin = 6;
 
     /*Vision*/
     public static double densiteDistVision = 0.5;
@@ -103,4 +103,5 @@ public class ConstantesBiologiques {
     /*Rendu*/
     public static double PixelsParCoord = 32;
     public static boolean AltLayer = false;
+    public static double deltaT = 0.1;
 }

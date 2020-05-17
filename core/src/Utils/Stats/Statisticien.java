@@ -40,7 +40,7 @@ public class Statisticien {
             for (int i = 1; i <= nbSubdiv; i++) {
                 int indivDansClasse = 0;
                 double borneMax = i * (max - min) / nbSubdiv + min;
-                while (valeurs.get(indice) <= borneMax && indice < valeurs.size()) {
+                while (indice < valeurs.size() && valeurs.get(indice) <= borneMax) {
                     indivDansClasse++;
                     indice++;
                 }
@@ -52,28 +52,30 @@ public class Statisticien {
 
     public static Texture graphique(List<Double> valeurs, Color fond, Color ligne, int xSize, int ySize) {
         int n = valeurs.size();
-        double min = Collections.min(valeurs);
-        double max = Collections.max(valeurs);
+
         Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
         pix.setColor(fond);
         pix.fill();
-        pix.setColor(ligne);
-        double y0 = valeurs.get(0);
-        for (int i = 1; i < valeurs.size(); i++) {
-            double progression = i / (double) (valeurs.size() - 1);
-            double depart = (i - 1) / (double) (valeurs.size() - 1);
-            double y1 = valeurs.get(i);
+        if (n != 0) {
+            double min = Collections.min(valeurs);
+            double max = Collections.max(valeurs);
+            pix.setColor(ligne);
+            double y0 = valeurs.get(0);
+            for (int i = 1; i < valeurs.size(); i++) {
+                double progression = i / (double) (valeurs.size() - 1);
+                double depart = (i - 1) / (double) (valeurs.size() - 1);
+                double y1 = valeurs.get(i);
 
-            int x0_ = (int) (depart * xSize);
-            int x1_ = (int) (progression * xSize);
-            int y0_ = (int) (ySize * (1.0 - (y0 - min) / (max - min)));
-            int y1_ = (int) (ySize * (1.0 - (y1 - min) / (max - min)));
+                int x0_ = (int) (depart * xSize);
+                int x1_ = (int) (progression * xSize);
+                int y0_ = (int) (ySize * (1.0 - (y0 - min) / (max - min)));
+                int y1_ = (int) (ySize * (1.0 - (y1 - min) / (max - min)));
 
-            pix.drawLine(x0_, y0_, x1_, y1_);
+                pix.drawLine(x0_, y0_, x1_, y1_);
 
-            y0 = y1;
+                y0 = y1;
+            }
         }
-
         Texture retour = new Texture(pix);
         pix.dispose();
         return retour;
@@ -83,46 +85,28 @@ public class Statisticien {
         int n = valeurs.size();
         Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
 
+        if (n != 0) {
+            double min = customMin(valeurs);
+            double max = customMax(valeurs);
 
-        double min = customMin(valeurs);
-        double max = customMax(valeurs);
+            pix.setColor(fond);
+            pix.fill();
 
-        pix.setColor(fond);
-        pix.fill();
-
-        //Courbe de depenses
-        int largeur = xSize / valeurs.size();
-        for (int i = 0; i < valeurs.size(); i++) {
-            Stat st = valeurs.get(i);
-            double yd = 0;
-            int x0_ = i * largeur;
-            for (int j = 0; j < 6; j++) {
-                double val_double = st.getNiemeDepense(j);
-                double yu = yd + (val_double - min) / (max - min);
-                pix.setColor(getColorN(j));
-                pix.drawRectangle(x0_, ySize - (int) (yu * ySize), largeur, (int) ((yu - yd) * ySize));
-                yd = yu;
+            //Courbe de depenses
+            double largeur = xSize / (double) valeurs.size();
+            for (int i = 0; i < valeurs.size(); i++) {
+                Stat st = valeurs.get(i);
+                double yd = 0;
+                int x0_ = (int) (i * largeur);
+                for (int j = 0; j < 6; j++) {
+                    double val_double = st.getNiemeDepense(j);
+                    double yu = yd + (val_double - min) / (max - min);
+                    pix.setColor(getColorN(j));
+                    pix.fillRectangle(x0_, ySize - (int) (yu * ySize), (int) largeur, (int) ((yu - yd) * ySize));
+                    yd = yu;
+                }
             }
         }
-
-        //Courbe d'energie gagnee
-        pix.setColor(Color.GREEN);
-        double y0 = valeurs.get(0).energieGagneeManger;
-        for (int i = 1; i < valeurs.size(); i++) {
-            double progression = i / (double) (valeurs.size() - 1);
-            double depart = (i - 1) / (double) (valeurs.size() - 1);
-            double y1 = valeurs.get(i).energieGagneeManger;
-
-            int x0_ = (int) (depart * xSize);
-            int x1_ = (int) (progression * xSize);
-            int y0_ = (int) (ySize * (1.0 - (y0 - min) / (max - min)));
-            int y1_ = (int) (ySize * (1.0 - (y1 - min) / (max - min)));
-
-            pix.drawLine(x0_, y0_, x1_, y1_);
-
-            y0 = y1;
-        }
-
         Texture retour = new Texture(pix);
         pix.dispose();
         return retour;
@@ -147,10 +131,10 @@ public class Statisticien {
     }
 
     private static double customMin(List<Stat> valeurs) {
-        double ret = Math.min(valeurs.get(0).getEnergieDepenseeTotal(), valeurs.get(0).getEnergieGagneeManger());
+        double ret = valeurs.get(0).getEnergieDepenseeTotal();
 
         for (int i = 0; i < valeurs.size(); i++) {
-            double v = Math.min(valeurs.get(i).getEnergieDepenseeTotal(), valeurs.get(i).getEnergieGagneeManger());
+            double v = valeurs.get(i).getEnergieDepenseeTotal();
 
             if (v < ret) {
                 ret = v;
@@ -160,10 +144,10 @@ public class Statisticien {
     }
 
     private static double customMax(List<Stat> valeurs) {
-        double ret = Math.max(valeurs.get(0).getEnergieDepenseeTotal(), valeurs.get(0).getEnergieGagneeManger());
+        double ret = valeurs.get(0).getEnergieDepenseeTotal();
 
         for (int i = 0; i < valeurs.size(); i++) {
-            double v = Math.max(valeurs.get(i).getEnergieDepenseeTotal(), valeurs.get(i).getEnergieGagneeManger());
+            double v = valeurs.get(i).getEnergieDepenseeTotal();
 
             if (v > ret) {
                 ret = v;
@@ -173,7 +157,11 @@ public class Statisticien {
     }
 
     public Texture getHistogrameAges(int ancienete, int xSize, int ySize) {
-        return (graphique(histogramme(historiqueAges.get(historiqueAges.size() - ancienete), 10), Color.WHITE, Color.BLACK, xSize, ySize));
+        if (historiqueAges.size() > ancienete) {
+            return (graphique(histogramme(historiqueAges.get(historiqueAges.size() - ancienete - 1), 10), Color.WHITE, Color.BLACK, xSize, ySize));
+        } else {
+            return new Texture(new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888));
+        }
     }
 
     public Texture getGraphiqueAgeMoyen(int xSize, int ySize) {

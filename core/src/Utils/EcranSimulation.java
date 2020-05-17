@@ -8,6 +8,7 @@ import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Environnement.Terrain.TerrainRenderer;
 import Utils.Perlin.PerlinParams;
+import Utils.Stats.StatRenderer;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -62,6 +63,7 @@ public class EcranSimulation implements Screen {
 
     CreatureRenderer creatureRenderer;
     RessourceRenderer ressourceRenderer;
+    StatRenderer statRenderer;
 
     /**
      * Police d'écriture
@@ -123,6 +125,7 @@ public class EcranSimulation implements Screen {
         batch.setProjectionMatrix(camera.combined);
         creatureRenderer = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
         ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessources(), batch);
+        statRenderer = new StatRenderer(this.gameWorld.getStatisticien(), batch);
     }
 
     @Override
@@ -172,9 +175,11 @@ public class EcranSimulation implements Screen {
         creatureRenderer.renduCreature();
         boolean vivant;
         this.ressourceRenderer.renduRessource();
+        this.statRenderer.rendu();
+        gameWorld.update(ConstantesBiologiques.deltaT);
         List<Entite> updateEntites = new ArrayList<>(gameWorld.getEntites());
         for (Entite c : gameWorld.getEntites()) {
-            c.update(0.1);
+            c.update(ConstantesBiologiques.deltaT);
             if (c instanceof Creature) {
                 if (!((Creature) c).getEnVie()) {
                     updateEntites.remove(c);

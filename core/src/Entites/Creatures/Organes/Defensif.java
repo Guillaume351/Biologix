@@ -26,8 +26,8 @@ public class Defensif extends Organe {
     }
 
 
-    public double getEnergieDepenseeDefense() {
-        return this.volonteDefense * getPuissanceDefense() * this.getCreatureHote().getFoie().getProportionPv();
+    public double getEnergieDepenseeDefense(double dt) {
+        return this.volonteDefense * getPuissanceDefense() * this.getCreatureHote().getFoie().getProportionPv() * dt;
     }
 
 

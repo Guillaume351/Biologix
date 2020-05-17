@@ -27,8 +27,8 @@ public class Offensif extends Organe {
 
     public double getVolonteAttaque(){return this.volonteAttaque;}
 
-    public double getEnergieDepenseeAttaque() {
-        return this.volonteAttaque * this.puissanceAttaque * this.getCreatureHote().getFoie().getProportionPv();
+    public double getEnergieDepenseeAttaque(double dt) {
+        return this.volonteAttaque * this.puissanceAttaque * this.getCreatureHote().getFoie().getProportionPv() * dt;
     }
 
 

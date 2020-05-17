@@ -377,18 +377,18 @@ public class Creature extends Entite {
         return this.getAppareilRespiratoire().perteOxygene(dt);
     }
 
-    public double update_combat(Creature creatureLaPlusProche){
+    public double update_combat(Creature creatureLaPlusProche, double dt) {
         // Combattre
         double energiePerdueDefense;
         double energiePerdueAttaque;
         if (creatureLaPlusProche != null) {
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-                boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+                boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(dt), this.defensif.getEnergieDepenseeDefense(dt));
                 if (!perteDeVieCombat) {
                     // TODO : faire mourir la créature
                 }
-                energiePerdueDefense = this.defensif.getEnergieDepenseeDefense();
-                energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque();
+                energiePerdueDefense = this.defensif.getEnergieDepenseeDefense(dt);
+                energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque(dt);
             } else {
                 energiePerdueDefense = 0;
                 energiePerdueAttaque = 0;
@@ -463,7 +463,7 @@ public class Creature extends Entite {
         this.foie.soin(dt);
         if (creatureLaPlusProche != null) {
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-                return this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(), this.defensif.getEnergieDepenseeDefense());
+                return this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(dt), this.defensif.getEnergieDepenseeDefense(dt));
             } else {
                 return true;
             }
@@ -516,7 +516,7 @@ public class Creature extends Entite {
         /* Mise à jour des points de vie */
         boolean encorePdv = update_foie(creatureLaPlusProche,dt);
 
-        double energiePerdueCombat = update_combat(creatureLaPlusProche);
+        double energiePerdueCombat = update_combat(creatureLaPlusProche, dt);
         stat.setEnergiePerdueCombat(energiePerdueCombat);
         double energieGagneeManger = update_manger(sortieCerveau);
         stat.setEnergieGagneeManger(energieGagneeManger);
