@@ -54,7 +54,7 @@ public class Stat {
     }
 
     public void afficherStats() {
-        double energiePerdueTotal = energiePerdueAccouchement + energiePerdueCombat + energiePerdueDeplacement + energiePerdueReproduction + energiePerdueSubsistance + energiePerdueThermiquement;
+        double energiePerdueTotal = getEnergieDepenseeTotal();
         System.out.println("-----------------------------------------");
         System.out.println("Subsistance : " + energiePerdueSubsistance + " (" + energiePerdueSubsistance / energiePerdueTotal * 100 + " %)");
         System.out.println("Thermique : " + energiePerdueThermiquement + " (" + energiePerdueThermiquement / energiePerdueTotal * 100 + " %)");
@@ -74,6 +74,9 @@ public class Stat {
         return energiePerdueSubsistance;
     }
 
+    public double getEnergieDepenseeTotal() {
+        return energiePerdueAccouchement + energiePerdueCombat + energiePerdueDeplacement + energiePerdueReproduction + energiePerdueSubsistance + energiePerdueThermiquement;
+    }
     public void setEnergiePerdueSubsistance(double energiePerdueSubsistance) {
         this.energiePerdueSubsistance = energiePerdueSubsistance;
     }
@@ -125,4 +128,23 @@ public class Stat {
     public void setEnergiePerdueAccouchement(double energiePerdueAccouchement) {
         this.energiePerdueAccouchement = energiePerdueAccouchement;
     }
+
+    public double getNiemeDepense(int n) {
+        switch (n) {
+            case 0:
+                return getEnergiePerdueAccouchement();
+            case 1:
+                return getEnergiePerdueCombat();
+            case 2:
+                return getEnergiePerdueDeplacement();
+            case 3:
+                return getEnergiePerdueReproduction();
+            case 4:
+                return getEnergiePerdueSubsistance();
+            case 5:
+                return getEnergiePerdueThermiquement();
+        }
+        return 0;
+    }
 }
+

@@ -26,6 +26,8 @@ public class Creature extends Entite {
     Creature pere;
     Creature mere;
 
+    List<Stat> Historique;
+
     public Creature(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
         resetStatistiques_();
@@ -67,9 +69,51 @@ public class Creature extends Entite {
         OutCerveau = null;
         this.nom = GenerateurNom.genererNomPropre(r);
         this.prenom = GenerateurNom.genererNomPropre(r);
+        this.Historique = new ArrayList<>();
         System.out.println(this.prenom + " " + this.nom);
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    boolean enVie;
+
+    Creature embryon;
+
+    Vector2 orientation;
+
+    double vitesse;
+    double age;
+    double temperatureInterne;
+
+    Cerveau cerveau;
+    OutputsCerveau OutCerveau;
+
+    AppareilRespiratoire appareilRespiratoire;
+    Bouche bouche;
+    Defensif defensif;
+    Digestion digestion;
+    Ecailles ecailles;
+    Foie foie;
+    Fourrure fourrure;
+    Graisse graisse;
+    Offensif offensif;
+    Sexe sexe;
+    Mouvement mouvement;
+    Perception perception;
+    List<Organe> organes;
+    Terrain terrain;
+
+    //Statistiques
+    public boolean reproduction_;
+    public boolean accouchement_;
+    public boolean blessure_;
+    private Stat stat;
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
         super(new Vector2(mere.getPosition()));
         resetStatistiques_();
@@ -116,49 +160,8 @@ public class Creature extends Entite {
             this.nom = mere.nom;
         }
         this.prenom = GenerateurNom.genererNomPropre(r);
+        this.Historique = new ArrayList<>();
     }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    boolean enVie;
-
-    Creature embryon;
-
-    Vector2 orientation;
-
-    double vitesse;
-    double age;
-    double temperatureInterne;
-
-    Cerveau cerveau;
-    OutputsCerveau OutCerveau;
-
-    AppareilRespiratoire appareilRespiratoire;
-    Bouche bouche;
-    Defensif defensif;
-    Digestion digestion;
-    Ecailles ecailles;
-    Foie foie;
-    Fourrure fourrure;
-    Graisse graisse;
-    Offensif offensif;
-    Sexe sexe;
-    Mouvement mouvement;
-    Perception perception;
-    List<Organe> organes;
-    Terrain terrain;
-
-    //Statistiques
-    public boolean reproduction_;
-    public boolean accouchement_;
-    public boolean blessure_;
-    private Stat stat;
 
     public Stat getStat() {
         return stat;
@@ -538,11 +541,10 @@ public class Creature extends Entite {
 
     }
 
-
     @Override
     public void update(double delta_t) {
 
         update(new InputsCerveau(this), delta_t);
-
+        this.Historique.add(stat);
     }
 }

@@ -276,4 +276,7 @@ public class Terrain implements Updatable {
     }
 
 
+    public Statisticien getStatisticien() {
+        return statisticien;
+    }
 }
