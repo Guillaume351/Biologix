@@ -87,17 +87,17 @@ public class EcranOptions implements Screen {
         this.table.add(this.boutonValider).pad(100);
 
         this.stage.addActor(this.table);
-        Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(stage);
     }
 
     @Override
     public void show(){
-
+        Gdx.input.setInputProcessor(this.stage);
     }
 
     @Override
     public void render(float delta) {
-        Gdx.input.setInputProcessor(this.stage);
+        //Gdx.input.setInputProcessor(this.stage);
         stage.draw();
     }
 
@@ -120,6 +120,7 @@ public class EcranOptions implements Screen {
     public void hide() {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        //this.stage.dispose();
     }
 
     @Override

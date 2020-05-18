@@ -70,7 +70,7 @@ public class EcranDemarrage implements Screen {
         this.table.add(this.boutonOptions).pad(50);
         this.table.row();
 
-        Gdx.input.setInputProcessor(this.stage);
+        //Gdx.input.setInputProcessor(this.stage);
         this.stage.addActor(this.table);
     }
 
@@ -78,13 +78,13 @@ public class EcranDemarrage implements Screen {
     @Override
     public void show() {
         Gdx.input.setInputProcessor(this.stage);
+        Gdx.gl.glClearColor((float) 0.2, (float) 0.2, (float) 0.2, 0);
         stage.draw();
     }
 
     @Override
     public void render(float delta) {
         if (i % 50 == 0) {
-            Gdx.gl.glClearColor((float) 0.2, (float) 0.2, (float) 0.2, 0);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             //stage.act();
             Random rand = new Random();
@@ -94,7 +94,7 @@ public class EcranDemarrage implements Screen {
             }
             this.spriteBatchFond.end();
         }
-        Gdx.input.setInputProcessor(this.stage);
+        //Gdx.input.setInputProcessor(this.stage);
         stage.draw();
         i++;
 
@@ -117,15 +117,15 @@ public class EcranDemarrage implements Screen {
 
     @Override
     public void hide() {
-        if (!this.jeu.ecranOptions.retourEcranDemarrage) {
-            Gdx.gl.glClearColor(0, 0, 0, 0);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        }
+       // if (!this.jeu.ecranOptions.retourEcranDemarrage) {
+           Gdx.gl.glClearColor(0, 0, 0, 0);
+           Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+       // }
     }
 
     @Override
     public void dispose() {
-        this.stage.dispose();
+       this.stage.dispose();
 
     }
 
