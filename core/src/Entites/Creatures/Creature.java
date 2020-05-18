@@ -348,7 +348,7 @@ public class Creature extends Entite {
 
     // TODO : implémenter cette fonction
     public float getProximiteGenetique(Creature creature) {
-        return 0;
+        return 0.5f;
     }
 
 

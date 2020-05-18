@@ -24,7 +24,8 @@ public class InputsCerveau {
         for (Localisable ress : ressourcesVisibles) {
             Vector2 pointeur = new Vector2(ress.getPosition());
             pointeur.sub(getCreatureHote().getPosition());
-            pointeur = pointeur.nor().scl((float) getCreatureHote().getDigestion().extraireEnergie((Ressource) ress));
+            double k = getCreatureHote().getDigestion().extraireEnergie((Ressource) ress) / (1.0 + pointeur.len());
+            pointeur = pointeur.nor().scl((float) k);
             result = result.add(pointeur);
         }
         return result;
@@ -35,8 +36,11 @@ public class InputsCerveau {
         for (Localisable crea : creaturesVisibles) {
             Vector2 pointeur = new Vector2(crea.getPosition());
             pointeur.sub(getCreatureHote().getPosition());
-            pointeur = pointeur.nor().scl(this.getCreatureHote().getProximiteGenetique((Creature) crea));
-            result = result.add(pointeur);
+            double k = this.getCreatureHote().getProximiteGenetique((Creature) crea) / (1.0 + pointeur.len());
+            if (pointeur.len() > 2 * (getCreatureHote().getTaille() + ((Creature) crea).getTaille())) {
+                pointeur = pointeur.nor().scl((float) k);
+                result = result.add(pointeur);
+            }
         }
         return result;
     }
@@ -46,7 +50,8 @@ public class InputsCerveau {
         for (Localisable crea : creaturesVisibles) {
             Vector2 pointeur = new Vector2(crea.getPosition());
             pointeur.sub(getCreatureHote().getPosition());
-            pointeur = pointeur.nor().scl((float) (this.getCreatureHote().getTaille() / ((Creature) crea).getTaille()));
+            double k = (this.getCreatureHote().getTaille() / ((Creature) crea).getTaille()) / (1.0 + pointeur.len());
+            pointeur = pointeur.nor().scl((float) k);
             result = result.add(pointeur);
         }
         return result;
@@ -57,7 +62,8 @@ public class InputsCerveau {
         for (Localisable crea : creaturesVisibles) {
             Vector2 pointeur = new Vector2(crea.getPosition());
             pointeur.sub(getCreatureHote().getPosition());
-            pointeur = pointeur.nor().scl((float) (((Creature) crea).getOffensif().getPuissanceAttaque() - this.getCreatureHote().getDefensif().getPuissanceDefense()));
+            double k = ((Creature) crea).getOffensif().getPuissanceAttaque() - this.getCreatureHote().getDefensif().getPuissanceDefense() / (1.0 + pointeur.len());
+            pointeur = pointeur.nor().scl((float) k);
             result = result.add(pointeur);
         }
         return result;
