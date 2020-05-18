@@ -30,7 +30,7 @@ public class ConstantesBiologiques {
     public static double densiteOxygeneMax = 3;
 
     /* Bouche */
-    public static double efficaciteVoracite = 20;    // sera > 1
+    public static double efficaciteVoracite = 100;    // sera > 1 // avant  : 20
     public static double capaciteVoraciteMin = 2;
     public static double capaciteVoraciteMax = 3;
 

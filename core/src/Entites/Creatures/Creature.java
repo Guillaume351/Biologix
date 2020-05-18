@@ -402,6 +402,7 @@ public class Creature extends Entite {
 
     public double update_manger(OutputsCerveau sortieCerveau){
         // Manger
+        this.bouche.setNourritureMangee(null);
         double coeffVoracite = sortieCerveau.getCoeffVoracite();
         Collection<Localisable> ressourcesAccessiblesMap = (Localisateur.getPlusProcheQue(this.getPosition(), this.perception.getRessourcessVisibles(), ConstantesBiologiques.rayonInteraction)).values();
         ArrayList<Localisable> ressourcesAccessibles = new ArrayList<Localisable>(ressourcesAccessiblesMap);

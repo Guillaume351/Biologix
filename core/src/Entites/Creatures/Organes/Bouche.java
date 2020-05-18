@@ -11,15 +11,18 @@ import java.util.*;
 public class Bouche extends Organe {
 
     private double capaciteVoracite;    // entre min et max
+    private Ressource nourritureMangee;
 
     public Bouche(Random r){
         super(r);
+        this.nourritureMangee = null;
         this.capaciteVoracite = ConstantesBiologiques.capaciteVoraciteMin + (ConstantesBiologiques.capaciteVoraciteMax - ConstantesBiologiques.capaciteVoraciteMin) * r.nextDouble();
     }
 
     public Bouche(Bouche boucheMere, Bouche bouchePere, Random r, double mutation){
         super(boucheMere, bouchePere, r, mutation);
         Bouche boucheAlea = new Bouche(r);
+        this.nourritureMangee = null;
         this.capaciteVoracite = (boucheMere.capaciteVoracite + bouchePere.capaciteVoracite + boucheAlea.capaciteVoracite * mutation)/(2 + mutation);
     }
 
@@ -27,6 +30,10 @@ public class Bouche extends Organe {
     public double getCapaciteVoracite(){
         return this.capaciteVoracite;
     }
+
+    public Ressource getNourritureMangee(){return this.nourritureMangee;}
+
+    public void setNourritureMangee(Ressource nouvelleNourritureMangee){this.nourritureMangee = nouvelleNourritureMangee;}
 
 
     /**
@@ -72,7 +79,7 @@ public class Bouche extends Organe {
      * @return energie extraite moins energie depensee pour manger.
      */
     public double manger(List<Localisable> nourritureAccesible, double coeffVoracite) {
-        Localisable nouritureMangee = null;
+        Localisable nouvelleNourritureMangee = null;
         //Energie max que l'on peut mettre dans la bouche
         double EnergieMaxMangeable = getEnergieMaxMangeable(coeffVoracite);
         //energies RECUPERABLES par la creature triees dans l'ordre croissant
@@ -85,12 +92,14 @@ public class Bouche extends Organe {
             Map.Entry<Double, Ressource> mapentry = (Map.Entry<Double, Ressource>) iterator.next();
             if (mapentry.getValue().getQuantiteEnergie() < EnergieMaxMangeable) {
                 //Il existe une nourriture ou l'on peut repurerer plus d'energie, et que l'on peut mettre dans la bouche.
-                nouritureMangee = mapentry.getValue();
+                nouvelleNourritureMangee = mapentry.getValue();
                 energieRecuperee = mapentry.getKey();
             }
         }
         // TODO : retirer la nouriture mangée de la liste
-        nourritureAccesible.remove(nouritureMangee);
+        this.nourritureMangee = (Ressource) nouvelleNourritureMangee;
+        //this.getCreatureHote().getTerrain().getEntites().remove(nouritureMangee);
+        //nourritureAccesible.remove(nouritureMangee);
         return energieRecuperee - getEnergieDepenseeManger(coeffVoracite);
     }
 
