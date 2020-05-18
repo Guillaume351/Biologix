@@ -26,7 +26,7 @@ public class Viande extends Ressource {
         this.quantiteEnergie = quantiteEnergie;
     }
 
-    public Viande(Random r, Creature victime) {
+    public Viande(Creature victime) {
         super(victime.getPosition());
         this.terrain = victime.getTerrain();
         this.tauxDePourriture = 0;
@@ -40,7 +40,7 @@ public class Viande extends Ressource {
      */
     public Viande(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())));
-        this.quantiteEnergie = /**ConstantesBiologiques.energieMaxStockableViande * r.nextDouble();*/ 2;
+        this.quantiteEnergie = ConstantesBiologiques.energieMaxStockableViande * r.nextDouble();
         this.tauxDePourriture = 0; //pas pourrie au début
         this.terrain = terrain;
     }

@@ -98,8 +98,6 @@ public class Bouche extends Organe {
         }
         // TODO : retirer la nouriture mangée de la liste
         this.nourritureMangee = (Ressource) nouvelleNourritureMangee;
-        //this.getCreatureHote().getTerrain().getEntites().remove(nouritureMangee);
-        //nourritureAccesible.remove(nouritureMangee);
         return energieRecuperee - getEnergieDepenseeManger(coeffVoracite);
     }
 

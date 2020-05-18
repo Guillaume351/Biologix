@@ -183,7 +183,11 @@ public class EcranSimulation implements Screen {
             if (c instanceof Creature) {
                 if (!((Creature) c).getEnVie()) {
                     updateEntites.remove(c);
+                    updateEntites.add(new Viande((Creature) c));
                     updateEntites.remove(((Creature) c).getBouche().getNourritureMangee());
+                }
+                if (((Creature) c).accouchement_) {
+                    updateEntites.add(((Creature) c).accoucher());
                 }
             }
         }

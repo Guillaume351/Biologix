@@ -18,6 +18,7 @@ public class Perception extends Organe {
     double adaptationLumiere;
     double distanceVue;
     double champVision;
+    List<Localisable> entitesVisibles;
 
     public Perception(Random r){
         super(r);
@@ -25,7 +26,7 @@ public class Perception extends Organe {
         this.adaptationLumiere = 0;
         this.distanceVue = 0;
         this.champVision = 0;
-
+        this.entitesVisibles = new ArrayList<>();
     }
 
     public Perception(Perception perceptionMere, Perception perceptionPere, Random r, double mutation){
@@ -34,6 +35,7 @@ public class Perception extends Organe {
         this.distanceVue = 0;
         this.champVision = 0;
         this.luminositeIdeale = (perceptionMere.luminositeIdeale + perceptionPere.luminositeIdeale + r.nextDouble() * mutation) / (2 + mutation);
+        this.entitesVisibles = new ArrayList<>();
     }
 
     public double getChampVisionOptimal() {
@@ -60,7 +62,7 @@ public class Perception extends Organe {
         List<Localisable> result = Localisateur.getDansChampVision(this.getCreatureHote().getPosition(), this.getCreatureHote().getOrientation(), (List) entitesMap, this.champVision, this.distanceVue);
         List<Localisable> retour = new ArrayList<>();
         for (Localisable l : result) {
-            if (getCreatureHote().getTerrain().LigneDeVue(getCreatureHote().getPosition(), l.getPosition(), 10, getCreatureHote().getTaille())) {
+            if (getCreatureHote().getTerrain().LigneDeVue(getCreatureHote().getPosition(), l.getPosition(), 5, getCreatureHote().getTaille())) {
                 retour.add(l);
             }
         }
@@ -69,7 +71,7 @@ public class Perception extends Organe {
 
     public List<Localisable> getCreaturesVisibles() {
         List<Localisable> creaVisibles = new ArrayList<>();
-        for (Localisable loc : this.getEntitesVisibles()) {
+        for (Localisable loc : entitesVisibles) {
             if (loc instanceof Creature) {
                 creaVisibles.add(loc);
             }
@@ -79,7 +81,7 @@ public class Perception extends Organe {
 
     public List<Localisable> getRessourcessVisibles() {
         List<Localisable> ressourcesVisibles = new ArrayList<>();
-        for (Localisable loc : this.getEntitesVisibles()) {
+        for (Localisable loc : entitesVisibles) {
             if (loc instanceof Ressource) {
                 ressourcesVisibles.add(loc);
             }
@@ -91,6 +93,7 @@ public class Perception extends Organe {
         this.adaptationLumiere = getAdaptationLumiere(luminosite);
         this.champVision = sorties.getChampVision();
         this.distanceVue = sorties.getDistanceVision();
+        this.entitesVisibles = getEntitesVisibles();
     }
 
 }

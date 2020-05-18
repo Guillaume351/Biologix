@@ -348,7 +348,7 @@ public class Creature extends Entite {
 
     // TODO : implémenter cette fonction
     public float getProximiteGenetique(Creature creature) {
-        return 0.5f;
+        return 1;
     }
 
 
@@ -385,7 +385,7 @@ public class Creature extends Entite {
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
                 boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(dt), this.defensif.getEnergieDepenseeDefense(dt));
                 if (!perteDeVieCombat) {
-                    // TODO : faire mourir la créature
+                    enVie = false;
                 }
                 energiePerdueDefense = this.defensif.getEnergieDepenseeDefense(dt);
                 energiePerdueAttaque = this.offensif.getEnergieDepenseeAttaque(dt);
@@ -442,15 +442,19 @@ public class Creature extends Entite {
         return energiePerdueReproduction;
     }
 
+    public Creature accoucher() {
+        this.getSexe().setEnceinte(false);
+        Creature bebe = this.embryon;
+        this.embryon = null;
+        return bebe;
+    }
+
     public double update_accouchement(){
         // Accouchement
         double energiePerdueAccouchement;
         double delta = this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation;
         if (this.getSexe().getEnceinte() && delta > 0) {
-            this.getSexe().setEnceinte(false);
             energiePerdueAccouchement = this.getSexe().getDonEnergieEnfant();
-            // TODO : ajout de la nouvelle créature sur la map
-            this.terrain.getEntites().add(this.embryon);
             accouchement_ = true;
         } else {
             energiePerdueAccouchement = 0;
@@ -534,9 +538,6 @@ public class Creature extends Entite {
         if (!encoreOxygene || !encorePdv || !encoreEnergie){
             this.enVie = false;
             vivant = false;
-            // TODO : faire mourir la créature !!!
-            //System.out.println("mort");
-            //this.terrain.getEntites().remove(this);
         }
         return vivant;
 
