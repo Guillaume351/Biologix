@@ -82,6 +82,12 @@ public class Foie extends Organe {
         }
     }
 
+    /**
+     * Calculer la perte de points de vie de la créature pendant un combat
+     * @param energieAttaqueAdversaire
+     * @param energieDefense
+     * @return la créature a-t-elle encore des points de vie après le combat ?
+     */
      public boolean perteDeVieCombat(double energieAttaqueAdversaire , double energieDefense){
             double perteDeVie;
             double deltaEnergie = energieAttaqueAdversaire - energieDefense;
@@ -96,6 +102,10 @@ public class Foie extends Organe {
 
      }
 
+    /**
+     * Gagner des points de vie naturellement au fil du temps
+     * @param dt
+     */
     public void soin(double dt){
         double deltaPDV = this.getPointsDeVieMax() - this.pointsDeVie;
         if (this.getCapaciteDeSoin() < deltaPDV) {

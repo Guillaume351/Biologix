@@ -36,22 +36,22 @@ public class EcranDemarrage implements Screen {
     private SpriteBatch spriteBatchFond;
     private Texture textureFond;
 
-    private int i;
+    private int majFond;
 
 
     public EcranDemarrage(MyGdxGame jeu){
-        this.i = 0;
+        this.majFond = 0;
         this.jeu = jeu;
-
         this.lancerJeu = false;
+
         this.stage = new Stage();
         this.table = new Table();
 
         this.spriteBatchFond = new SpriteBatch();
         this.textureFond = new Texture(Gdx.files.internal("creature1.png"));
 
-        this.petittest = new Texture(Gdx.files.internal("ui/bouton_lancer_partie.png"));
-        this.imageBoutonLancer = new TextureRegionDrawable(this.petittest);
+        /* Bouton "Lancer la partie */
+        this.imageBoutonLancer = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/bouton_lancer_partie.png")));
         this.boutonLancer = new ImageButton(this.imageBoutonLancer);
         this.gestionBoutonLancer = new GestionBoutonLancer();
         this.boutonLancer.addListener(this.gestionBoutonLancer);
@@ -59,11 +59,13 @@ public class EcranDemarrage implements Screen {
         this.boutonLancer.setPosition(Gdx.graphics.getWidth()/3, Gdx.graphics.getHeight()/3);
         this.boutonLancer.setTransform(true);
 
+        /* Bouton "Aller dans les options" */
         this.imageBoutonOptions = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/bouton_options.png")));
         this.boutonOptions = new ImageButton(this.imageBoutonOptions);
         this.gestionBoutonOptions = new GestionBoutonOptions();
         this.boutonOptions.addListener(this.gestionBoutonOptions);
 
+        /* Ajout des éléments à la table */
         this.table.setFillParent(true);
         this.table.add(this.boutonLancer);
         this.table.row();
@@ -84,19 +86,20 @@ public class EcranDemarrage implements Screen {
 
     @Override
     public void render(float delta) {
-        if (i % 50 == 0) {
+        this.spriteBatchFond.begin();
+        if (majFond % 50 == 0) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
             //stage.act();
             Random rand = new Random();
-            this.spriteBatchFond.begin();
             for (int j = 0; j < 10; j++) {
                 this.spriteBatchFond.draw(this.textureFond, rand.nextInt(500), rand.nextInt(500), 100, 100);
             }
-            this.spriteBatchFond.end();
+
         }
         //Gdx.input.setInputProcessor(this.stage);
+        this.spriteBatchFond.end();
         stage.draw();
-        i++;
+        majFond++;
 
     }
 

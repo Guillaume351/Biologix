@@ -184,7 +184,10 @@ public class EcranSimulation implements Screen {
                 if (!((Creature) c).getEnVie()) {
                     updateEntites.remove(c);
                     updateEntites.add(new Viande((Creature) c));
+                }
+                if (((Creature) c).getBouche().getNourritureMangee() != null) {
                     updateEntites.remove(((Creature) c).getBouche().getNourritureMangee());
+                    //System.out.println("nourriture mangée !" + ((Creature) c).getBouche().getNourritureMangee().toString());
                 }
                 if (((Creature) c).accouchement_) {
                     updateEntites.add(((Creature) c).accoucher());
@@ -193,7 +196,6 @@ public class EcranSimulation implements Screen {
         }
         this.gameWorld.setEntites(updateEntites);
         this.creatureRenderer.setCreatures(this.gameWorld.getCreatures());
-        // TODO : les créatures meurent toutes directement
         //System.out.println(this.gameWorld.getCreatures().size());
 
 

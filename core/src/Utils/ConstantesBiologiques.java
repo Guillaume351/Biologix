@@ -81,7 +81,7 @@ public class ConstantesBiologiques {
     public static double YMAX = 300;
 
     /*RESSOURCES*/
-    public static double energieMaxStockable = 100;
+    public static double energieMaxStockable = 1000;  // 100 est vraiment pas assez
 
     /*arbre*/
     public static double tailleArbreMin = 3;

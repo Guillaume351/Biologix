@@ -43,6 +43,12 @@ public class AppareilRespiratoire extends Organe {
     public double getPourcentageOxygene() {
         return getQuantiteOxygene() / getQuantiteOxygeneMax();
     }
+
+    /**
+     * Calculer une perte d'oxygène
+     * @param dt
+     * @return la creéature a-t-elle encore de l'oxygène ?
+     */
     public boolean perteOxygene(double dt){
         double pertePotentielle = this.getCreatureHote().getMasse() * ConstantesBiologiques.rapportMasseConsommationOxygene * dt;
         if (this.quantiteOxygene - pertePotentielle < 0){
@@ -55,6 +61,12 @@ public class AppareilRespiratoire extends Organe {
         }
     }
 
+    /**
+     * Calculer un gain d'oxygène
+     * @param terrain
+     * @param dt
+     * @return la créature a-t-elle atteint son maximum d'oxygène ?
+     */
     public boolean gainOxygene(Terrain terrain, double dt){
         double gainPotentiel;
         if (terrain.estDansEau(this.getCreatureHote())){
@@ -79,11 +91,21 @@ public class AppareilRespiratoire extends Organe {
         return potentielBranchie <= 0.5;
     }
 
+    /**
+     * Determiner si la créature est dans son milieu naturel
+     * @param terrain
+     * @return la créature est elle dans son milieu naturel ?
+     */
     public boolean estDansMilieuNaturel(Terrain terrain) {
         boolean dansEau = terrain.estDansEau(this.getCreatureHote());
         return dansEau && this.estAquatique() || !dansEau && this.estTerrestre();
     }
 
+    /**
+     * Determiner si une créature est en détresse respiratoire
+     * @param terrain
+     * @return le pourcentage d'oxygène perdu
+     */
     public double detresseRespiratoire(Terrain terrain) {
         if (!estDansMilieuNaturel(terrain)) {
             return 1.0 - getPourcentageOxygene();

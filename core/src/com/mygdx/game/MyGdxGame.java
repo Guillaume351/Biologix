@@ -52,17 +52,17 @@ public class MyGdxGame extends Game {
 
         if (screen != null) screen.render(Gdx.graphics.getDeltaTime());
 
-        if (this.ecranOptions.retourEcranDemarrage && getScreen() == this.ecranOptions){
+        if (this.ecranOptions.isRetourEcranDemarrage() && getScreen() == this.ecranOptions){
             setScreen(this.ecranDemarrage);
-            this.ecranOptions.retourEcranDemarrage = false;
+            this.ecranOptions.setRetourEcranDemarrage(false);
         }
 
-       if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && this.ecranOptions.nbCreatureValide){
-            int nombreCreatures = Integer.parseInt(this.ecranOptions.nombreCreatures.getText());
+       if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && this.ecranOptions.isNbCreatureValide()){
+            int nombreCreatures = Integer.parseInt(this.ecranOptions.getNombreCreatures().getText());
             this.ecranSimulation = new EcranSimulation(nombreCreatures);
             setScreen(this.ecranSimulation);
        }
-       else if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && !this.ecranOptions.nbCreatureValide){
+       else if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && !this.ecranOptions.isNbCreatureValide()){
            this.ecranSimulation = new EcranSimulation();
            setScreen(this.ecranSimulation);
        }

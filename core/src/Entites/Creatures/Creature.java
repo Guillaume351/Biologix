@@ -352,6 +352,11 @@ public class Creature extends Entite {
     }
 
 
+    /**
+     * Mettre à jour l'état des différents organes de la créature
+     * @param sortieCerveau
+     * @param dt
+     */
     public void update_organes(OutputsCerveau sortieCerveau, double dt){
         this.sexe.updateSexe(sortieCerveau, dt);
         this.offensif.updateOffensif(sortieCerveau);
@@ -359,31 +364,52 @@ public class Creature extends Entite {
         this.perception.updatePerception(sortieCerveau, dt, this.getTerrain().getMeteo().getLuminosite(terrain.getTemps()));
     }
 
+    /**
+     * Mettre à jour l'age de la créature
+     * @param dt
+     */
     public void update_age(double dt){
-        // Age
         this.setAge(this.getAge() + dt);
     }
 
+    /**
+     * Mettre à jour la position de la créature
+     * @param sortieCerveau
+     * @param dt
+     * @return l'énergie perdue due au déplacement
+     */
     public double update_deplacement(OutputsCerveau sortieCerveau, double dt){
-        // Deplacement
         this.orientation = new Vector2(sortieCerveau.getDirection());
         this.vitesse = sortieCerveau.getVitesse();
         double energiePerdueDeplacement = this.deplacer(dt);
         return energiePerdueDeplacement;
     }
 
+    /**
+     * Mettre à jour la quantité d'oxygène de la créature
+     * @param dt
+     * @return la perte d'oxygène
+     */
     public boolean update_oxygene(double dt){
         this.getAppareilRespiratoire().gainOxygene(this.getTerrain(), dt);
         return this.getAppareilRespiratoire().perteOxygene(dt);
     }
 
+    /**
+     * Mettre à jour le combat avec la créature la plus proche
+     * @param creatureLaPlusProche
+     * @param dt
+     * @return l'énergie perdue à attaquer et défendre
+     */
     public double update_combat(Creature creatureLaPlusProche, double dt) {
-        // Combattre
         double energiePerdueDefense;
         double energiePerdueAttaque;
+        /* Il n'y a combat que si la créature peut voir au moins une autre créature */
         if (creatureLaPlusProche != null) {
+            /* Il faut aussi que l'autre créature la plus proche soit dans le rayon d'interaction */
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
                 boolean perteDeVieCombat = this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(dt), this.defensif.getEnergieDepenseeDefense(dt));
+                /* On vérifie que la créature n'a pas perdu tous ses points de vie au combat */
                 if (!perteDeVieCombat) {
                     enVie = false;
                 }
@@ -400,8 +426,12 @@ public class Creature extends Entite {
         return energiePerdueAttaque + energiePerdueDefense;
     }
 
+    /**
+     * Mettre à jour la nourriture que la créature mange
+     * @param sortieCerveau
+     * @return l'énergie gagnée en mangeant
+     */
     public double update_manger(OutputsCerveau sortieCerveau){
-        // Manger
         this.bouche.setNourritureMangee(null);
         double coeffVoracite = sortieCerveau.getCoeffVoracite();
         Collection<Localisable> ressourcesAccessiblesMap = (Localisateur.getPlusProcheQue(this.getPosition(), this.perception.getRessourcessVisibles(), ConstantesBiologiques.rayonInteraction)).values();
@@ -410,14 +440,22 @@ public class Creature extends Entite {
         return energieGagneeManger;
     }
 
+    /**
+     * Mettre à jour la reproduction avec une autre créature
+     * @param creatureLaPlusProche
+     * @param sortieCerveau
+     * @return
+     */
     public double update_reproduction(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau){
-        // Se reproduire
         double energiePerdueReproduction;
+        /* Il n'y a reproduction que si la créature peut voir au moins une autre créature */
         if (creatureLaPlusProche != null) {
+            /* Il faut aussi que l'autre créature la plus proche soit dans le rayon d'interaction */
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
                 double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
                 Sexe sexeAutre = creatureLaPlusProche.getSexe();
                 boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
+                /* Il faut que le test de reproduction soit valide */
                 if (testReproduction) {
                     System.out.println("reproduction");
                     reproduction_ = true;
@@ -442,6 +480,10 @@ public class Creature extends Entite {
         return energiePerdueReproduction;
     }
 
+    /**
+     * Faire accoucher la créature
+     * @return la créature qui vient de naitre de l'accouchement
+     */
     public Creature accoucher() {
         this.getSexe().setEnceinte(false);
         Creature bebe = this.embryon;
@@ -449,10 +491,14 @@ public class Creature extends Entite {
         return bebe;
     }
 
+    /**
+     * Mettre à jour l'accouchement d'une créature
+     * @return l'énergie perdue à accoucher qui est égale à l'énergie donnée au nouveau né
+     */
     public double update_accouchement(){
-        // Accouchement
         double energiePerdueAccouchement;
         double delta = this.getSexe().getTempsDerniereReproduction() - ConstantesBiologiques.tempsGestation;
+        /* Il n'y a accouchement que si la créature est enceinte depuis le temps de gestation */
         if (this.getSexe().getEnceinte() && delta > 0) {
             energiePerdueAccouchement = this.getSexe().getDonEnergieEnfant();
             accouchement_ = true;
@@ -463,8 +509,13 @@ public class Creature extends Entite {
         return energiePerdueAccouchement;
     }
 
+    /**
+     * Mettre à jour les points de vie de la créature
+     * @param creatureLaPlusProche
+     * @param dt
+     * @return la créature est-elle encore en vie ?
+     */
     public boolean update_foie(Creature creatureLaPlusProche, double dt) {
-        // Mise à jour des points de vie
         this.foie.soin(dt);
         if (creatureLaPlusProche != null) {
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
@@ -477,12 +528,22 @@ public class Creature extends Entite {
         }
     }
 
+    /**
+     * Mettre à jour la quantité d'énergie totale de la créature
+     * @param energieGagnee
+     * @param energiePerdue
+     * @return la créature est-elle encore en vie ?
+     */
     public boolean update_graisse(double energieGagnee, double energiePerdue){
-        // Mise à jour de l'énergie
         this.graisse.addEnergie(energieGagnee);
         return this.graisse.subEnergie(energiePerdue);
     }
 
+    /**
+     * Mettre à jour l'état thermique de la créature
+     * @param dt
+     * @return les pertes thermiques
+     */
     public double update_thermique(double dt){
         Meteo meteo = terrain.getMeteo();
         MeteoMap temperatureMap = meteo.getTemp();
@@ -491,13 +552,20 @@ public class Creature extends Entite {
 
     }
 
+    /**
+     * Mettre à jour l'état de la créature
+     * @param entrees
+     * @param dt
+     * @return la créature est-elle encore en vie ?
+     */
     public boolean update(InputsCerveau entrees, double dt) {
 
         boolean vivant = true;
 
+        /* On calcule d'abord le comportement de la créature */
         OutputsCerveau sortieCerveau = this.cerveau.getComportement(entrees);
 
-        /* Créature la plus proche */
+        /* On calcule aussi la créature la plus proche */
         List<Localisable> creaturesVisibles = this.perception.getCreaturesVisibles();
         Creature creatureLaPlusProche = null;
         List<Localisable> creaProximite = Localisateur.getNPlusProches(this.getPosition(), creaturesVisibles, 1);
@@ -505,8 +573,8 @@ public class Creature extends Entite {
             creatureLaPlusProche = (Creature) creaProximite.get(0);
         }
 
+        /* On met à jour l'age et les organes */
         update_age(dt);
-
         update_organes(sortieCerveau, dt);
 
         double energiePerdueSubsistance = getCoutSubsistance(dt);
@@ -518,6 +586,7 @@ public class Creature extends Entite {
         stat.setEnergiePerdueThermiquement(energiePerdueThermiquement);
         double energiePerdueDeplacement = update_deplacement(sortieCerveau, dt);
         stat.setEnergiePerdueDeplacement(energiePerdueDeplacement);
+
         /* Mise à jour des points de vie */
         boolean encorePdv = update_foie(creatureLaPlusProche,dt);
 

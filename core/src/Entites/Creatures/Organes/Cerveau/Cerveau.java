@@ -157,11 +157,13 @@ public class Cerveau {
             , Vector2 vecteurChangementMilieu, double volonteReproductive) {
         Vector2 objectif = Vector2.Zero;
         //Nourriture
-        double coeffNourriture = gloutonerie + prevoyance * (1.0 - creatureHote.getGraisse().getProportionStocks());
+        //double coeffNourriture = gloutonerie + prevoyance * (1.0 - creatureHote.getGraisse().getProportionStocks());
+        double coeffNourriture = 1;
         Vector2 pointeurNourriture = new Vector2(vecteurNourriture).nor();
         objectif = combLin(objectif, pointeurNourriture, coeffNourriture);
         //Gregarite
-        double coeffGregarite = gregarite + volonteReproductive;
+        //double coeffGregarite = gregarite + volonteReproductive;
+        double coeffGregarite = 0;
         Vector2 pointeurGregarite = new Vector2(vecteurGregarite).nor();
         objectif = combLin(objectif, pointeurGregarite, coeffGregarite);
         //Danger

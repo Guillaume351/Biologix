@@ -96,7 +96,6 @@ public class Bouche extends Organe {
                 energieRecuperee = mapentry.getKey();
             }
         }
-        // TODO : retirer la nouriture mangée de la liste
         this.nourritureMangee = (Ressource) nouvelleNourritureMangee;
         return energieRecuperee - getEnergieDepenseeManger(coeffVoracite);
     }

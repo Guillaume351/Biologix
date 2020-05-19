@@ -57,6 +57,10 @@ public class Perception extends Organe {
         return (1.0 - Math.cos(Math.PI * adapt)) / 2.0;
     }
 
+    /**
+     * Determiner la liste des entites visibles par la créature
+     * @return la liste des entites visibles
+     */
     public List<Localisable> getEntitesVisibles(){
         List<Entite> entitesMap = this.getCreatureHote().getTerrain().getEntites();
         List<Localisable> result = Localisateur.getDansChampVision(this.getCreatureHote().getPosition(), this.getCreatureHote().getOrientation(), (List) entitesMap, this.champVision, this.distanceVue);
@@ -69,6 +73,10 @@ public class Perception extends Organe {
         return retour;
     }
 
+    /**
+     * Determiner la liste des créatures visibles par la créature
+     * @return la liste des créatures visibles
+     */
     public List<Localisable> getCreaturesVisibles() {
         List<Localisable> creaVisibles = new ArrayList<>();
         for (Localisable loc : entitesVisibles) {
@@ -79,6 +87,10 @@ public class Perception extends Organe {
         return creaVisibles;
     }
 
+    /**
+     * Determiner la liste des ressources visibles par la créature
+     * @return la liste des ressources visibles
+     */
     public List<Localisable> getRessourcessVisibles() {
         List<Localisable> ressourcesVisibles = new ArrayList<>();
         for (Localisable loc : entitesVisibles) {
@@ -89,6 +101,12 @@ public class Perception extends Organe {
         return ressourcesVisibles;
     }
 
+    /**
+     * Mettre à jour la perception de la créature
+     * @param sorties
+     * @param dt
+     * @param luminosite
+     */
     public void updatePerception(OutputsCerveau sorties, double dt, double luminosite){
         this.adaptationLumiere = getAdaptationLumiere(luminosite);
         this.champVision = sorties.getChampVision();
