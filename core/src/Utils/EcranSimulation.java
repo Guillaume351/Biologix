@@ -177,6 +177,9 @@ public class EcranSimulation implements Screen {
         this.ressourceRenderer.renduRessource();
         this.statRenderer.rendu();
         gameWorld.update(ConstantesBiologiques.deltaT);
+        // TODO : faire la fonction update dans le terrain
+        // TODO : faire les créatures se reproduire !!!!!!!!!!
+        // TODO : faire vivre les créatures plus longtemps
         List<Entite> updateEntites = new ArrayList<>(gameWorld.getEntites());
         for (Entite c : gameWorld.getEntites()) {
             c.update(ConstantesBiologiques.deltaT);
