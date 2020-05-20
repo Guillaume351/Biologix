@@ -39,6 +39,8 @@ public class Fruit extends Ressource {
         }
         if (tempsDepuisChute >= dureeDeVie) {
             //Creer un arbre
+            Random r = new Random();
+            this.getTerrain().getEntites().add(new Arbre(r, this));     //TODO vérifier que l'arbre est dans le terrain
         }
     }
 
