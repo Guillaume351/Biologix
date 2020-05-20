@@ -190,13 +190,15 @@ public class EcranSimulation implements Screen {
                     //System.out.println("nourriture mangée !" + ((Creature) c).getBouche().getNourritureMangee().toString());
                 }
                 if (((Creature) c).accouchement_) {
+                    System.out.println("accouchement !");
                     updateEntites.add(((Creature) c).accoucher());
                 }
             }
         }
         this.gameWorld.setEntites(updateEntites);
         this.creatureRenderer.setCreatures(this.gameWorld.getCreatures());
-        //System.out.println(this.gameWorld.getCreatures().size());
+        this.ressourceRenderer.setRessources(this.gameWorld.getRessources());
+        System.out.println(this.gameWorld.getRessources().size());
 
 
         if (this.entiteSelectionne != null) { // Si on a selectionné une créature

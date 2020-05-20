@@ -3,9 +3,9 @@ package Utils;
 public class ConstantesBiologiques {
 
     public static double mutationGenerale = 0.5;
-    public static double tempsGestation = 1000;
+    public static double tempsGestation = 1;
 
-    public static double rayonInteraction = 32;
+    public static double rayonInteraction = 5;
 
     public static double rapportMasseConsommationOxygene = 0.1;
     public static double rapportMasseProductionOxygene = 10;
@@ -30,9 +30,9 @@ public class ConstantesBiologiques {
     public static double densiteOxygeneMax = 3;
 
     /* Bouche */
-    public static double efficaciteVoracite = 100;    // sera > 1 // avant  : 20
-    public static double capaciteVoraciteMin = 2;
-    public static double capaciteVoraciteMax = 3;
+    public static double efficaciteVoracite = 1000;    // sera > 1 // avant  : 20
+    public static double capaciteVoraciteMin = 20;       // avant 2
+    public static double capaciteVoraciteMax = 30;      // avant 3
 
     /* Defensif */
     public static double densiteDefenseMin = 2;

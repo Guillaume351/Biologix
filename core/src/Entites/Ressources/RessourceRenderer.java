@@ -41,6 +41,8 @@ public class RessourceRenderer {
         this.textureArbre = new Texture(Gdx.files.internal("arbre.png"));
     }
 
+    public void setRessources(ArrayList<Ressource> nouvellesRessoures){this.ressources = nouvellesRessoures;}
+
 
     public void renduRessource() {
         spriteBatchCreature.begin();
