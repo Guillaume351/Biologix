@@ -33,4 +33,10 @@ public abstract class Ressource extends Entite {
     public double getTaille() {
         return 1;
     }
+
+    public double manger(double energie) {
+        double energieDispo = Math.min(energie, quantiteEnergie);
+        this.quantiteEnergie = Math.max(0, quantiteEnergie - energie);
+        return energieDispo;
+    }
 }

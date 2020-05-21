@@ -280,7 +280,7 @@ public class Creature extends Entite {
 
     public double getValeurViande() {
         //TODO !!!!
-        return 0;
+        return this.getMasse() * ConstantesBiologiques.coutCroissanceRelatif;
     }
     public Vector2 getOrientation() {
         return orientation;
