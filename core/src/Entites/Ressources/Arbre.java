@@ -38,7 +38,7 @@ public class Arbre extends Vegetal {
     }
 
     public Arbre(Random r, Fruit fruit) {
-        super(fruit.getPosition(), r, fruit.getTerrain());
+        super(fruit.getPosition(), r, fruit.getTerrain(), fruit.getQuantiteEnergie());
         this.taille = ConstantesBiologiques.tailleArbreMin; // au début
         this.tailleMax = ConstantesBiologiques.tailleArbreMin + (ConstantesBiologiques.tailleArbreMax - ConstantesBiologiques.tailleArbreMin) * r.nextDouble();
         this.croissance = ConstantesBiologiques.croissanceMaxVegetal * r.nextDouble();

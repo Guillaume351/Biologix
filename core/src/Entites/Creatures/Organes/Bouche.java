@@ -103,7 +103,6 @@ public class Bouche extends Organe {
         double energieRecuperee = 0;
         this.nourritureMangee = (Ressource) nouvelleNourritureMangee;
         if (nourritureMangee != null) {
-            System.out.println("nourriture mangee");
             energieRecuperee = nourritureMangee.manger(Math.min(energieAccesible, energieMaxMangeable));
         }
         return energieRecuperee - getEnergieDepenseeManger(coeffVoracite);

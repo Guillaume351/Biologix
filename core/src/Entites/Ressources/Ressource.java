@@ -17,6 +17,12 @@ public abstract class Ressource extends Entite {
         this.quantiteEnergie = 500;
     }
 
+    public Ressource(Vector2 position, double energie) {
+        super(position);
+        // TODO : faire une bonne init de la quantite d'énergie
+        this.quantiteEnergie = energie;
+    }
+
     public double getQuantiteEnergie() {
         return quantiteEnergie;
     }
