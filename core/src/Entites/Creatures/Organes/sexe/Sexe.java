@@ -63,11 +63,11 @@ public class Sexe extends Organe {
         return this.getMasse(this.getCreatureHote().getMasse()) * efficaciteReproductive;
     }
 
-    public double energieDepenseeReproduction() {
+    public double energieDepenseeReproduction(double dt) {
         double puissanceAttaque = this.getCreatureHote().getOffensif().getPuissanceAttaque();
         double puissanceDefense = this.getCreatureHote().getDefensif().getPuissanceDefense();
         double proportionPv = this.getCreatureHote().getFoie().getProportionPv();
-        return this.volonteReproductive * (puissanceAttaque + puissanceDefense) * proportionPv;
+        return this.volonteReproductive * (puissanceAttaque + puissanceDefense) * proportionPv * dt;
     }
 
     /**
@@ -77,9 +77,9 @@ public class Sexe extends Organe {
      * @param sexeAutre            : sexe de l'autre creature
      * @return succes de la reproduction
      */
-    public boolean testReproduction(double energieDepenseeAutre, Sexe sexeAutre) {
+    public boolean testReproduction(double energieDepenseeAutre, Sexe sexeAutre, double dt) {
         boolean proximiteGenetique = this.getCreatureHote().getProximiteGenetique(sexeAutre.getCreatureHote()) < ConstantesBiologiques.distanceGenetiqueMaxRepro;
-        double energieDepensee = this.energieDepenseeReproduction();
+        double energieDepensee = this.energieDepenseeReproduction(dt);
         boolean vainqueur = energieDepensee * this.getCapaciteReproduction() + energieDepenseeAutre * sexeAutre.getCapaciteReproduction() > 0;
         return !this.enceinte && vainqueur && this.getGenre() != sexeAutre.getGenre() && proximiteGenetique;
     }

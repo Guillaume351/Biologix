@@ -446,20 +446,20 @@ public class Creature extends Entite {
      * @param sortieCerveau
      * @return
      */
-    public double update_reproduction(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau){
+    public double update_reproduction(Creature creatureLaPlusProche, OutputsCerveau sortieCerveau, double dt) {
         double energiePerdueReproduction;
         /* Il n'y a reproduction que si la créature peut voir au moins une autre créature */
         if (creatureLaPlusProche != null) {
             /* Il faut aussi que l'autre créature la plus proche soit dans le rayon d'interaction */
             if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-                double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction();
+                double energieDepenseeAutre = creatureLaPlusProche.getSexe().energieDepenseeReproduction(dt);
                 Sexe sexeAutre = creatureLaPlusProche.getSexe();
-                boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre);
+                boolean testReproduction = this.sexe.testReproduction(energieDepenseeAutre, sexeAutre, dt);
                 /* Il faut que le test de reproduction soit valide */
                 if (testReproduction) {
                     System.out.println("reproduction");
                     reproduction_ = true;
-                    energiePerdueReproduction = this.getSexe().energieDepenseeReproduction();
+                    energiePerdueReproduction = this.getSexe().energieDepenseeReproduction(dt);
                     if (this.getSexe().getGenre() == Genre.Femelle) {
                         this.getSexe().setEnceinte(true);
                         this.getSexe().setTempsDerniereReproduction(0);
@@ -595,7 +595,7 @@ public class Creature extends Entite {
         stat.setEnergiePerdueCombat(energiePerdueCombat);
         double energieGagneeManger = update_manger(sortieCerveau);
         stat.setEnergieGagneeManger(energieGagneeManger);
-        double energiePerdueReproduction = update_reproduction(creatureLaPlusProche, sortieCerveau);
+        double energiePerdueReproduction = update_reproduction(creatureLaPlusProche, sortieCerveau, dt);
         stat.setEnergiePerdueReproduction(energiePerdueReproduction);
         double energiePerdueAccouchement = update_accouchement();
         stat.setEnergiePerdueAccouchement(energiePerdueAccouchement);

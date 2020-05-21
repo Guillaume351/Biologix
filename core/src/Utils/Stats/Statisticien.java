@@ -94,11 +94,12 @@ public class Statisticien {
 
             //Courbe de depenses
             double largeur = xSize / (double) valeurs.size();
-            double sommeVal = 0;
+
             for (int i = 0; i < valeurs.size(); i++) {
                 Stat st = valeurs.get(i);
                 double yd = 0;
                 int x0_ = (int) (i * largeur);
+                double sommeVal = 0;
                 for (int j = 0; j < 6; j++) {
                     double val_double = st.getNiemeDepense(j);
                     sommeVal += val_double;
