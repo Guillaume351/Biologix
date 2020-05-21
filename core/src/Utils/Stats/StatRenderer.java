@@ -1,5 +1,6 @@
 package Utils.Stats;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class StatRenderer {
@@ -18,6 +19,7 @@ public class StatRenderer {
     }
 
     public void afficherGraphique() {
-        batch.draw(statisticien.getHistoriqueEnergetique(512, 512), 0, 0, 300, 300);
+        Texture texHistoEnergie = statisticien.getHistoriqueEnergetique(512, 512);
+        batch.draw(texHistoEnergie, 0, 0, 300, 300);
     }
 }

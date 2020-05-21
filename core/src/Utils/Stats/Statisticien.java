@@ -94,16 +94,18 @@ public class Statisticien {
 
             //Courbe de depenses
             double largeur = xSize / (double) valeurs.size();
+            double sommeVal = 0;
             for (int i = 0; i < valeurs.size(); i++) {
                 Stat st = valeurs.get(i);
                 double yd = 0;
                 int x0_ = (int) (i * largeur);
                 for (int j = 0; j < 6; j++) {
                     double val_double = st.getNiemeDepense(j);
-                    double yu = yd + (val_double - min) / (max - min);
+                    sommeVal += val_double;
+                    double upper = (sommeVal - min) / (max - min);
+                    double etendue = (val_double) / (max - min);
                     pix.setColor(getColorN(j));
-                    pix.fillRectangle(x0_, ySize - (int) (yu * ySize), (int) largeur, (int) ((yu - yd) * ySize));
-                    yd = yu;
+                    pix.fillRectangle(x0_, (int) ((1.0 - upper) * (double) ySize), (int) largeur, (int) (etendue * ySize));
                 }
             }
         }
