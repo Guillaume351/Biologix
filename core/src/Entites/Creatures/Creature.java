@@ -485,6 +485,7 @@ public class Creature extends Entite {
      * @return la créature qui vient de naitre de l'accouchement
      */
     public Creature accoucher() {
+        System.out.println("accouchement");
         this.getSexe().setEnceinte(false);
         Creature bebe = this.embryon;
         this.embryon = null;

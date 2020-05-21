@@ -10,7 +10,8 @@ import java.util.Random;
 
 public class Viande extends Ressource {
     double tauxDePourriture; // définit si une viande est pourrie. tauxdePourriture + getquantiteEnergie = EnergieMaxStockable
-
+    boolean pourrie;
+    double tempsDepuisPourriture;
     @Override
     public double getQuantiteEnergie() {
         return super.getQuantiteEnergie();
@@ -31,6 +32,8 @@ public class Viande extends Ressource {
         this.terrain = victime.getTerrain();
         this.tauxDePourriture = 0;
         this.quantiteEnergie = victime.getValeurViande();
+        this.pourrie = false;
+        this.tempsDepuisPourriture = 0;
     }
 
     /**
@@ -43,6 +46,8 @@ public class Viande extends Ressource {
         this.quantiteEnergie = ConstantesBiologiques.energieMaxStockableViande * r.nextDouble();
         this.tauxDePourriture = 0; //pas pourrie au début
         this.terrain = terrain;
+        this.pourrie = false;
+        this.tempsDepuisPourriture = 0;
     }
 
     /**
@@ -77,7 +82,7 @@ public class Viande extends Ressource {
      * @return true si elle est pourrie, false sinon
      */
     public boolean estPourrie() {
-        return this.tauxDePourriture > this.getQuantiteEnergie();
+        return this.tauxDePourriture >= this.getQuantiteEnergie();
     }
 
     /**
@@ -108,6 +113,13 @@ public class Viande extends Ressource {
         double vitesse = getVitessePourriture(temperature);
         ajouterPourriture(vitesse * dt);
         retirerEnergie(vitesse * dt);
+        this.pourrie = estPourrie();
+        if (this.pourrie) {
+            tempsDepuisPourriture += dt;
+        }
+        if (tempsDepuisPourriture > ConstantesBiologiques.tempsDispawnPostPourriture) {
+            this.getTerrain().retirerEntite(this);
+        }
     }
 
 }

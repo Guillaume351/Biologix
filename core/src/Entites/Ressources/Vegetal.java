@@ -13,7 +13,6 @@ public class Vegetal extends Ressource {
     private double toleranceTemperature;
     private double temperatureIdeale;
     private double energieMaxStockable; // l'énergie maximale stockable par la plante
-    private double energieVegetal; //l'énergie propre à la plante, dont elle a besoin pour grandir etc. energieVegetal = 0 <=> plante = dead. energieVegetal = 1 <=> plante en pleine forme
 
     @Override
     public double getQuantiteEnergie() {
@@ -39,12 +38,10 @@ public class Vegetal extends Ressource {
     public Vegetal(Vector2 position, Random r, Terrain terrain) {
         super(position);
         this.energieMaxStockable = ConstantesBiologiques.energieMaxStockable * r.nextDouble();
-        this.energieVegetal = this.energieMaxStockable * r.nextDouble();
         this.toleranceTemperature = ConstantesBiologiques.toleranceTemperatureVegetal * 2*r.nextDouble();
         this.temperatureIdeale = ConstantesBiologiques.temperatureIdealeVegetal * 2*r.nextDouble();
         this.croissanceMax = ConstantesBiologiques.croissanceMaxVegetal;
         this.ratioDecroissance = r.nextDouble();
-
         this.terrain = terrain;
     }
 
@@ -56,23 +53,7 @@ public class Vegetal extends Ressource {
         this.energieMaxStockable = energieMax;
     }
 
-    public double getEnergeVegetal() {return this.energieVegetal;}
 
-    public void setEnergieVegetal(double energieVegetal) {
-        this.energieVegetal = energieVegetal;
-    }
-
-    /** Ce qu'il se passe lorsque la pauvre plante se fait bouffer
-     *
-     * @param quantiteIngeree, la quantité d'énergie ingérée par une créature
-     */
-    public void estMange(double quantiteIngeree) {
-        if (getQuantiteEnergie() >= quantiteIngeree) {
-            setQuantiteEnergie(getQuantiteEnergie() - quantiteIngeree);
-        } else {
-            setQuantiteEnergie(0);
-        }
-    }
 
     public double getCroissance(double temperature) {
         return (Math.exp(-Math.pow(temperature - temperatureIdeale, 2) / toleranceTemperature) - ratioDecroissance) * croissanceMax;
@@ -86,15 +67,10 @@ public class Vegetal extends Ressource {
         double temperature = this.terrain.getMeteo().getTemp().getTemp(getPosition().x, getPosition().y, terrain);
         double croissance = getCroissance(temperature);
         setQuantiteEnergie(Math.max(0, getQuantiteEnergie() + croissance * dt));
+        if (quantiteEnergie <= 0) {
+            this.getTerrain().retirerEntite(this);
+        }
     }
 
-    /**
-     * est-ce que la plante est morte ??
-     *
-     * @return
-     */
-    public boolean estMorte() {
-        return (this.energieVegetal == 0);
-    }
 
 }

@@ -10,9 +10,8 @@ import java.util.Random;
 public class Fruit extends Ressource {
     boolean estEmpoisonne; //les fruits peuvent être empoisonnées
     Color couleur;
-    boolean estDansArbre;
-    double dureeDeVie = ConstantesBiologiques.dureeDeVieFruit;
-    double tempsDepuisChute;
+
+    Random rand;
 
     /**
      * Constructeur d'un fruit
@@ -27,6 +26,19 @@ public class Fruit extends Ressource {
         this.couleur = couleur;
         this.estDansArbre = estDansArbre;
         tempsDepuisChute = 0;
+        rand = r;
+    }
+
+    boolean estDansArbre;
+    double dureeDeVie = ConstantesBiologiques.dureeDeVieFruit;
+    double tempsDepuisChute;
+
+    public boolean isEstDansArbre() {
+        return estDansArbre;
+    }
+
+    public void setEstDansArbre(boolean estDansArbre) {
+        this.estDansArbre = estDansArbre;
     }
 
     boolean estEmpoisonne() {
@@ -39,8 +51,8 @@ public class Fruit extends Ressource {
         }
         if (tempsDepuisChute >= dureeDeVie) {
             //Creer un arbre
-            Random r = new Random();
-            this.getTerrain().getEntites().add(new Arbre(r, this));     //TODO vérifier que l'arbre est dans le terrain
+            this.getTerrain().retirerEntite(this);
+            this.getTerrain().ajouterEntite(new Arbre(rand, this));     //TODO vérifier que l'arbre est dans le terrain
         }
     }
 

@@ -188,18 +188,17 @@ public class Terrain implements Updatable {
         //TODO
         temps += delta_t;
         this.updateEntites = new ArrayList<>(this.getEntites());
-        System.out.println("update des entites debut");
         updateEntites(delta_t);
-        System.out.println("update des entites fini");
         this.setEntites(updateEntites);
         statisticien.collecter(entites);
     }
 
     public void updateEntites(double deltaT) {
-        for (Entite c : this.getEntites()) {
-            c.update(deltaT);
+        if (this.getEntites().size() != 0) {
+            for (Entite c : this.getEntites()) {
+                c.update(deltaT);
+            }
         }
-
     }
 
     public void retirerEntite(Entite e) {

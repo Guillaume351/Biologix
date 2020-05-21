@@ -31,8 +31,8 @@ public class ConstantesBiologiques {
 
     /* Bouche */
     public static double efficaciteVoracite = 1000;    // sera > 1 // avant  : 20
-    public static double capaciteVoraciteMin = 20;       // avant 2
-    public static double capaciteVoraciteMax = 30;      // avant 3
+    public static double capaciteVoraciteMin = 0.3;       // avant 2
+    public static double capaciteVoraciteMax = 0.4;      // avant 3
 
     /* Defensif */
     public static double densiteDefenseMin = 2;
@@ -88,17 +88,23 @@ public class ConstantesBiologiques {
     public static double tailleArbreMax = 10;
 
     /*fruit*/
-    public static double dureeDeVieFruit = 100;
+    public static double dureeDeVieFruit = 5;
 
     /*viande*/
     public static double energieMaxStockableViande = 2000;
 
     public static double vitessePourritureMax = 0.3;
     public static double stabilitePourriture = 3;
+    public static double tempsDispawnPostPourriture = 20;
 
+    //Vegetal
     public static int toleranceTemperatureVegetal = 3;
     public static int temperatureIdealeVegetal = 20;
     public static double croissanceMaxVegetal = 5;
+    public static double tempsProdFruitMin = 25;
+    public static double tempsProdFruitMax = 40;
+    public static double rayonChuteFruitMax = 10;
+    public static double tempsEntreChuteFruitMax = 50;
 
     /*Rendu*/
     public static double PixelsParCoord = 32;

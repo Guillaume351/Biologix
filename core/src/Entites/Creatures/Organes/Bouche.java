@@ -79,6 +79,7 @@ public class Bouche extends Organe {
      * @return energie extraite moins energie depensee pour manger.
      */
     public double manger(List<Localisable> nourritureAccesible, double coeffVoracite) {
+        //TODO Manger pertiellement une ressource
         Localisable nouvelleNourritureMangee = null;
         //Energie max que l'on peut mettre dans la bouche
         double EnergieMaxMangeable = getEnergieMaxMangeable(coeffVoracite);
@@ -98,6 +99,7 @@ public class Bouche extends Organe {
         }
         this.nourritureMangee = (Ressource) nouvelleNourritureMangee;
         if (nourritureMangee != null) {
+            System.out.println("nourriture mangee");
             this.getCreatureHote().getTerrain().retirerEntite(nourritureMangee);
         }
         return energieRecuperee - getEnergieDepenseeManger(coeffVoracite);
