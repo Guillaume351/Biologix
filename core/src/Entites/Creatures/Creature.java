@@ -71,7 +71,6 @@ public class Creature extends Entite {
         this.nom = GenerateurNom.genererNomPropre(r);
         this.prenom = GenerateurNom.genererNomPropre(r);
         this.Historique = new ArrayList<>();
-        System.out.println(this.prenom + " " + this.nom);
     }
 
     public String getNom() {
@@ -609,6 +608,7 @@ public class Creature extends Entite {
         if (!encoreOxygene || !encorePdv || !encoreEnergie){
             this.enVie = false;
             vivant = false;
+            System.out.println("mort");
             this.getTerrain().ajouterEntite(new Viande(this));
             this.getTerrain().retirerEntite(this);
         }
@@ -618,8 +618,8 @@ public class Creature extends Entite {
 
     @Override
     public void update(double delta_t) {
-
-        update(new InputsCerveau(this), delta_t);
+        InputsCerveau nouveauInput = new InputsCerveau(this);
+        update(nouveauInput, delta_t);
         this.Historique.add(stat);
     }
 }

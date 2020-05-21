@@ -75,10 +75,12 @@ public class EcranSimulation implements Screen {
     public EcranSimulation(int nombreCreatures) {
 
         // Nos parametres de génération de map pour le test
-        PerlinParams perlinParams = new PerlinParams(3, 0.01, 0.5, new Random().nextInt(10000), 1);
+        int seed = 200;//new Random().nextInt(10000);
+        Random random = new Random(seed);
+        PerlinParams perlinParams = new PerlinParams(3, 0.01, 0.5, seed, 1);
 
         // On créer notre générateur de terrain
-        TerrainGenerator generator = new TerrainGenerator(perlinParams, nombreCreatures, 25, 25, 25);
+        TerrainGenerator generator = new TerrainGenerator(perlinParams, nombreCreatures, 25, 25, 25, random);
 
         // On génère le terrain
         this.gameWorld = generator.getGeneratedTerrain();
@@ -133,11 +135,7 @@ public class EcranSimulation implements Screen {
     }
 
 
-    @Override
-    public void render(float delta) {
-        Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+    public void gestionCamera() {
         // Gestion du déplacement de la caméra. TODO: a déplacer
         if (input.isButtonPressed(Input.Buttons.LEFT)) {
             if (input.getDeltaX() != 0 || input.getDeltaY() != 0) {
@@ -166,23 +164,20 @@ public class EcranSimulation implements Screen {
 
         camera.update();
         this.mapRenderer.setView(camera);
-        this.mapRenderer.render();
+    }
 
-        // Affichage créature
+    public void rendus() {
+        this.mapRenderer.render();
         batch.setProjectionMatrix(camera.combined);
         creatureRenderer.renduCreature();
         boolean vivant;
         this.ressourceRenderer.renduRessource();
         this.statRenderer.rendu();
-
-        gameWorld.update(ConstantesBiologiques.deltaT);
-        // TODO : faire les créatures se reproduire !!!!!!!!!!
-        // TODO : faire vivre les créatures plus longtemps
-
         this.creatureRenderer.setCreatures(this.gameWorld.getCreatures());
         this.ressourceRenderer.setRessources(this.gameWorld.getRessources());
+    }
 
-
+    public void affichageSelection() {
         if (this.entiteSelectionne != null) { // Si on a selectionné une créature
             DecimalFormat df = new DecimalFormat("0.00##");
             this.creatureStatsUI.begin();
@@ -221,13 +216,37 @@ public class EcranSimulation implements Screen {
 
             this.creatureStatsUI.end();
         }
+    }
 
+    public void framePhysique() {
+        gameWorld.update(ConstantesBiologiques.deltaT);
+    }
+
+    public void affichageUI() {
         DecimalFormat df2 = new DecimalFormat("0.00##");
         this.carteStatsUI.begin();
-        String textStatsCarte = "Température : " ;
+        String textStatsCarte = "Température : ";
         textStatsCarte += "\nHumidité : ";
-        font.draw(this.carteStatsUI,textStatsCarte,70,this.viewport.getWorldHeight() - 10);
+        font.draw(this.carteStatsUI, textStatsCarte, 70, this.viewport.getWorldHeight() - 10);
         this.carteStatsUI.end();
+    }
+
+    @Override
+    public void render(float delta) {
+        Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        gestionCamera();
+
+        rendus();
+
+        framePhysique();
+
+        affichageSelection();
+        // TODO : faire les créatures se reproduire !!!!!!!!!!
+        // TODO : faire vivre les créatures plus longtemps
+
+        affichageUI();
     }
 
     @Override

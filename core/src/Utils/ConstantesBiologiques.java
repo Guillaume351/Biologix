@@ -96,9 +96,9 @@ public class ConstantesBiologiques {
     public static double vitessePourritureMax = 0.3;
     public static double stabilitePourriture = 3;
 
-    public static int toleranceTemperatureVegetal;
-    public static int temperatureIdealeVegetal;
-    public static double croissanceMaxVegetal;
+    public static int toleranceTemperatureVegetal = 3;
+    public static int temperatureIdealeVegetal = 20;
+    public static double croissanceMaxVegetal = 5;
 
     /*Rendu*/
     public static double PixelsParCoord = 32;

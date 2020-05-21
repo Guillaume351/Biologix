@@ -31,12 +31,12 @@ public class TerrainGenerator {
      */
     private Terrain generatedTerrain;
 
-    public TerrainGenerator(PerlinParams perlinParams, int nombreCreaturesInitial, int nbViandeInitial, int nbFruitInitial, int nbArbreInitial) {
+    public TerrainGenerator(PerlinParams perlinParams, int nombreCreaturesInitial, int nbViandeInitial, int nbFruitInitial, int nbArbreInitial, Random random) {
         this.perlinParams = perlinParams;
         this.generatedTerrain = this.generateTerrain(300); //TODO : remplacer le 300
-        this.generatedTerrain.getEntites().addAll(creaturesPopulate(nombreCreaturesInitial));
+        this.generatedTerrain.getEntites().addAll(creaturesPopulate(nombreCreaturesInitial, random));
         //TODO : remplacer 20 par un param
-        this.generatedTerrain.getEntites().addAll(resourcePopulate(nbViandeInitial, nbFruitInitial, nbArbreInitial));
+        this.generatedTerrain.getEntites().addAll(resourcePopulate(nbViandeInitial, nbFruitInitial, nbArbreInitial, random));
     }
 
     public Terrain getGeneratedTerrain() {
@@ -81,16 +81,16 @@ public class TerrainGenerator {
      *
      * @return : Une liste de ressources initiale
      */
-    private ArrayList<Ressource> resourcePopulate(int nbViande, int nbFruit, int nbArbre) {
+    private ArrayList<Ressource> resourcePopulate(int nbViande, int nbFruit, int nbArbre, Random random) {
         ArrayList<Ressource> listeRessources = new ArrayList<Ressource>();
         for (int i = 0; i < nbViande; i++) {
-            listeRessources.add(new Viande(new Random(), this.generatedTerrain));
+            listeRessources.add(new Viande(random, this.generatedTerrain));
         }
         for (int j = 0; j < nbFruit; j++) {
-            listeRessources.add(new Fruit(new Random(), Color.RED, false, this.generatedTerrain, true));
+            listeRessources.add(new Fruit(random, Color.RED, false, this.generatedTerrain, true));
         }
         for (int i = 0; i < nbArbre; i++) {
-            listeRessources.add(new Arbre(new Random(), this.generatedTerrain));
+            listeRessources.add(new Arbre(random, this.generatedTerrain));
         }
         return listeRessources;
     }
@@ -100,10 +100,10 @@ public class TerrainGenerator {
      *
      * @return : Une liste de créatures initiale
      */
-    private ArrayList<Creature> creaturesPopulate(int nombreCreatures) {
+    private ArrayList<Creature> creaturesPopulate(int nombreCreatures, Random random) {
         ArrayList<Creature> testCreatures = new ArrayList<Creature>();
         for (int i = 0; i < nombreCreatures; i++) {
-            testCreatures.add(new Creature(new Random(), this.generatedTerrain));
+            testCreatures.add(new Creature(random, this.generatedTerrain));
         }
         return testCreatures;
     }

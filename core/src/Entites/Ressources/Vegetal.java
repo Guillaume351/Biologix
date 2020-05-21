@@ -84,7 +84,8 @@ public class Vegetal extends Ressource {
      */
     public void update(double dt) {
         double temperature = this.terrain.getMeteo().getTemp().getTemp(getPosition().x, getPosition().y, terrain);
-        setQuantiteEnergie(Math.max(0, getQuantiteEnergie() + getCroissance(temperature) * dt));
+        double croissance = getCroissance(temperature);
+        setQuantiteEnergie(Math.max(0, getQuantiteEnergie() + croissance * dt));
     }
 
     /**
