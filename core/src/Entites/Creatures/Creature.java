@@ -7,6 +7,7 @@ import Entites.Creatures.Organes.Cerveau.OutputsCerveau;
 import Entites.Creatures.Organes.sexe.Genre;
 import Entites.Creatures.Organes.sexe.Sexe;
 import Entites.Entite;
+import Entites.Ressources.Viande;
 import Environnement.Meteo.Meteo;
 import Environnement.Meteo.MeteoMap;
 import Environnement.Terrain.Terrain;
@@ -502,6 +503,7 @@ public class Creature extends Entite {
         if (this.getSexe().getEnceinte() && delta > 0) {
             energiePerdueAccouchement = this.getSexe().getDonEnergieEnfant();
             accouchement_ = true;
+            this.getTerrain().ajouterEntite(accoucher());
         } else {
             energiePerdueAccouchement = 0;
             accouchement_ = false;
@@ -607,6 +609,8 @@ public class Creature extends Entite {
         if (!encoreOxygene || !encorePdv || !encoreEnergie){
             this.enVie = false;
             vivant = false;
+            this.getTerrain().ajouterEntite(new Viande(this));
+            this.getTerrain().retirerEntite(this);
         }
         return vivant;
 

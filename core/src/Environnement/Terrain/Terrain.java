@@ -30,6 +30,8 @@ public class Terrain implements Updatable {
     private double gravite;
     private double pourcentageEau;
 
+    List<Entite> updateEntites;
+
 
     Statisticien statisticien;
 
@@ -185,7 +187,24 @@ public class Terrain implements Updatable {
     public void update(double delta_t) {
         //TODO
         temps += delta_t;
+        this.updateEntites = new ArrayList<>(this.getEntites());
+        for (Entite c : this.getEntites()) {
+            c.update(ConstantesBiologiques.deltaT);
+        }
+        this.setEntites(updateEntites);
         statisticien.collecter(entites);
+    }
+
+    public void retirerEntite(Entite e) {
+        this.updateEntites.remove(e);
+    }
+
+    public void ajouterEntite(Entite e) {
+        this.updateEntites.add(e);
+    }
+
+    public boolean entitePresente(Entite e) {
+        return this.updateEntites.contains(e);
     }
 
     public TerrainInfo getTerrainLocal(double x, double y) {

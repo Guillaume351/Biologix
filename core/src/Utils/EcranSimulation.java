@@ -26,8 +26,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CustomInputProcessor;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import static Environnement.Terrain.TerrainRenderer.TILE_SIZE;
@@ -176,32 +174,13 @@ public class EcranSimulation implements Screen {
         boolean vivant;
         this.ressourceRenderer.renduRessource();
         this.statRenderer.rendu();
+
         gameWorld.update(ConstantesBiologiques.deltaT);
-        // TODO : faire la fonction update dans le terrain
         // TODO : faire les créatures se reproduire !!!!!!!!!!
         // TODO : faire vivre les créatures plus longtemps
-        List<Entite> updateEntites = new ArrayList<>(gameWorld.getEntites());
-        for (Entite c : gameWorld.getEntites()) {
-            c.update(ConstantesBiologiques.deltaT);
-            if (c instanceof Creature) {
-                if (!((Creature) c).getEnVie()) {
-                    updateEntites.remove(c);
-                    updateEntites.add(new Viande((Creature) c));
-                }
-                if (((Creature) c).getBouche().getNourritureMangee() != null) {
-                    updateEntites.remove(((Creature) c).getBouche().getNourritureMangee());
-                    //System.out.println("nourriture mangée !" + ((Creature) c).getBouche().getNourritureMangee().toString());
-                }
-                if (((Creature) c).accouchement_) {
-                    System.out.println("accouchement !");
-                    updateEntites.add(((Creature) c).accoucher());
-                }
-            }
-        }
-        this.gameWorld.setEntites(updateEntites);
+
         this.creatureRenderer.setCreatures(this.gameWorld.getCreatures());
         this.ressourceRenderer.setRessources(this.gameWorld.getRessources());
-        System.out.println(this.gameWorld.getRessources().size());
 
 
         if (this.entiteSelectionne != null) { // Si on a selectionné une créature

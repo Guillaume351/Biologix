@@ -90,13 +90,16 @@ public class Bouche extends Organe {
         double energieRecuperee = 0;
         while (iterator.hasNext()) {
             Map.Entry<Double, Ressource> mapentry = (Map.Entry<Double, Ressource>) iterator.next();
-            if (mapentry.getValue().getQuantiteEnergie() < EnergieMaxMangeable) {
+            if (mapentry.getValue().getQuantiteEnergie() < EnergieMaxMangeable && this.getCreatureHote().getTerrain().entitePresente(mapentry.getValue())) {
                 //Il existe une nourriture ou l'on peut repurerer plus d'energie, et que l'on peut mettre dans la bouche.
                 nouvelleNourritureMangee = mapentry.getValue();
                 energieRecuperee = mapentry.getKey();
             }
         }
         this.nourritureMangee = (Ressource) nouvelleNourritureMangee;
+        if (nourritureMangee != null) {
+            this.getCreatureHote().getTerrain().retirerEntite(nourritureMangee);
+        }
         return energieRecuperee - getEnergieDepenseeManger(coeffVoracite);
     }
 
