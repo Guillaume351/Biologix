@@ -63,6 +63,8 @@ public class EcranSimulation implements Screen {
     RessourceRenderer ressourceRenderer;
     StatRenderer statRenderer;
 
+    private int nbRendus;
+
     /**
      * Police d'écriture
      */
@@ -126,6 +128,8 @@ public class EcranSimulation implements Screen {
         creatureRenderer = new CreatureRenderer(this.gameWorld.getCreatures(), batch);
         ressourceRenderer = new RessourceRenderer(this.gameWorld.getRessources(), batch);
         statRenderer = new StatRenderer(this.gameWorld.getStatisticien(), batch);
+
+        nbRendus = 0;
     }
 
     @Override
@@ -169,7 +173,7 @@ public class EcranSimulation implements Screen {
     public void rendus() {
         this.mapRenderer.render();
         batch.setProjectionMatrix(camera.combined);
-        creatureRenderer.renduCreature();
+        creatureRenderer.renduCreature(nbRendus);
         boolean vivant;
         this.ressourceRenderer.renduRessource();
         this.statRenderer.rendu();
@@ -238,15 +242,20 @@ public class EcranSimulation implements Screen {
 
         gestionCamera();
 
+        nbRendus++;
+
+        if (nbRendus == ConstantesBiologiques.ratioAffichageSimulation) {
+            nbRendus = 0;
+            framePhysique();
+            System.out.println("frame physique");
+        }
         rendus();
-
-        framePhysique();
-
         affichageSelection();
         // TODO : faire les créatures se reproduire !!!!!!!!!!
         // TODO : faire vivre les créatures plus longtemps
 
         affichageUI();
+
     }
 
     @Override

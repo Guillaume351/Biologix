@@ -108,6 +108,8 @@ public class ConstantesBiologiques {
 
     /*Rendu*/
     public static double PixelsParCoord = 32;
-    public static boolean AltLayer = false;
+    public static boolean AltLayer = true;
     public static double deltaT = 0.1;
+    public static int ratioAffichageSimulation = 5;
+
 }

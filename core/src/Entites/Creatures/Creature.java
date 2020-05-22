@@ -623,4 +623,10 @@ public class Creature extends Entite {
         update(nouveauInput, delta_t);
         this.Historique.add(stat);
     }
+
+    public Vector2 getPosition(int nbRendus, double dt) {
+        double k = (double) (nbRendus) / ConstantesBiologiques.ratioAffichageSimulation;
+        Vector2 delta = new Vector2(orientation).scl((float) (dt * vitesse * k));
+        return new Vector2(this.getPosition()).add(delta);
+    }
 }
