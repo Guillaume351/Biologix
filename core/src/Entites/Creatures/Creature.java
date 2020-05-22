@@ -517,17 +517,8 @@ public class Creature extends Entite {
      * @param dt
      * @return la créature est-elle encore en vie ?
      */
-    public boolean update_foie(Creature creatureLaPlusProche, double dt) {
+    public void update_foie(Creature creatureLaPlusProche, double dt) {
         this.foie.soin(dt);
-        if (creatureLaPlusProche != null) {
-            if (this.distance(creatureLaPlusProche) <= ConstantesBiologiques.rayonInteraction) {
-                return this.foie.perteDeVieCombat(creatureLaPlusProche.offensif.getEnergieDepenseeAttaque(dt), this.defensif.getEnergieDepenseeDefense(dt));
-            } else {
-                return true;
-            }
-        } else {
-            return true;
-        }
     }
 
     /**
@@ -590,7 +581,7 @@ public class Creature extends Entite {
         stat.setEnergiePerdueDeplacement(energiePerdueDeplacement);
 
         /* Mise à jour des points de vie */
-        boolean encorePdv = update_foie(creatureLaPlusProche,dt);
+        update_foie(creatureLaPlusProche, dt);
 
         double energiePerdueCombat = update_combat(creatureLaPlusProche, dt);
         stat.setEnergiePerdueCombat(energiePerdueCombat);
@@ -606,7 +597,7 @@ public class Creature extends Entite {
         /* Mise à jour de l'énergie */
         boolean encoreEnergie = update_graisse(energieGagneeManger, energiePerdue);
 
-        if (!encoreOxygene || !encorePdv || !encoreEnergie){
+        if (!encoreOxygene || !enVie || !encoreEnergie) {
             this.enVie = false;
             vivant = false;
             System.out.println("mort");

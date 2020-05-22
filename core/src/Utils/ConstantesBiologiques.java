@@ -39,7 +39,7 @@ public class ConstantesBiologiques {
     public static double densiteDefenseMax = 2;
 
     /* Foie */
-    public static double coeffDeBlessure = 0.87;
+    public static double coeffDeBlessure = 100;
     public static double densiteDeSoinMin = 1;
     public static double densiteDeSoinMax = 2;
     public static double densiteDePvMin = 32;
@@ -110,6 +110,6 @@ public class ConstantesBiologiques {
     public static double PixelsParCoord = 32;
     public static boolean AltLayer = true;
     public static double deltaT = 0.1;
-    public static int ratioAffichageSimulation = 5;
+    public static int ratioAffichageSimulation = 1;
 
 }
