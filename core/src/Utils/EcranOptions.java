@@ -6,12 +6,11 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class EcranOptions implements Screen {
@@ -28,11 +27,17 @@ public class EcranOptions implements Screen {
 
     private ImageButton boutonValider;
 
+    private Label labelAltLayer;
+
+    private CheckBox altLayer;
+    private CheckBox.CheckBoxStyle styleAltLayer;
+
     private boolean nbCreatureValide;
     private boolean retourEcranDemarrage;
     private boolean pasDeChangement;
+    private boolean altLayerChecked;
 
-    private Texture styleBg;
+
 
     public EcranOptions(){
 
@@ -40,6 +45,7 @@ public class EcranOptions implements Screen {
         this.pasDeChangement = true;
         this.retourEcranDemarrage = false;
         this.nbCreatureValide = false;
+        this.altLayerChecked = false;
 
         this.table = new Table();
         this.stage = new Stage();
@@ -52,8 +58,7 @@ public class EcranOptions implements Screen {
         /* Style du champ à remplir "Nombre de créatures" */
         this.styleNombreCreatures = new TextField.TextFieldStyle(new BitmapFont(Gdx.files.internal("default.fnt")), Color.WHITE, null, null, null);
         this.styleNombreCreatures.fontColor = Color.BLACK;
-        this.styleBg = new Texture(Gdx.files.internal("ui/case_nb_creatures.png"));
-        this.styleNombreCreatures.background = new TextureRegionDrawable(this.styleBg);
+        this.styleNombreCreatures.background = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/case_nb_creatures.png")));
         this.styleNombreCreatures.cursor = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/curseur_nb_creatures.png")));
 
         /* Champ à remplir "Nombre de créatures */
@@ -79,6 +84,18 @@ public class EcranOptions implements Screen {
             }
         });
 
+        /* Label "Affichage des altitudes" */
+        this.labelAltLayer = new Label("Affichage des altitudes :", this.styleLabel);
+
+        /* Style de la checkbox "Affichage de l'altitude" */
+        this.styleAltLayer = new CheckBox.CheckBoxStyle(null, null, new BitmapFont(Gdx.files.internal("default.fnt")), Color.WHITE);
+        this.styleAltLayer.checkboxOn = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/checkedOn.png")));
+        this.styleAltLayer.checkboxOff = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/checkedOff.png")));
+
+        /* CheckBox "Affichage de l'altitude" */
+        this.altLayer = new CheckBox("", this.styleAltLayer);
+        this.altLayer.addListener(new GestionCheckedBox());
+
         /* Bouton "Valider les options" */
         this.boutonValider = new ImageButton(new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/retour_ecran_dem.png"))));
         this.boutonValider.addListener(new GestionBoutonValider());
@@ -89,11 +106,18 @@ public class EcranOptions implements Screen {
         this.table.row();
         this.table.add(this.nombreCreatures);
         this.table.row();
+        this.table.add(this.labelAltLayer).pad(50);
+        this.table.row();
+        this.table.add(this.altLayer).pad(-50);
+        this.table.row();
         this.table.add(this.boutonValider).pad(100);
+
+
 
         /* Ajout de la table à la stage */
         this.stage.addActor(this.table);
         //Gdx.input.setInputProcessor(stage);
+        //this.stage.
     }
 
     @Override
@@ -142,9 +166,6 @@ public class EcranOptions implements Screen {
         return nbCreatureValide;
     }
 
-    public void setNbCreatureValide(boolean nbCreatureValide) {
-        this.nbCreatureValide = nbCreatureValide;
-    }
 
     public boolean isRetourEcranDemarrage() {
         return retourEcranDemarrage;
@@ -154,12 +175,8 @@ public class EcranOptions implements Screen {
         this.retourEcranDemarrage = retourEcranDemarrage;
     }
 
-    public boolean isPasDeChangement() {
-        return pasDeChangement;
-    }
-
-    public void setPasDeChangement(boolean pasDeChangement) {
-        this.pasDeChangement = pasDeChangement;
+    public boolean getAltLayerChecked(){
+        return this.altLayerChecked;
     }
 
     public class GestionBoutonValider extends InputListener {
@@ -173,6 +190,14 @@ public class EcranOptions implements Screen {
         }
 
 
+    }
+
+    public class GestionCheckedBox extends ChangeListener {
+
+        @Override
+        public void changed(ChangeEvent changeEvent, Actor actor) {
+            altLayerChecked = !altLayerChecked;
+        }
     }
 
 }

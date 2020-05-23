@@ -6,6 +6,7 @@ import Entites.Ressources.RessourceRenderer;
 import Environnement.Terrain.Terrain;
 import Environnement.Terrain.TerrainGenerator;
 import Environnement.Terrain.TerrainRenderer;
+import Utils.ConstantesBiologiques;
 import Utils.EcranDemarrage;
 import Utils.EcranOptions;
 import Utils.EcranSimulation;
@@ -63,6 +64,9 @@ public class MyGdxGame extends Game {
             setScreen(this.ecranSimulation);
        }
        else if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && !this.ecranOptions.isNbCreatureValide()){
+           if (this.ecranOptions.getAltLayerChecked()){
+               ConstantesBiologiques.AltLayer = true;
+           }
            this.ecranSimulation = new EcranSimulation();
            setScreen(this.ecranSimulation);
        }
