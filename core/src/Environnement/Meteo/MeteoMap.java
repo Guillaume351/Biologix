@@ -41,7 +41,7 @@ public class MeteoMap implements Updatable {
 
     }
 
-    public double getTempMoy(double t) {
+    public double getMoyenne(double t) {
 
         double sommeTemp = 0;
         int nbTemp = 0;
@@ -58,4 +58,5 @@ public class MeteoMap implements Updatable {
         TempMoy = sommeTemp/nbTemp;
         return TempMoy;
     }
+
 }
