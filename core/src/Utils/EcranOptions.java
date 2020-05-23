@@ -25,6 +25,8 @@ public class EcranOptions implements Screen {
     private Label.LabelStyle styleLabel;
     private BitmapFont bitmapLabel;
 
+    private Label labelNbCreaturesNonValide;
+
     private ImageButton boutonValider;
 
     private Label labelAltLayer;
@@ -65,24 +67,11 @@ public class EcranOptions implements Screen {
         this.nombreCreatures = new TextField("", this.styleNombreCreatures);
         this.nombreCreatures.setWidth(200);
         this.nombreCreatures.setMessageText("100");  // nombre de créatures par défaut
-        this.nombreCreatures.setTextFieldListener(new TextField.TextFieldListener() {
-            @Override
-            public void keyTyped(TextField textField, char c) {
-                if (c == '\t'){
-                    try {
-                        int nbCreat = Integer.parseInt(nombreCreatures.getText());
-                        nbCreatureValide = true;
-                        pasDeChangement = false;
-                    }
-                    catch (NumberFormatException e)
-                    {
-                        // TODO : il faudra ajouter un label pour dire d'entrer un entier
-                        System.out.println("Il faut entrer un entier !");
-                        nbCreatureValide = false;
-                    }
-                }
-            }
-        });
+        this.nombreCreatures.setTextFieldListener(new GestionNombreCreatures());
+
+        /* Label "Nombre de créatures non valide !" */
+        this.labelNbCreaturesNonValide = new Label("Nombre de créatures non valide !", this.styleLabel);
+        this.labelNbCreaturesNonValide.setVisible(false);
 
         /* Label "Affichage des altitudes" */
         this.labelAltLayer = new Label("Affichage des altitudes :", this.styleLabel);
@@ -106,6 +95,8 @@ public class EcranOptions implements Screen {
         this.table.row();
         this.table.add(this.nombreCreatures);
         this.table.row();
+        this.table.add(this.labelNbCreaturesNonValide);
+        this.table.row();
         this.table.add(this.labelAltLayer).pad(50);
         this.table.row();
         this.table.add(this.altLayer).pad(-50);
@@ -128,6 +119,8 @@ public class EcranOptions implements Screen {
     @Override
     public void render(float delta) {
         //Gdx.input.setInputProcessor(this.stage);
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
     }
 
@@ -177,6 +170,26 @@ public class EcranOptions implements Screen {
 
     public boolean getAltLayerChecked(){
         return this.altLayerChecked;
+    }
+
+    public class GestionNombreCreatures implements TextField.TextFieldListener{
+
+        @Override
+        public void keyTyped(TextField textField, char c) {
+            if (c == '\t'){
+                try {
+                    int nbCreat = Integer.parseInt(nombreCreatures.getText());
+                    nbCreatureValide = true;
+                    pasDeChangement = false;
+                    labelNbCreaturesNonValide.setVisible(false);
+                }
+                catch (NumberFormatException e)
+                {
+                    labelNbCreaturesNonValide.setVisible(true);
+                    nbCreatureValide = false;
+                }
+            }
+        }
     }
 
     public class GestionBoutonValider extends InputListener {
