@@ -17,8 +17,7 @@ public class MeteoMap implements Updatable {
     //coefficient modificateur de la meteo, il evolue avec dt, permet à la temperature d'evoluer
     double coefTemp = 1.0;
 
-    int subdivX = (int) (8 * ConstantesBiologiques.XMAX);
-    int subdivY = (int) (8 * ConstantesBiologiques.YMAX);
+
 
     public MeteoMap(PerlinParams params, double min, double max) {
         //TODO : faire la Heightmap des moyennes
@@ -41,22 +40,12 @@ public class MeteoMap implements Updatable {
 
     }
 
-    public double getMoyenne(double t) {
-
-        double sommeTemp = 0;
-        int nbTemp = 0;
-        double TempMoy;
-
-        for (int i = 0; i < subdivX; i++) {
-            for (int j = 0; j < subdivY; j++) {
-                double x = (i / (double) (subdivX - 1)) * ConstantesBiologiques.XMAX;
-                double y = (j / (double) (subdivY - 1)) * ConstantesBiologiques.YMAX;
-                sommeTemp = sommeTemp + getTemp(x,y,t);
-                nbTemp++;
-            }
-        }
-        TempMoy = sommeTemp/nbTemp;
-        return TempMoy;
+    /**
+     * 40 est la temperature max et 5 est la temperature min.
+     * @return Renvoie la temperature moyenne (tres arrondi)
+     */
+    public double getMoyenne() {
+        return coefTemp * (40 - 5)/2;
     }
 
 }

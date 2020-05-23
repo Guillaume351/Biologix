@@ -159,8 +159,8 @@ public class Meteo {
 
         // la meteo globale change à chaque dt un peu
         System.out.println(getDensiteNuages());
-        changerDensiteNuage(r.nextInt(5)*dt);
-        changerDensiteNuage(-r.nextInt(5)*dt);
+        changerDensiteNuage(r.nextInt(2)*dt*0.1);
+        changerDensiteNuage(-r.nextInt(2)*dt*0.1);
         System.out.println(getDensiteNuages());
         modifierTempGlobale(dt, r);
         incrementerHorloge(dt);
