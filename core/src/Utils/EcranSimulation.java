@@ -229,8 +229,8 @@ public class EcranSimulation implements Screen {
     public void affichageUI() {
         DecimalFormat df2 = new DecimalFormat("0.00##");
         this.carteStatsUI.begin();
-        String textStatsCarte = "Température : " + this.gameWorld.getMeteo().getTemp().getMoyenne(ConstantesBiologiques.deltaT);
-        textStatsCarte += "\nHumidité : " + this.gameWorld.getMeteo().getHumidite().getMoyenne(ConstantesBiologiques.deltaT);
+        String textStatsCarte = "Température : ";// + this.gameWorld.getMeteo().getTemp().getMoyenne(ConstantesBiologiques.deltaT);
+        textStatsCarte += "\nHumidité : ";//+ this.gameWorld.getMeteo().getHumidite().getMoyenne(ConstantesBiologiques.deltaT);
         textStatsCarte += "\nDensité de nuage : " + this.gameWorld.getMeteo().getDensiteNuages();
         textStatsCarte += "\nMeteo : " + this.gameWorld.getMeteo().getMeteo();
         font.draw(this.carteStatsUI, textStatsCarte, 70, this.viewport.getWorldHeight() - 10);
