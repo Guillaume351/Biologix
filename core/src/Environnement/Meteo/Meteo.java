@@ -162,9 +162,7 @@ public class Meteo {
         changerDensiteNuage(r.nextInt(2)*dt*0.1);
         changerDensiteNuage(-r.nextInt(2)*dt*0.1);
 
-        System.out.println(getTemp().coefTemp);
         modifierTempGlobale(dt, r);
-        System.out.println(getTemp().coefTemp);
         incrementerHorloge(dt);
 
         if (getDensiteNuages() > 0.5) {
@@ -188,10 +186,10 @@ public class Meteo {
      * @param r nombre aleatoire entre 0 et 1
      */
     public void modifierTempGlobale(double dt, Random r) {
-        if ((this.jour && this.horloge < (int)dtParJour(dt)/2) || (!this.jour && this.horloge > (int)dtParJour(dt)/2)) {
-            getTemp().coefTemp = getTemp().coefTemp + 0.5*dt * 0.1;
+        if ((this.jour && this.horloge < (int)dtParJour(dt)/2) || (!this.jour && this.horloge > (int)dtParNuit(dt)/2)) {
+            getTemp().coefTemp = getTemp().coefTemp + 0.8*dt * 0.1;
         } else {
-            getTemp().coefTemp = getTemp().coefTemp -  0.5*dt * 0.1;
+            getTemp().coefTemp = getTemp().coefTemp -  0.8*dt * 0.1;
         }
     }
     /**
