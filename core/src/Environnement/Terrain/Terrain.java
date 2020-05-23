@@ -191,6 +191,7 @@ public class Terrain implements Updatable {
         updateEntites(delta_t);
         this.setEntites(updateEntites);
         statisticien.collecter(entites);
+        this.getMeteo().modifierMeteoGlobal(delta_t);
     }
 
     public void updateEntites(double deltaT) {

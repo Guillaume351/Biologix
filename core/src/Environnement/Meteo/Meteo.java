@@ -140,8 +140,10 @@ public class Meteo {
      */
     public void changerDensiteNuage(double densiteNuageVoulue) {
 
-        double ecartDensiteNuage = densiteNuageVoulue - getDensiteNuages();
-        setDensiteNuages(getDensiteNuages() + ecartDensiteNuage);
+        double  densiteNuageFin = getDensiteNuages() + densiteNuageVoulue;
+        if (densiteNuageFin <= 1 && densiteNuageFin >= 0) {
+            setDensiteNuages(densiteNuageFin);
+        }
     }
 
     /**
@@ -156,7 +158,10 @@ public class Meteo {
         double temp = getTemp().moyennes.getMax() - getTemp().moyennes.getMin();
 
         // la meteo globale change à chaque dt un peu
-        changerDensiteNuage(r.nextInt(1)*dt);
+        System.out.println(getDensiteNuages());
+        changerDensiteNuage(r.nextInt(5)*dt);
+        changerDensiteNuage(-r.nextInt(5)*dt);
+        System.out.println(getDensiteNuages());
         modifierTempGlobale(dt, r);
         incrementerHorloge(dt);
 
