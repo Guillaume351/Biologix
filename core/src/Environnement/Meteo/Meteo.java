@@ -159,20 +159,26 @@ public class Meteo {
 
         // la meteo globale change à chaque dt un peu
 
-        changerDensiteNuage(r.nextInt(2)*dt*0.1);
-        changerDensiteNuage(-r.nextInt(2)*dt*0.1);
+        changerDensiteNuage(r.nextInt(5)*dt*0.1);
+        changerDensiteNuage(-r.nextInt(5)*dt*0.1);
 
         modifierTempGlobale(dt, r);
         incrementerHorloge(dt);
 
         if (getDensiteNuages() > 0.5) {
-            this.meteo = TypeMeteo.NUAGEUX;
-        } else if (getDensiteNuages() > 0.5 && humide > 0.5) {
-            this.meteo = TypeMeteo.PLUIE;
-        } else if (getDensiteNuages() > 0.5 && humide > 0.5 && temp > 20) {
-            this.meteo = TypeMeteo.ORAGE;
-        } else if (getDensiteNuages() > 0.5 && humide > 0.5 && getTemp().moyennes.getMax() < 5) {
-            this.meteo = TypeMeteo.NEIGE;
+            if (getHumidite().getMoyenneHumidite() < 50) {
+                this.meteo = TypeMeteo.NUAGEUX;
+            } else {
+                if (getTemp().getMoyenne() > 5) {
+                    if (getTemp().getMoyenne() < 20) {
+                        this.meteo = TypeMeteo.PLUIE;
+                    } else {
+                        this.meteo = TypeMeteo.ORAGE;
+                    }
+                } else {
+                    this.meteo = TypeMeteo.NEIGE;
+                }
+            }
         } else {
             this.meteo = TypeMeteo.SOLEIL;
         }
@@ -188,8 +194,14 @@ public class Meteo {
     public void modifierTempGlobale(double dt, Random r) {
         if ((this.jour && this.horloge < (int)dtParJour(dt)/2) || (!this.jour && this.horloge > (int)dtParNuit(dt)/2)) {
             getTemp().coefTemp = getTemp().coefTemp + 0.8*dt * 0.1;
+            if (getHumidite().getMoyenneHumidite() < 99) {
+                getHumidite().coefHumidite = getHumidite().coefHumidite + dt * 0.1;
+            }
         } else {
             getTemp().coefTemp = getTemp().coefTemp -  0.8*dt * 0.1;
+            if (getHumidite().getMoyenneHumidite() > 1) {
+                getHumidite().coefHumidite = getHumidite().coefHumidite - dt * 0.1;
+            }
         }
     }
     /**

@@ -16,7 +16,9 @@ public class MeteoMap implements Updatable {
 
     //coefficient modificateur de la meteo, il evolue avec dt, permet à la temperature d'evoluer
     double coefTemp = 1.0;
-    double TempMoyOrigine = 22.5;
+    double coefHumidite = 1.0;
+    double TempMoyOrigine = 14.5;
+    double HumiditeMoyOrigine = 0.5;
 
 
     public MeteoMap(PerlinParams params, double min, double max) {
@@ -41,11 +43,13 @@ public class MeteoMap implements Updatable {
     }
 
     /**
-     * 40 est la temperature max et 5 est la temperature min.
+     * 30 est la temperature max et 1 est la temperature min.
      * @return Renvoie la temperature moyenne (tres arrondi)
      */
     public double getMoyenne() {
         return coefTemp * TempMoyOrigine;
     }
+
+    public double getMoyenneHumidite() { return coefHumidite * HumiditeMoyOrigine * 100; }
 
 }
