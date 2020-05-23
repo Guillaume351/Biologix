@@ -16,7 +16,7 @@ public class MeteoMap implements Updatable {
 
     //coefficient modificateur de la meteo, il evolue avec dt, permet à la temperature d'evoluer
     double coefTemp = 1.0;
-
+    double TempMoyOrigine = 22.5;
 
 
     public MeteoMap(PerlinParams params, double min, double max) {
@@ -45,7 +45,7 @@ public class MeteoMap implements Updatable {
      * @return Renvoie la temperature moyenne (tres arrondi)
      */
     public double getMoyenne() {
-        return coefTemp * (40 - 5)/2;
+        return coefTemp * TempMoyOrigine;
     }
 
 }
