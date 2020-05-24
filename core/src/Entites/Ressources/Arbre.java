@@ -116,6 +116,9 @@ public class Arbre extends Vegetal {
         if (tempsDepuisChute > tempsAvantChute) {
             retirerFruit();
         }
+        if (quantiteEnergie <= 0) {
+            this.getTerrain().retirerEntite(this);
+        }
     }
 
 }

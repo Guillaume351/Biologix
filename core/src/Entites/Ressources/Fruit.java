@@ -75,6 +75,9 @@ public class Fruit extends Ressource {
         if (!estDansArbre) {
             tempsDepuisChute += dt;
         }
+        if (quantiteEnergie <= 0) {
+            this.getTerrain().retirerEntite(this);
+        }
         if (tempsDepuisChute >= dureeDeVie) {
             //Creer un arbre
             this.getTerrain().retirerEntite(this);

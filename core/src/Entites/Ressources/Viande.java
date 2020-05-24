@@ -136,6 +136,9 @@ public class Viande extends Ressource {
         if (tempsDepuisPourriture > ConstantesBiologiques.tempsDispawnPostPourriture) {
             this.getTerrain().retirerEntite(this);
         }
+        if (quantiteEnergie <= 0) {
+            this.getTerrain().retirerEntite(this);
+        }
     }
 
 }
