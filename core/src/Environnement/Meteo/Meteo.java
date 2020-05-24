@@ -14,7 +14,15 @@ public class Meteo {
     boolean jour;
 
 
-
+    /**
+     * Constructeur de la météo .
+     * @param temp MeteoMap de temperature
+     * @param humidite MeteoMap d'humidité
+     * @param meteo type de meteo (enumeration)
+     * @param dureeJour
+     * @param dureeNuit
+     * @param densiteNuages
+     */
     public Meteo(MeteoMap temp, MeteoMap humidite, TypeMeteo meteo, double dureeJour, double dureeNuit, double densiteNuages) {
         this.temp = temp;
         this.humidite = humidite;
@@ -191,16 +199,13 @@ public class Meteo {
      * @param r nombre aleatoire entre 0 et 1
      */
     public void modifierTempGlobale(double dt, Random r) {
-        if ((this.jour && this.horloge < (int)dtParJour(dt)/2) || (!this.jour && this.horloge > (int)dtParNuit(dt)/2)) {
+        if ((!this.jour && this.horloge < (int)dtParJour(dt)/2) || (this.jour && this.horloge > (int)dtParNuit(dt)/2)) {
             getTemp().coefTemp = getTemp().coefTemp + 0.2*dt * 0.1;
-            if (getHumidite().getMoyenneHumidite() < 99) {
-                getHumidite().coefHumidite = getHumidite().coefHumidite + 0.2 * dt * 0.1;
-            }
         } else {
             getTemp().coefTemp = getTemp().coefTemp -  0.2*dt * 0.1;
-            if (getHumidite().getMoyenneHumidite() > 1) {
-                getHumidite().coefHumidite = getHumidite().coefHumidite - 0.2 * dt * 0.1;
-            }
+        }
+        if (getHumidite().getMoyenne() > 1 && getHumidite().getMoyenne() < 99) {
+            getHumidite().coefHumidite = getHumidite().coefHumidite + (r.nextDouble()*2 -1) * 0.01;
         }
     }
     /**
