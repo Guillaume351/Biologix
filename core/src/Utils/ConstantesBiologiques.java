@@ -107,7 +107,7 @@ public class ConstantesBiologiques {
     public static double tempsEntreChuteFruitMax = 50;
 
     /*Rendu*/
-    public static double PixelsParCoord = 32;
+    public static double PixelsParCoord = 8;
     public static boolean AltLayer = false;
     public static double deltaT = 0.1;
     public static int ratioAffichageSimulation = 1;

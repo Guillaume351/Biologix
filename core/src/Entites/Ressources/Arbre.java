@@ -119,13 +119,15 @@ public class Arbre extends Vegetal {
     }
 
     public void update(double dt) {
+        Color[] couleurs = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
+        int nombreAleatoire = (int)(Math.random() * couleurs.length);
         super.update(dt);
         grandir(dt);
         tempsDepuisProdFruit += dt;
         tempsDepuisChute += dt;
         if (tempsDepuisProdFruit > tempsProductionFruit) {
             tempsDepuisProdFruit = 0;
-            Fruit fruit = new Fruit(rand, Color.RED, false, this.terrain, true);
+            Fruit fruit = new Fruit(rand, couleurs[nombreAleatoire], false, this.terrain, true);
             fruit.setPosition(new Vector2(this.getPosition()));
             ajouterFruit(fruit);
         }

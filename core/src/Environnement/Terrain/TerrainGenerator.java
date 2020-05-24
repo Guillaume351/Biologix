@@ -82,12 +82,14 @@ public class TerrainGenerator {
      * @return : Une liste de ressources initiale
      */
     private ArrayList<Ressource> resourcePopulate(int nbViande, int nbFruit, int nbArbre, Random random) {
+        Color[] couleurs = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
         ArrayList<Ressource> listeRessources = new ArrayList<Ressource>();
         for (int i = 0; i < nbViande; i++) {
             listeRessources.add(new Viande(random, this.generatedTerrain));
         }
         for (int j = 0; j < nbFruit; j++) {
-            listeRessources.add(new Fruit(random, Color.RED, false, this.generatedTerrain, true));
+            int nombreAleatoire = (int)(Math.random() * couleurs.length);
+            listeRessources.add(new Fruit(random, couleurs[nombreAleatoire], false, this.generatedTerrain, true));
         }
         for (int i = 0; i < nbArbre; i++) {
             listeRessources.add(new Arbre(random, this.generatedTerrain));
