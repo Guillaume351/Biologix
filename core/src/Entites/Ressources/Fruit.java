@@ -32,26 +32,45 @@ public class Fruit extends Ressource {
     boolean estDansArbre;
     double dureeDeVie = ConstantesBiologiques.dureeDeVieFruit;
 
+    double tempsDepuisChute;    //temps depuis la chute d'un fruit de son arbre
 
-    double tempsDepuisChute;
 
-
+    /**
+     * Connaître le temps qui s'est écoulé depuis la chute d'un fruit
+     * @return
+     */
     public double getTempsDepuisChute() {
         return tempsDepuisChute;
     }
 
-    public boolean isEstDansArbre() {
+    /**
+     * Savoir si un fruit est dans un arbre ou au sol
+     * @return
+     */
+    public boolean estDansArbre() {
         return estDansArbre;
     }
 
+    /**
+     * Choisir de placer le fruit dans un arbre ou non
+     * @param estDansArbre
+     */
     public void setEstDansArbre(boolean estDansArbre) {
         this.estDansArbre = estDansArbre;
     }
 
+    /**
+     * Savoir si un fruit est empoisonné
+     * @return
+     */
     boolean estEmpoisonne() {
         return estEmpoisonne;
     }
 
+    /**
+     * Gérer l'évolution d'un fruit au fil du temps
+     * @param dt
+     */
     public void update(double dt) {
         if (!estDansArbre) {
             tempsDepuisChute += dt;

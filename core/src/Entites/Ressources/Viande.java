@@ -12,6 +12,7 @@ public class Viande extends Ressource {
     double tauxDePourriture; // définit si une viande est pourrie. tauxdePourriture + getquantiteEnergie = EnergieMaxStockable
     boolean pourrie;
     double tempsDepuisPourriture;
+
     @Override
     public double getQuantiteEnergie() {
         return super.getQuantiteEnergie();
@@ -32,6 +33,10 @@ public class Viande extends Ressource {
         return this.quantiteEnergie / ConstantesBiologiques.densiteEnergieRessource;
     }
 
+    /**
+     * Constructeur d'un morceau de viande à partir d'une créature morte
+     * @param victime
+     */
     public Viande(Creature victime) {
         super(victime.getPosition());
         this.terrain = victime.getTerrain();
@@ -104,12 +109,18 @@ public class Viande extends Ressource {
         }
     }
 
+    /**
+     * Connaître la vitesse de pourriture d'un morceau de viande
+     * @param temperature
+     * @return
+     */
     public double getVitessePourriture(double temperature) {
         return ConstantesBiologiques.vitessePourritureMax * Math.exp(-ConstantesBiologiques.stabilitePourriture / temperature);
     }
 
     /**
-     * La viande pourrit dans le temps... son énergie se transforme en pourriture
+     * Fonction pour permettre l'évolution dans le temps d'un morceau de viande
+     * @param dt
      */
     public void update(double dt) {
 

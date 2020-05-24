@@ -14,17 +14,18 @@ public class RessourceRenderer {
 
     ArrayList<Ressource> ressources;
 
-
+    //VIANDES
     private Texture textureViande;
     private Texture textureViandeMoyenPourrie;
     private Texture textureViandePourrie;
 
+    //FRUITS
     private Texture textureFruitRouge;
     private Texture textureFruitBleu;
     private Texture textureFruitVert;
     private Texture textureFruitJaune;
 
-
+    //ARBRE
     private Texture textureArbre;
     private Texture textureArbreAquatique;
 

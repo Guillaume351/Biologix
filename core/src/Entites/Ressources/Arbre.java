@@ -19,7 +19,7 @@ public class Arbre extends Vegetal {
     private double tempsDepuisChute;
     private boolean aquatique;      // Un arbre peut être aquatique
 
-    public ArrayList<Fruit> fruits;
+    public ArrayList<Fruit> fruits;  //la liste des fruits qui "peuplent" l'arbre
 
     /**
      * Constructeur de l'arbre
@@ -37,6 +37,11 @@ public class Arbre extends Vegetal {
         } else { setAquatique(false);}
     }
 
+    /**
+     * Constructeur de l'arbre à partir d'un fruit
+     * @param r
+     * @param fruit
+     */
     public Arbre(Random r, Fruit fruit) {
         super(fruit.getPosition(), r, fruit.getTerrain(), fruit.getQuantiteEnergie());
         this.croissance = ConstantesBiologiques.croissanceMaxVegetal * r.nextDouble();
@@ -92,6 +97,10 @@ public class Arbre extends Vegetal {
         }
     }
 
+    /**
+     * Mide à jour du cycle arre/fruit au cours du temps
+     * @param dt
+     */
     public void update(double dt) {
         Color[] couleurs = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
         int nombreAleatoire = (int)(Math.random() * couleurs.length);
