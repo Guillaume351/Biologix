@@ -350,7 +350,6 @@ public class EcranSimulation implements Screen {
         this.creatureStatsUI.dispose();
         this.carteStatsUI.dispose();
         this.optionsUI.dispose();
-        this.batch.dispose();
     }
 
 }
