@@ -159,8 +159,8 @@ public class Meteo {
 
         // la meteo globale change à chaque dt un peu
 
-        changerDensiteNuage(r.nextInt(5)*dt*0.1);
-        changerDensiteNuage(-r.nextInt(5)*dt*0.1);
+        changerDensiteNuage(r.nextInt(2)*dt*0.05);
+        changerDensiteNuage(-r.nextInt(2)*dt*0.05);
 
         modifierTempGlobale(dt, r);
         incrementerHorloge(dt);
@@ -193,14 +193,14 @@ public class Meteo {
      */
     public void modifierTempGlobale(double dt, Random r) {
         if ((this.jour && this.horloge < (int)dtParJour(dt)/2) || (!this.jour && this.horloge > (int)dtParNuit(dt)/2)) {
-            getTemp().coefTemp = getTemp().coefTemp + 0.8*dt * 0.1;
+            getTemp().coefTemp = getTemp().coefTemp + 0.2*dt * 0.1;
             if (getHumidite().getMoyenneHumidite() < 99) {
-                getHumidite().coefHumidite = getHumidite().coefHumidite + dt * 0.1;
+                getHumidite().coefHumidite = getHumidite().coefHumidite + 0.2 * dt * 0.1;
             }
         } else {
-            getTemp().coefTemp = getTemp().coefTemp -  0.8*dt * 0.1;
+            getTemp().coefTemp = getTemp().coefTemp -  0.2*dt * 0.1;
             if (getHumidite().getMoyenneHumidite() > 1) {
-                getHumidite().coefHumidite = getHumidite().coefHumidite - dt * 0.1;
+                getHumidite().coefHumidite = getHumidite().coefHumidite - 0.2 * dt * 0.1;
             }
         }
     }

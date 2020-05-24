@@ -47,9 +47,9 @@ public class MeteoMap implements Updatable {
      * @return Renvoie la temperature moyenne (tres arrondi)
      */
     public double getMoyenne() {
-        return coefTemp * TempMoyOrigine;
+        return Math.round(coefTemp * TempMoyOrigine) ;
     }
 
-    public double getMoyenneHumidite() { return coefHumidite * HumiditeMoyOrigine * 100; }
+    public double getMoyenneHumidite() { return Math.round(coefHumidite * HumiditeMoyOrigine * 100); }
 
 }

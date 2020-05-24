@@ -231,14 +231,14 @@ public class EcranSimulation implements Screen {
     }
 
     public void affichageUI() {
-        DecimalFormat df2 = new DecimalFormat("0.00##");
+        DecimalFormat df2 = new DecimalFormat("0.##");
         this.carteStatsUI.begin();
-        String textStatsCarte = "Température : " + this.gameWorld.getMeteo().getTemp().getMoyenne();
-        textStatsCarte += "\nPourcentage d'humidité : " + this.gameWorld.getMeteo().getHumidite().getMoyenneHumidite();
-        textStatsCarte += "\nDensité de nuage : " + this.gameWorld.getMeteo().getDensiteNuages();
+        String textStatsCarte = "Température : " + df2.format(this.gameWorld.getMeteo().getTemp().getMoyenne()) ;
+        textStatsCarte += "\nPourcentage d'humidité : " + df2.format(this.gameWorld.getMeteo().getHumidite().getMoyenneHumidite()) ;
+        textStatsCarte += "\nDensité de nuage : " + df2.format(this.gameWorld.getMeteo().getDensiteNuages()) ;
         textStatsCarte += "\nMeteo : " + this.gameWorld.getMeteo().getMeteo();
         textStatsCarte += "\nNombre de créatures : " + this.gameWorld.getCreatures().size();
-        font.draw(this.carteStatsUI, textStatsCarte, 70, this.viewport.getWorldHeight() - 10);
+        font.draw(this.carteStatsUI, textStatsCarte, 70, this.viewport.getWorldHeight() - 35);
         this.carteStatsUI.end();
     }
 
