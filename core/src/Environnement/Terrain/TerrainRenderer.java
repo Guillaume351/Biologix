@@ -44,7 +44,7 @@ public class TerrainRenderer {
 
     public static void majLuminosite(TiledMap map, Terrain terrain) {
         double nuit = 1.0 - terrain.getMeteo().getLuminosite(terrain.getTemps());
-        map.getLayers().get("nuit").setOpacity((float) (nuit * 0.3));
+        map.getLayers().get("nuit").setOpacity((float) (nuit * 0.5));
     }
 
     public TiledMapTileLayer calcLayerLuminosite() {
