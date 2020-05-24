@@ -258,7 +258,7 @@ public class EcranSimulation implements Screen {
         textStatsCarte += "\nPourcentage d'humidité : " + df2.format(this.gameWorld.getMeteo().getHumidite().getMoyenneHumidite()) ;
         textStatsCarte += "\nDensité de nuage : " + df2.format(this.gameWorld.getMeteo().getDensiteNuages()) ;
         textStatsCarte += "\nMeteo : " + this.gameWorld.getMeteo().getMeteo();
-        textStatsCarte += "\nLuminosite : " + this.gameWorld.getMeteo().getLuminosite(gameWorld.getTemps());
+        textStatsCarte += "\nLuminosite : " + df2.format(this.gameWorld.getMeteo().getLuminosite(gameWorld.getTemps()));
         textStatsCarte += "\nNombre de créatures : " + this.gameWorld.getCreatures().size();
         font.draw(this.carteStatsUI, textStatsCarte, 70, this.viewport.getWorldHeight() - 35);
         this.carteStatsUI.end();
