@@ -170,7 +170,7 @@ public class Statisticien {
 
     public Texture getHistogrameAges(int ancienete, int xSize, int ySize) {
         if (historiqueAges.size() > ancienete) {
-            return (graphique(histogramme(historiqueAges.get(historiqueAges.size() - ancienete - 1), 10), Color.WHITE, Color.BLACK, xSize, ySize));
+            return (graphique(histogramme(historiqueAges.get(historiqueAges.size() - ancienete - 1), 10), Color.WHITE, Color.RED, xSize, ySize));
         } else {
             return new Texture(new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888));
         }
@@ -224,7 +224,7 @@ public class Statisticien {
     }
 
     public Texture getGraphiqueNbAccouchement(int xSize, int ySize) {
-        return graphique(nbAccouchement, Color.WHITE, Color.RED, xSize, ySize);
+        return graphique(nbAccouchement, Color.WHITE, Color.BLACK, xSize, ySize);
     }
 
     public Texture getGraphiquenbReproductions(int xSize, int ySize) {
