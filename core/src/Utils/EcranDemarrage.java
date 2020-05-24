@@ -71,7 +71,7 @@ public class EcranDemarrage implements Screen {
         this.table.add(this.boutonOptions).pad(50);
         this.table.row();
 
-        //Gdx.input.setInputProcessor(this.stage);
+        /* Ajout de la table à la stage */
         this.stage.addActor(this.table);
     }
 
@@ -88,14 +88,12 @@ public class EcranDemarrage implements Screen {
         this.spriteBatchFond.begin();
         if (majFond % 50 == 0) {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-            //stage.act();
             Random rand = new Random();
             for (int j = 0; j < 10; j++) {
                 this.spriteBatchFond.draw(this.textureFond, rand.nextInt(500), rand.nextInt(500), 100, 100);
             }
 
         }
-        //Gdx.input.setInputProcessor(this.stage);
         this.spriteBatchFond.end();
         stage.draw();
         majFond++;
@@ -117,6 +115,9 @@ public class EcranDemarrage implements Screen {
 
     }
 
+    /**
+     * Méthode appelée lorsque l'écran n'est plus l'écran courant
+     */
     @Override
     public void hide() {
        // if (!this.jeu.ecranOptions.retourEcranDemarrage) {
@@ -131,6 +132,9 @@ public class EcranDemarrage implements Screen {
 
     }
 
+    /**
+     * Classe d'occupant de la gestion du bouton "Lancer la partie"
+     */
     public class GestionBoutonLancer extends InputListener {
 
         @Override
@@ -141,6 +145,9 @@ public class EcranDemarrage implements Screen {
 
     }
 
+    /**
+     * Classe s'occupant de la gestion du bouton "Options"
+     */
     public class GestionBoutonOptions extends InputListener {
 
         @Override

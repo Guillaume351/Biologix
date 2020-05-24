@@ -16,29 +16,38 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class EcranOptions implements Screen {
 
+    /* La table et sa stage associée */
     private Stage stage;
     private Table table;
 
-    private TextField nombreCreatures;
-    private TextField.TextFieldStyle styleTextField;
-
-    private TextField nombreRessources;
-    private Label labelNbRessources;
-    private Label labelNbRessourcesNonValide;
-
-    private Label labelNbCreatures;
+    /* Le style utilisé pour les labels */
     private Label.LabelStyle styleLabel;
     private BitmapFont bitmapLabel;
 
-    private Label labelNbCreaturesNonValide;
+    /* Le style utilisé pour les champs à remplir */
+    private TextField.TextFieldStyle styleTextField;
 
+    /* Les champs à remplir */
+    private TextField nombreCreatures;
+    private TextField nombreRessources;
+
+    /* Les labels associés aux champs à remplir */
+    private Label labelNbCreatures;
+    private Label labelNbRessources;
+
+    /* Les labels s'affichant quand les champs à remplir ne sont pas corrects */
+    private Label labelNbCreaturesNonValide;
+    private Label labelNbRessourcesNonValide;
+
+    /* La checkbox, son style et son label */
+    private Label labelAltLayer;
+    private CheckBox.CheckBoxStyle styleAltLayer;
+    private CheckBox altLayer;
+
+    /* Le bouton */
     private ImageButton boutonValider;
 
-    private Label labelAltLayer;
-
-    private CheckBox altLayer;
-    private CheckBox.CheckBoxStyle styleAltLayer;
-
+    /* Les booleens d'état de la classe */
     private boolean nbCreatureValide;
     private boolean nbRessourceValide;
     private boolean retourEcranDemarrage;
@@ -55,6 +64,7 @@ public class EcranOptions implements Screen {
         this.retourEcranDemarrage = false;
         this.nbCreatureValide = false;
 
+        /* Initialisation de la table et de la stage */
         this.table = new Table();
         this.stage = new Stage();
 
@@ -159,17 +169,22 @@ public class EcranOptions implements Screen {
 
     }
 
+    /**
+     * Méthode appelée lorsque l'écran n'est plus l'écran courant
+     */
     @Override
     public void hide() {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //this.stage.dispose();
     }
 
     @Override
     public void dispose() {
         this.stage.dispose();
     }
+
+
+    /* Section concernant les getters et les setters */
 
     public TextField getNombreCreatures() {
         return this.nombreCreatures;
@@ -192,8 +207,10 @@ public class EcranOptions implements Screen {
         this.retourEcranDemarrage = retourEcranDemarrage;
     }
 
+    /**
+     * Classe s'occupant de la gestion du champ à remplir "Nombre de créatures"
+     */
     public class GestionNombreCreatures implements TextField.TextFieldListener{
-
         @Override
         public void keyTyped(TextField textField, char c) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
@@ -212,6 +229,9 @@ public class EcranOptions implements Screen {
         }
     }
 
+    /**
+     * Classe s'occupant de la gestion du champ "Nombre de ressources"
+     */
     public class GestionNombreRessources implements TextField.TextFieldListener{
         @Override
         public void keyTyped(TextField textField, char c) {
@@ -231,8 +251,10 @@ public class EcranOptions implements Screen {
         }
     }
 
+    /**
+     * Classe s'occupant de la gestion du bouton "Retour à l'écran de démarrage"
+     */
     public class GestionBoutonValider extends InputListener {
-
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
             if (nbCreatureValide || pasDeChangement) {
@@ -240,10 +262,11 @@ public class EcranOptions implements Screen {
             }
             return true;
         }
-
-
     }
 
+    /**
+     * Classe d'occupant de la gestion de la checkbox "Affichage des altitudes"
+     */
     public class GestionCheckedBox extends ChangeListener {
 
         @Override
@@ -251,5 +274,4 @@ public class EcranOptions implements Screen {
             ConstantesBiologiques.AltLayer = !ConstantesBiologiques.AltLayer;
         }
     }
-
 }
