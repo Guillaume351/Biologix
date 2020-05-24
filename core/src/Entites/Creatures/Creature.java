@@ -232,9 +232,6 @@ public class Creature extends Entite {
         double Epot = masse * (z1 - z0) * this.terrain.getGravite();
         //Energie Cinetique
         double Ecin = mouvement.getEnergieDepenseeMouvementParUniteDeMasse(dt, vitesse);
-        if (Double.isNaN(this.getPosition().x)) {
-            System.out.println("Nan détecté!!!");
-        }
 
 
         return masse * Math.max(0, Epot + Ecin);

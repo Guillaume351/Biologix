@@ -36,9 +36,7 @@ public abstract class Ressource extends Entite {
         this.quantiteEnergie = quantiteEnergie;
     }
 
-    public double getTaille() {
-        return 1;
-    }
+    public abstract double getTaille();
 
     public double manger(double energie) {
         double energieDispo = Math.min(energie, quantiteEnergie);

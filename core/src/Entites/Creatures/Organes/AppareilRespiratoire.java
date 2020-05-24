@@ -22,8 +22,10 @@ public class AppareilRespiratoire extends Organe {
 
     public AppareilRespiratoire(AppareilRespiratoire arMere, AppareilRespiratoire arPere, Random r, double mutation){
         super(arMere, arPere, r, mutation);
-        //AppareilRespiratoire apAlea = new AppareilRespiratoire(r);
-        // TODO : à terminer
+        AppareilRespiratoire apAlea = new AppareilRespiratoire(r);
+        this.potentielBranchie = (arMere.potentielBranchie + arPere.potentielBranchie + apAlea.potentielBranchie * mutation) / (2 + mutation);
+        this.densiteOxygene = (arMere.densiteOxygene + arPere.densiteOxygene + apAlea.densiteOxygene * mutation) / (2 + mutation);
+        this.quantiteOxygene = getQuantiteOxygeneMax0();
     }
 
 
@@ -32,7 +34,8 @@ public class AppareilRespiratoire extends Organe {
     }
 
     public double getQuantiteOxygeneMax(){
-        return this.getMasse(this.getCreatureHote().getAge()) * this.densiteOxygene;
+        double retour = this.getMasse(this.getCreatureHote().getAge()) * this.densiteOxygene;
+        return retour;
     }
 
     private double getQuantiteOxygeneMax0() {
@@ -42,6 +45,7 @@ public class AppareilRespiratoire extends Organe {
 
     public double getPourcentageOxygene() {
         return getQuantiteOxygene() / getQuantiteOxygeneMax();
+
     }
 
     /**

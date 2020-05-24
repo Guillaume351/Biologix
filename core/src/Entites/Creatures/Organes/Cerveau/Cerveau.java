@@ -129,7 +129,9 @@ public class Cerveau {
             changementMilieu = this.comportement_amphibien;
         }
         Vector2 vecteurMilieu = creatureHote.getTerrain().vectPointeurChgtMilieu(creatureHote).nor();
-        return new Vector2(vecteurMilieu.x * (float) changementMilieu, vecteurMilieu.y * (float) changementMilieu);
+        Vector2 retour = new Vector2(vecteurMilieu.x * (float) changementMilieu, vecteurMilieu.y * (float) changementMilieu);
+        return retour;
+
     }
 
     public double calcCoeffVoracite(Vector2 vecteurNourriture, Vector2 vecteurTailleRelative) {
@@ -156,7 +158,9 @@ public class Cerveau {
     }
 
     public double calcVitesse(Vector2 objectif) {
-        return creatureHote.getMouvement().getVitesseMax(this.creatureHote.getTerrain()) * normerV(objectif);
+
+        double result = creatureHote.getMouvement().getVitesseMax(this.creatureHote.getTerrain()) * normerV(objectif);
+        return result;
     }
 
     public Vector2 calcObjectif(Vector2 vecteurNourriture, Vector2 vecteurGregarite, Vector2 vecteurDanger, Vector2 vecteurNid, Vector2 vecteurTailleRelative
@@ -185,6 +189,7 @@ public class Cerveau {
         Vector2 pointeurTailleRelative = new Vector2(vecteurTailleRelative).nor();
         objectif = combLin(objectif, pointeurTailleRelative, coeffTailleRelative);
         objectif = combLin(objectif, vecteurChangementMilieu, 1);
+
         return objectif;
     }
 }

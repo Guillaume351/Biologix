@@ -10,8 +10,7 @@ import java.util.Random;
 
 public class Arbre extends Vegetal {
 
-    private double taille; //la hauteur de l'arbre
-    private double tailleMax; //la hauteur max de l'arbre
+
     Random rand;
     private double croissance;
     private double tempsProductionFruit;
@@ -29,8 +28,6 @@ public class Arbre extends Vegetal {
      */
     public Arbre(Random r, Terrain terrain) {
         super(new Vector2((float) (ConstantesBiologiques.XMAX * r.nextDouble()), (float) (ConstantesBiologiques.YMAX * r.nextDouble())), r, terrain);
-        this.taille = ConstantesBiologiques.tailleArbreMin; // au début
-        this.tailleMax = ConstantesBiologiques.tailleArbreMin + (ConstantesBiologiques.tailleArbreMax - ConstantesBiologiques.tailleArbreMin) * r.nextDouble();
         this.croissance = ConstantesBiologiques.croissanceMaxVegetal * r.nextDouble();
         this.tempsProductionFruit = ConstantesBiologiques.tempsProdFruitMin + (ConstantesBiologiques.tempsProdFruitMax - ConstantesBiologiques.tempsProdFruitMin) * r.nextDouble();
         this.fruits = new ArrayList<Fruit>();
@@ -42,8 +39,6 @@ public class Arbre extends Vegetal {
 
     public Arbre(Random r, Fruit fruit) {
         super(fruit.getPosition(), r, fruit.getTerrain(), fruit.getQuantiteEnergie());
-        this.taille = ConstantesBiologiques.tailleArbreMin; // au début
-        this.tailleMax = ConstantesBiologiques.tailleArbreMin + (ConstantesBiologiques.tailleArbreMax - ConstantesBiologiques.tailleArbreMin) * r.nextDouble();
         this.croissance = ConstantesBiologiques.croissanceMaxVegetal * r.nextDouble();
         this.tempsProductionFruit = ConstantesBiologiques.tempsProdFruitMin + (ConstantesBiologiques.tempsProdFruitMax - ConstantesBiologiques.tempsProdFruitMin) * r.nextDouble();
         this.fruits = new ArrayList<Fruit>();
@@ -53,19 +48,9 @@ public class Arbre extends Vegetal {
         } else { setAquatique(false);}
     }
 
-    void setTaille(double taille) {
-        this.taille = taille;
-    }
 
-    void setTailleMax(double taille) {
-        this.tailleMax = ConstantesBiologiques.tailleArbreMax;
-    }
 
-    public double getTaille() {
-        return this.taille;
-    }
 
-    double getTailleMax() {return this.tailleMax;}
 
     /**
      * Pour savoit si un arbre est aquatique ou non
@@ -78,21 +63,10 @@ public class Arbre extends Vegetal {
      * @param bool
      */
     void setAquatique(boolean bool) {
-        if (bool) {
-            this.aquatique = true;
-        } else {
-            this.aquatique = false;
-        }
+        this.aquatique = bool;
     }
 
 
-    private void grandir(double dt) {
-        if (taille + croissance * dt < tailleMax) {
-            taille += croissance * dt;
-        } else {
-            taille = tailleMax;
-        }
-    }
 
     /**
      * ajoute des fruits dans l'arbre
@@ -122,7 +96,6 @@ public class Arbre extends Vegetal {
         Color[] couleurs = {Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW};
         int nombreAleatoire = (int)(Math.random() * couleurs.length);
         super.update(dt);
-        grandir(dt);
         tempsDepuisProdFruit += dt;
         tempsDepuisChute += dt;
         if (tempsDepuisProdFruit > tempsProductionFruit) {

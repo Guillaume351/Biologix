@@ -67,4 +67,9 @@ public class Fruit extends Ressource {
     public String getTypeRessource() {
         return "fruit";
     }
+
+    @Override
+    public double getTaille() {
+        return this.getQuantiteEnergie() / ConstantesBiologiques.densiteEnergieRessource;
+    }
 }

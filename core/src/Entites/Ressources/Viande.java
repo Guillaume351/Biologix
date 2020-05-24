@@ -27,6 +27,11 @@ public class Viande extends Ressource {
         this.quantiteEnergie = quantiteEnergie;
     }
 
+    @Override
+    public double getTaille() {
+        return this.quantiteEnergie / ConstantesBiologiques.densiteEnergieRessource;
+    }
+
     public Viande(Creature victime) {
         super(victime.getPosition());
         this.terrain = victime.getTerrain();

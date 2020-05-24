@@ -7,8 +7,8 @@ public class ConstantesBiologiques {
 
     public static double rayonInteraction = 5;
 
-    public static double rapportMasseConsommationOxygene = 0.1;
-    public static double rapportMasseProductionOxygene = 10;
+    public static double rapportMasseConsommationOxygene = 0.3;
+    public static double rapportMasseProductionOxygene = 6;
 
     public static double tailleOrganeMin = 0.5;
     public static double tailleOrganeMax = 1;
@@ -83,9 +83,6 @@ public class ConstantesBiologiques {
     /*RESSOURCES*/
     public static double energieMaxStockable = 1000;  // 100 est vraiment pas assez
 
-    /*arbre*/
-    public static double tailleArbreMin = 3;
-    public static double tailleArbreMax = 10;
 
     /*fruit*/
     public static double dureeDeVieFruit = 5;
@@ -98,18 +95,21 @@ public class ConstantesBiologiques {
     public static double tempsDispawnPostPourriture = 20;
 
     //Vegetal
-    public static int toleranceTemperatureVegetal = 3;
-    public static int temperatureIdealeVegetal = 20;
-    public static double croissanceMaxVegetal = 5;
+    public static int toleranceTemperatureVegetal = 10;
+    public static int temperatureIdealeVegetal = 40;
+    public static double densiteEnergieRessource = 800;
+    public static double densiteEnergieArbre = 70;
+    public static double croissanceMaxVegetal = 1;
     public static double tempsProdFruitMin = 25;
-    public static double tempsProdFruitMax = 40;
+    public static double tempsProdFruitMax = 100;
     public static double rayonChuteFruitMax = 10;
-    public static double tempsEntreChuteFruitMax = 50;
+    public static double tempsEntreChuteFruitMax = 110;
 
     /*Rendu*/
-    public static double PixelsParCoord = 8;
+    public static double PixelsParCoord = 32;
     public static boolean AltLayer = false;
     public static double deltaT = 0.1;
     public static int ratioAffichageSimulation = 1;
+
 
 }

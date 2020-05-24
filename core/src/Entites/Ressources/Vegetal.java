@@ -38,8 +38,8 @@ public class Vegetal extends Ressource {
     public Vegetal(Vector2 position, Random r, Terrain terrain) {
         super(position);
         this.energieMaxStockable = ConstantesBiologiques.energieMaxStockable * r.nextDouble();
-        this.toleranceTemperature = ConstantesBiologiques.toleranceTemperatureVegetal * 2*r.nextDouble();
-        this.temperatureIdeale = ConstantesBiologiques.temperatureIdealeVegetal * 2*r.nextDouble();
+        this.toleranceTemperature = ConstantesBiologiques.toleranceTemperatureVegetal * r.nextDouble();
+        this.temperatureIdeale = ConstantesBiologiques.temperatureIdealeVegetal * r.nextDouble();
         this.croissanceMax = ConstantesBiologiques.croissanceMaxVegetal;
         this.ratioDecroissance = r.nextDouble();
         this.terrain = terrain;
@@ -48,11 +48,16 @@ public class Vegetal extends Ressource {
     public Vegetal(Vector2 position, Random r, Terrain terrain, double energie) {
         super(position, energie);
         this.energieMaxStockable = ConstantesBiologiques.energieMaxStockable * r.nextDouble();
-        this.toleranceTemperature = ConstantesBiologiques.toleranceTemperatureVegetal * 2 * r.nextDouble();
-        this.temperatureIdeale = ConstantesBiologiques.temperatureIdealeVegetal * 2 * r.nextDouble();
+        this.toleranceTemperature = ConstantesBiologiques.toleranceTemperatureVegetal * r.nextDouble();
+        this.temperatureIdeale = ConstantesBiologiques.temperatureIdealeVegetal * r.nextDouble();
         this.croissanceMax = ConstantesBiologiques.croissanceMaxVegetal;
         this.ratioDecroissance = r.nextDouble();
         this.terrain = terrain;
+    }
+
+    @Override
+    public double getTaille() {
+        return this.quantiteEnergie / ConstantesBiologiques.densiteEnergieArbre;
     }
 
     /**
@@ -62,7 +67,6 @@ public class Vegetal extends Ressource {
     public void setEnergieMaxStockable(double energieMax) {
         this.energieMaxStockable = energieMax;
     }
-
 
 
     public double getCroissance(double temperature) {
