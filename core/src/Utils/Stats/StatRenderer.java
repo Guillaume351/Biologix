@@ -20,6 +20,10 @@ public class StatRenderer {
 
     public void afficherGraphique() {
         Texture texHistoEnergie = statisticien.getHistoriqueEnergetique(512, 512);
-        batch.draw(texHistoEnergie, 0, 0, 300, 300);
+        Texture texPiramideAges = statisticien.getHistogrameAges(0, 512, 512);
+        Texture texAcc = statisticien.getGraphiqueNbAccouchement(512, 512);
+        batch.draw(texHistoEnergie, 0, 0, 512, 512);
+        batch.draw(texPiramideAges, 512, 0, 512, 512);
+        batch.draw(texAcc, 2 * 512, 0, 512, 512);
     }
 }

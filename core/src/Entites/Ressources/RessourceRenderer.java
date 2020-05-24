@@ -61,7 +61,7 @@ public class RessourceRenderer {
             //TODO : faire un switch avec les différents types de ressources
             int x = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getPosition().x);
             int y = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getPosition().y);
-            int taille = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getTaille());
+            int taille = (int) Math.max(10, (ConstantesBiologiques.PixelsParCoord * ressource.getTaille()));
             if (ressource instanceof Viande) {
                 if (((Viande) ressource).getEtatPourriture() == "Pourri") {
                     spriteBatchCreature.draw(textureViandePourrie, x, y, taille, taille);

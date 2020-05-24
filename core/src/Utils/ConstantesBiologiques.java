@@ -48,7 +48,7 @@ public class ConstantesBiologiques {
     /* Graisse */
     public static double efficaciteEnrgetiqueMin = 200;
     public static double efficaciteEnergetiqueMax = 9000;
-    public static double rendementAccouchement = 3;
+    public static double rendementAccouchement = 0.3;
     public static double coutCroissanceRelatif = 0.75;
 
 
@@ -97,7 +97,7 @@ public class ConstantesBiologiques {
     //Vegetal
     public static int toleranceTemperatureVegetal = 10;
     public static int temperatureIdealeVegetal = 40;
-    public static double densiteEnergieRessource = 800;
+    public static double densiteEnergieRessource = 5000;
     public static double densiteEnergieArbre = 70;
     public static double croissanceMaxVegetal = 1;
     public static double tempsProdFruitMin = 25;
@@ -108,8 +108,8 @@ public class ConstantesBiologiques {
     /*Rendu*/
     public static double PixelsParCoord = 32;
     public static boolean AltLayer = false;
-    public static double deltaT = 0.1;
-    public static int ratioAffichageSimulation = 1;
+    public static double deltaT = 0.2;
+    public static int ratioAffichageSimulation = 5;
 
 
 }

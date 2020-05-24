@@ -16,9 +16,9 @@ public class Statisticien {
     private List<Double> historiqueAgeMoyen;
     private List<Stat> historiqueStatsGlobales;
     private List<Double> historiqueEnergiesDisponibles;
-    private List<Integer> nbBlessures;
-    private List<Integer> nbAccouchement;
-    private List<Integer> nbReproduction;
+    private List<Double> nbBlessures;
+    private List<Double> nbAccouchement;
+    private List<Double> nbReproduction;
 
     public Statisticien() {
         historiqueAges = new ArrayList<>();
@@ -205,21 +205,21 @@ public class Statisticien {
 
         historiqueAges.add(ages);
         historiqueEnergiesDisponibles.add(energieDispo);
-        nbBlessures.add(bless);
-        nbAccouchement.add(accouch);
-        nbReproduction.add(repro);
+        nbBlessures.add((double) bless);
+        nbAccouchement.add((double) accouch);
+        nbReproduction.add((double) repro);
     }
 
     public Texture getGraphiqueNbBlessures(int xSize, int ySize) {
-        return graphique((List) nbBlessures, Color.WHITE, Color.BLACK, xSize, ySize);
+        return graphique(nbBlessures, Color.WHITE, Color.BLACK, xSize, ySize);
     }
 
     public Texture getGraphiqueNbAccouchement(int xSize, int ySize) {
-        return graphique((List) nbAccouchement, Color.WHITE, Color.BLACK, xSize, ySize);
+        return graphique(nbAccouchement, Color.WHITE, Color.BLACK, xSize, ySize);
     }
 
     public Texture getGraphiquenbReproductions(int xSize, int ySize) {
-        return graphique((List) nbReproduction, Color.WHITE, Color.BLACK, xSize, ySize);
+        return graphique(nbReproduction, Color.WHITE, Color.BLACK, xSize, ySize);
     }
 
     public Texture getGraphiqueHistoriqueEnergiesDispo(int xSize, int ySize) {
