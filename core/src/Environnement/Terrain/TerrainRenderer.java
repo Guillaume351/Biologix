@@ -2,6 +2,7 @@ package Environnement.Terrain;
 
 import Utils.ConstantesBiologiques;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,7 +16,6 @@ public class TerrainRenderer {
 
     // Contient le terrain sous forme de TiledMap
     private TiledMap map;
-
     /**
      * Taille en pixel d'un tile
      */
@@ -40,6 +40,27 @@ public class TerrainRenderer {
      */
     public int getTaille() {
         return taille;
+    }
+
+    public static void majLuminosite(TiledMap map, Terrain terrain) {
+        double nuit = 1.0 - terrain.getMeteo().getLuminosite(terrain.getTemps());
+        map.getLayers().get("nuit").setOpacity((float) (nuit * 0.5));
+    }
+
+    public TiledMapTileLayer calcLayerLuminosite() {
+        Pixmap lum = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGBA8888);
+        lum.setColor(Color.BLACK);
+        lum.fill();
+        TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
+        StaticTiledMapTile st = new StaticTiledMapTile(new TextureRegion(new Texture(lum)));
+        cell.setTile(st);
+        TiledMapTileLayer layer1 = new TiledMapTileLayer(taille, taille, TILE_SIZE, TILE_SIZE);
+        for (int i = 0; i < taille; i++) {
+            for (int j = 0; j < taille; j++) {
+                layer1.setCell(i, j, cell);
+            }
+        }
+        return layer1;
     }
 
 
@@ -96,6 +117,9 @@ public class TerrainRenderer {
             layer2.setOpacity(0.36f);
             layers.add(layer2);
         }
+        TiledMapTileLayer layerNuit = calcLayerLuminosite();
+        layerNuit.setName("nuit");
+        layers.add(layerNuit);
         return map;
     }
 

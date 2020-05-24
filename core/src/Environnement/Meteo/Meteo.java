@@ -1,6 +1,5 @@
 package Environnement.Meteo;
 
-import javax.swing.*;
 import java.util.Random;
 
 public class Meteo {
@@ -159,8 +158,8 @@ public class Meteo {
 
         // la meteo globale change à chaque dt un peu
 
-        changerDensiteNuage(r.nextInt(2)*dt*0.05);
-        changerDensiteNuage(-r.nextInt(2)*dt*0.05);
+        changerDensiteNuage((r.nextDouble() * 2 - 1) * dt * 0.05);
+
 
         modifierTempGlobale(dt, r);
         incrementerHorloge(dt);

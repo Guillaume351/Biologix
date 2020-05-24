@@ -25,7 +25,6 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -200,6 +199,7 @@ public class EcranSimulation implements Screen {
         this.statRenderer.rendu();
         this.creatureRenderer.setCreatures(this.gameWorld.getCreatures());
         this.ressourceRenderer.setRessources(this.gameWorld.getRessources());
+        TerrainRenderer.majLuminosite(this.map, this.gameWorld);
     }
 
     public void affichageSelection() {
@@ -258,6 +258,7 @@ public class EcranSimulation implements Screen {
         textStatsCarte += "\nPourcentage d'humidité : " + df2.format(this.gameWorld.getMeteo().getHumidite().getMoyenneHumidite()) ;
         textStatsCarte += "\nDensité de nuage : " + df2.format(this.gameWorld.getMeteo().getDensiteNuages()) ;
         textStatsCarte += "\nMeteo : " + this.gameWorld.getMeteo().getMeteo();
+        textStatsCarte += "\nLuminosite : " + this.gameWorld.getMeteo().getLuminosite(gameWorld.getTemps());
         textStatsCarte += "\nNombre de créatures : " + this.gameWorld.getCreatures().size();
         font.draw(this.carteStatsUI, textStatsCarte, 70, this.viewport.getWorldHeight() - 35);
         this.carteStatsUI.end();
