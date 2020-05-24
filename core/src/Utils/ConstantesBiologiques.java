@@ -82,7 +82,7 @@ public class ConstantesBiologiques {
 
     /*RESSOURCES*/
     public static double energieMaxStockable = 1000;  // 100 est vraiment pas assez
-
+    public static double dommageNourritureToxique = 5;
 
     /*fruit*/
     public static double dureeDeVieFruit = 5;
@@ -110,6 +110,10 @@ public class ConstantesBiologiques {
     public static boolean AltLayer = false;
     public static double deltaT = 0.2;
     public static int ratioAffichageSimulation = 5;
+    public static double distanceDesert = 60;
+    public static double altitudeNeige = 0.83;
+    public static double altitudeMontagne = 0.8;
+    public static double taillePlage = 10;
 
 
 }

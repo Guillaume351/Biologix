@@ -103,6 +103,9 @@ public class Bouche extends Organe {
         double energieRecuperee = 0;
         this.nourritureMangee = (Ressource) nouvelleNourritureMangee;
         if (nourritureMangee != null) {
+            if (this.nourritureMangee.estToxique()) {
+                this.getCreatureHote().getFoie().subVie(ConstantesBiologiques.dommageNourritureToxique);
+            }
             energieRecuperee = nourritureMangee.manger(Math.min(energieAccesible, energieMaxMangeable));
         }
         return energieRecuperee - getEnergieDepenseeManger(coeffVoracite);

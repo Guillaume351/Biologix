@@ -526,6 +526,9 @@ public class Creature extends Entite {
      * @return la créature est-elle encore en vie ?
      */
     public void update_foie(Creature creatureLaPlusProche, double dt) {
+        if (this.getFoie().getPointsDeVie() == 0) {
+            enVie = false;
+        }
         this.foie.soin(dt);
     }
 
@@ -589,9 +592,9 @@ public class Creature extends Entite {
         stat.setEnergiePerdueDeplacement(energiePerdueDeplacement);
 
         /* Mise à jour des points de vie */
+        double energiePerdueCombat = update_combat(creatureLaPlusProche, dt);
         update_foie(creatureLaPlusProche, dt);
 
-        double energiePerdueCombat = update_combat(creatureLaPlusProche, dt);
         stat.setEnergiePerdueCombat(energiePerdueCombat);
         double energieGagneeManger = update_manger(sortieCerveau);
         stat.setEnergieGagneeManger(energieGagneeManger);

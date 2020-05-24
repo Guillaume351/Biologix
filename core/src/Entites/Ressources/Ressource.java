@@ -43,4 +43,14 @@ public abstract class Ressource extends Entite {
         this.quantiteEnergie = Math.max(0, quantiteEnergie - energie);
         return energieDispo;
     }
+
+    public boolean estToxique() {
+        if (this instanceof Fruit) {
+            return ((Fruit) this).estEmpoisonne();
+        }
+        if (this instanceof Viande) {
+            return ((Viande) this).estPourrie();
+        }
+        return true;
+    }
 }

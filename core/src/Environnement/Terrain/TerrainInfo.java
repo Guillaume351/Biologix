@@ -15,6 +15,11 @@ public class TerrainInfo {
         this.chgtMilieu = chgtMilieu;
     }
 
+    public TerrainInfo(double altitude, Vector2 chgtMilieu) {
+        this.altitude = altitude;
+        this.chgtMilieu = chgtMilieu;
+    }
+
     public double getAltitude() {
         return altitude;
     }

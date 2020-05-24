@@ -24,7 +24,7 @@ public class Terrain implements Updatable {
     }
     private Meteo meteo;
     private List<Entite> entites;
-    int subdivX = (int) (8 * ConstantesBiologiques.XMAX);
+    int subdivX = (int) (1 * ConstantesBiologiques.XMAX);
 
     private AltitudeMap altitudes;
     private double gravite;
@@ -39,7 +39,7 @@ public class Terrain implements Updatable {
      * Taille du terrain. Correspond au nombre de tile (tileset carré)
      */
     private int taille;
-    int subdivY = (int) (8 * ConstantesBiologiques.YMAX);
+    int subdivY = (int) (1 * ConstantesBiologiques.YMAX);
 
     /**
      * Renvoie la meteo de la carte
@@ -170,11 +170,14 @@ public class Terrain implements Updatable {
      */
     public boolean estDansEau(Entite entite) {
 
+        return estDansEau(entite.getPosition());
+    }
+
+    public boolean estDansEau(Vector2 position) {
+
         boolean estDansEau;
-        Vector2 position = entite.getPosition();
         double altitude = this.altitudes.getValeur(position.x, position.y);
         double niveauMer = this.altitudes.hauteurMer(pourcentageEau);
-
         estDansEau = !(altitude >= niveauMer);
         return estDansEau;
     }
@@ -226,7 +229,8 @@ public class Terrain implements Updatable {
             for (int j = 0; j < subdivY; j++) {
                 double x = (i / (double) (subdivX - 1)) * ConstantesBiologiques.XMAX;
                 double y = (j / (double) (subdivY - 1)) * ConstantesBiologiques.YMAX;
-                this.quadrillage[i][j] = new TerrainInfo(this.getAltitudes().getValeur(new Vector2((float) x, (float) y)));
+                Vector2 position = new Vector2((float) x, (float) y);
+                this.quadrillage[i][j] = new TerrainInfo(this.getAltitudes().getValeur(position), calcVectPointeurChgtMilieu(position));
             }
         }
     }
@@ -240,19 +244,23 @@ public class Terrain implements Updatable {
         return getTerrainLocal(position.x, position.y).getAltitude();
     }
 
+    public double getDistanceMer(Vector2 position) {
+        return getTerrainLocal(position.x, position.y).getChgtMilieu().len();
+    }
+
     public Vector2 vectPointeurChgtMilieu(Creature creature) {
         TerrainInfo ti = getTerrainLocal(creature.getPosition().x, creature.getPosition().y);
         Vector2 vect = ti.getChgtMilieu();
         if (vect == null) {
-            vect = calcVectPointeurChgtMilieu(creature);
+            vect = calcVectPointeurChgtMilieu(creature.getPosition());
             ti.setChgtMilieu(vect);
         }
 
-        return new Vector2(vect);
+        return new Vector2(vect).nor();
     }
 
-    public Vector2 calcVectPointeurChgtMilieu(Creature creature) {
-        boolean local = estDansEau(creature);
+    public Vector2 calcVectPointeurChgtMilieu(Vector2 position) {
+        boolean local = estDansEau(position);
         boolean recherche = local;
         int nAng = 0;
         int nRay = 1;
@@ -267,11 +275,11 @@ public class Terrain implements Updatable {
             }
             r = (RMAX / DIV_R) * (double) nRay;
             teta = (2.0 * Math.PI / DIV_ANG) * (double) nAng;
-            double altitude = this.altitudes.getValeur(creature.getPosition().x + r * Math.cos(teta), creature.getPosition().y + r * Math.sin(teta));
+            double altitude = this.altitudes.getValeur(position.x + r * Math.cos(teta), position.y + r * Math.sin(teta));
             recherche = !(altitude >= niveauMer);
         }
         if (recherche != local) {
-            return new Vector2((float) Math.cos(teta), (float) Math.sin(teta));
+            return new Vector2((float) (r * Math.cos(teta)), (float) (r * Math.sin(teta)));
         } else {
             return new Vector2(0, 0);
         }

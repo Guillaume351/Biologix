@@ -109,7 +109,7 @@ public class Arbre extends Vegetal {
         tempsDepuisChute += dt;
         if (tempsDepuisProdFruit > tempsProductionFruit) {
             tempsDepuisProdFruit = 0;
-            Fruit fruit = new Fruit(rand, couleurs[nombreAleatoire], false, this.terrain, true);
+            Fruit fruit = new Fruit(rand, couleurs[nombreAleatoire], rand.nextBoolean(), this.terrain, true);
             fruit.setPosition(new Vector2(this.getPosition()));
             ajouterFruit(fruit);
         }

@@ -80,6 +80,10 @@ public class TerrainRenderer {
         TextureRegion eau = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("eau_v2.jpg"))));
         TextureRegion angle = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("angle_v2.jpg"))));
         TextureRegion terre = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_v2.jpg"))));
+        TextureRegion terre_Aride = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("terre_seche.png"))));
+        TextureRegion neige = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("neige.png"))));
+        TextureRegion montagne = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("cobblestone.png"))));
+        TextureRegion plage = new TextureRegion(new Texture(new Pixmap(Gdx.files.internal("sable.png"))));
         Pixmap alt = new Pixmap(TILE_SIZE, TILE_SIZE, Pixmap.Format.RGBA8888);
         double echelle = TILE_SIZE / ConstantesBiologiques.PixelsParCoord;
         StaticTiledMapTile staticTiledMapTile;
@@ -88,11 +92,32 @@ public class TerrainRenderer {
             for (int k = 0; k < taille; k++) {
                 TiledMapTileLayer.Cell cell = new TiledMapTileLayer.Cell();
                 TiledMapTileLayer.Cell cell2 = new TiledMapTileLayer.Cell();
-
-                double altitude = terrain.getAltitude(new Vector2((float) (i * echelle), (float) (k * echelle)));
-                if (altitude > terrain.getPourcentageEau()) {
-                    staticTiledMapTile = new StaticTiledMapTile(terre);
-
+                Vector2 position = new Vector2((float) (i * echelle), (float) (k * echelle));
+                double altitude = terrain.getAltitude(position);
+                double distanceMer = terrain.getDistanceMer(position);
+                boolean terrestre = altitude > terrain.getPourcentageEau();
+                boolean bordEau = distanceMer < ConstantesBiologiques.taillePlage;
+                boolean montagneux = altitude > ConstantesBiologiques.altitudeMontagne;
+                boolean enneige = altitude > ConstantesBiologiques.altitudeNeige;
+                boolean aride = distanceMer > ConstantesBiologiques.distanceDesert;
+                if (terrestre) {
+                    if (bordEau) {
+                        staticTiledMapTile = new StaticTiledMapTile(plage);
+                    } else {
+                        if (montagneux) {
+                            if (enneige) {
+                                staticTiledMapTile = new StaticTiledMapTile(neige);
+                            } else {
+                                staticTiledMapTile = new StaticTiledMapTile(montagne);
+                            }
+                        } else {
+                            if (aride) {
+                                staticTiledMapTile = new StaticTiledMapTile(terre_Aride);
+                            } else {
+                                staticTiledMapTile = new StaticTiledMapTile(terre);
+                            }
+                        }
+                    }
                 } else {
                     staticTiledMapTile = new StaticTiledMapTile(eau);
                 }
@@ -114,7 +139,7 @@ public class TerrainRenderer {
         layers.add(layer1);
         // On ajoute la layer d'altitudes seulement si elle est activée (cause du lag)
         if (ConstantesBiologiques.AltLayer) {
-            layer2.setOpacity(0.36f);
+            layer2.setOpacity(0.6f);
             layers.add(layer2);
         }
         TiledMapTileLayer layerNuit = calcLayerLuminosite();
