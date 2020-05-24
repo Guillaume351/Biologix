@@ -167,7 +167,7 @@ public class EcranSimulation implements Screen {
     }
 
 
-    public void gestionCamera() {
+    private void gestionCamera() {
         // Gestion du déplacement de la caméra. TODO: a déplacer
         if (input.isButtonPressed(Input.Buttons.LEFT)) {
             if (input.getDeltaX() != 0 || input.getDeltaY() != 0) {
@@ -268,23 +268,23 @@ public class EcranSimulation implements Screen {
         }
     }
 
-    public void affichageOptionsSimulation(){
+    private void affichageOptionsSimulation() {
         this.optionsUI.begin();
         String textDesOptions = "Mettre en pause la simulation : Space" + "\nQuitter la simulation : Tab";
         font.draw(this.optionsUI, textDesOptions, 300, 35);
         this.optionsUI.end();
     }
 
-    public void framePhysique() {
+    private void framePhysique() {
         gameWorld.update(ConstantesBiologiques.deltaT);
     }
 
-    public void affichageUI() {
+    private void affichageUI() {
         DecimalFormat df2 = new DecimalFormat("0.##");
         this.carteStatsUI.begin();
-        String textStatsCarte = "Température : " + df2.format(this.gameWorld.getMeteo().getTemp().getMoyenne()) ;
-        textStatsCarte += "\nPourcentage d'humidité : " + df2.format(this.gameWorld.getMeteo().getHumidite().getMoyenneHumidite()) ;
-        textStatsCarte += "\nDensité de nuage : " + df2.format(this.gameWorld.getMeteo().getDensiteNuages()) ;
+        String textStatsCarte = "Température : " + df2.format(this.gameWorld.getMeteo().getTemp().getMoyenne());
+        textStatsCarte += "\nPourcentage d'humidité : " + df2.format(this.gameWorld.getMeteo().getHumidite().getMoyenneHumidite());
+        textStatsCarte += "\nDensité de nuage : " + df2.format(this.gameWorld.getMeteo().getDensiteNuages());
         textStatsCarte += "\nMeteo : " + this.gameWorld.getMeteo().getMeteo();
         textStatsCarte += "\nLuminosite : " + df2.format(this.gameWorld.getMeteo().getLuminosite(gameWorld.getTemps()));
         textStatsCarte += "\nNombre de créatures : " + this.gameWorld.getCreatures().size();
