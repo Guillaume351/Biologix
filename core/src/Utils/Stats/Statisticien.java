@@ -52,33 +52,37 @@ public class Statisticien {
 
     public static Texture graphique(List<Double> valeurs, Color fond, Color ligne, int xSize, int ySize) {
         int n = valeurs.size();
+        try {
+            Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
+            pix.setColor(fond);
+            pix.fill();
+            if (n != 0) {
+                double min = Collections.min(valeurs);
+                double max = Collections.max(valeurs);
+                pix.setColor(ligne);
+                double y0 = valeurs.get(0);
+                for (int i = 1; i < valeurs.size(); i++) {
+                    double progression = i / (double) (valeurs.size() - 1);
+                    double depart = (i - 1) / (double) (valeurs.size() - 1);
+                    double y1 = valeurs.get(i);
 
-        Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
-        pix.setColor(fond);
-        pix.fill();
-        if (n != 0) {
-            double min = Collections.min(valeurs);
-            double max = Collections.max(valeurs);
-            pix.setColor(ligne);
-            double y0 = valeurs.get(0);
-            for (int i = 1; i < valeurs.size(); i++) {
-                double progression = i / (double) (valeurs.size() - 1);
-                double depart = (i - 1) / (double) (valeurs.size() - 1);
-                double y1 = valeurs.get(i);
+                    int x0_ = (int) (depart * xSize);
+                    int x1_ = (int) (progression * xSize);
+                    int y0_ = (int) (ySize * (1.0 - (y0 - min) / (max - min)));
+                    int y1_ = (int) (ySize * (1.0 - (y1 - min) / (max - min)));
 
-                int x0_ = (int) (depart * xSize);
-                int x1_ = (int) (progression * xSize);
-                int y0_ = (int) (ySize * (1.0 - (y0 - min) / (max - min)));
-                int y1_ = (int) (ySize * (1.0 - (y1 - min) / (max - min)));
+                    pix.drawLine(x0_, y0_, x1_, y1_);
 
-                pix.drawLine(x0_, y0_, x1_, y1_);
-
-                y0 = y1;
+                    y0 = y1;
+                }
             }
+            Texture retour = new Texture(pix);
+            pix.dispose();
+            return retour;
+        } catch (Exception e) {
+
         }
-        Texture retour = new Texture(pix);
-        pix.dispose();
-        return retour;
+        return null;
     }
 
     public static Texture graphiqueStat(List<Stat> valeurs, Color fond, int xSize, int ySize) {
