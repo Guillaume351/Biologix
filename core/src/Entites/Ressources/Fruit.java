@@ -31,7 +31,14 @@ public class Fruit extends Ressource {
 
     boolean estDansArbre;
     double dureeDeVie = ConstantesBiologiques.dureeDeVieFruit;
+
+
     double tempsDepuisChute;
+
+
+    public double getTempsDepuisChute() {
+        return tempsDepuisChute;
+    }
 
     public boolean isEstDansArbre() {
         return estDansArbre;

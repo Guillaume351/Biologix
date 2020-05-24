@@ -13,15 +13,19 @@ public class CreatureRenderer {
     public ArrayList<Creature> creatures;
 
     private SpriteBatch spriteBatchCreature;
-    private Texture textureCreature;
+    private Texture textureCreatureTerrestre;
+    private Texture textureCreatureAquatique1;
+    private Texture textureCreatureAquatique2;
 
-    public CreatureRenderer(ArrayList<Creature> creatures, SpriteBatch batch){
+    public CreatureRenderer(ArrayList<Creature> creatures, SpriteBatch batch) {
         this.creatures = creatures;
         this.spriteBatchCreature = batch;
-        this.textureCreature = new Texture(Gdx.files.internal("creature1.png"));
+        this.textureCreatureTerrestre = new Texture(Gdx.files.internal("scarab.png"));
+        this.textureCreatureAquatique1 = new Texture(Gdx.files.internal("jellyfish.png"));
+        this.textureCreatureAquatique2 = new Texture(Gdx.files.internal("baleine.png"));
     }
 
-    public void setCreatures(ArrayList<Creature> creatures){
+    public void setCreatures(ArrayList<Creature> creatures) {
         this.creatures = creatures;
     }
 
@@ -43,8 +47,19 @@ public class CreatureRenderer {
             int x = (int) (ConstantesBiologiques.PixelsParCoord * creat.getPosition(nbRendus, dt).x);
             int y = (int) (ConstantesBiologiques.PixelsParCoord * creat.getPosition(nbRendus, dt).y);
             int taille = (int) (creat.getTaille() * ConstantesBiologiques.PixelsParCoord);
+            Texture texture;
+            if (creat.appareilRespiratoire.estAquatique()) {
+                if (creat.cerveau.getComportement_amphibien() > 0.5) {
+                    texture = this.textureCreatureAquatique2;
+                } else {
+                    texture = this.textureCreatureAquatique1;
+                }
+            } else {
+                texture = textureCreatureTerrestre;
+            }
 
-            spriteBatchCreature.draw(textureCreature, x, y, taille, taille);
+
+            spriteBatchCreature.draw(texture, x, y, taille, taille);
         }
     }
 

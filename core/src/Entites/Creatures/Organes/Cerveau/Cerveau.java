@@ -16,6 +16,7 @@ public class Cerveau {
     double prevoyance;
     double amourDuNid;
     double envie_reproductive;
+
     double comportement_amphibien;
     Vector2 positionNid;
 
@@ -49,10 +50,15 @@ public class Cerveau {
         this.positionNid.lerp(cerveauPere.positionNid, r.nextFloat());
     }
 
+    public double getComportement_amphibien() {
+        return comportement_amphibien;
+    }
+
 
     /**
      * Definit le comportement de la creature en fonction de sa perception et de tous les signaux d'entree
-     * @param entrees    ensemble de ce qui peut etre percu par la creature
+     *
+     * @param entrees ensemble de ce qui peut etre percu par la creature
      * @return ensemble des elements qui decrivent les actions de la creature
      */
     public OutputsCerveau getComportement(InputsCerveau entrees) {

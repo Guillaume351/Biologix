@@ -75,7 +75,7 @@ public class Terrain implements Updatable {
         this.pourcentageEau = pourcentageEau;
         this.taille = taille;
         this.statisticien = new Statisticien();
-        System.out.println("Genere quadrillage");
+        System.out.println("Début génération quadrillage");
         genererQuadrillage();
         System.out.println("Generation finie");
     }

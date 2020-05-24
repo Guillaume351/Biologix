@@ -190,11 +190,14 @@ public class EcranSimulation implements Screen {
             if (this.entiteSelectionne instanceof Creature) {
                 textDeStats += "\nNom : " + ((Creature) this.entiteSelectionne).getNom() + " " + ((Creature) this.entiteSelectionne).getPrenom();
                 textDeStats += "\nAge : " + (int) (((Creature) this.entiteSelectionne).getAge());
+                textDeStats += "\nVie : " + df.format(((Creature) this.entiteSelectionne).getFoie().getPointsDeVie());
                 textDeStats += "\nMasse : " + df.format(((Creature) this.entiteSelectionne).getMasse());
                 textDeStats += "\nEnergie : " + df.format(((Creature) this.entiteSelectionne).getGraisse().getEnergie());
                 textDeStats += "\nTempérature : " + df.format(((Creature) this.entiteSelectionne).getTemperatureInterne());
                 textDeStats += "\nTaille : " + df.format(((Creature) this.entiteSelectionne).getTaille());
+                textDeStats += "\nOxygene : " + df.format(((Creature) this.entiteSelectionne).getAppareilRespiratoire().getPourcentageOxygene());
                 textDeStats += ((Creature) this.entiteSelectionne).getEnVie() ? "" : "\nDécédée";
+                textDeStats += ((Creature) this.entiteSelectionne).getSexe().getEnceinte() ? "\nEnceinte" : "";
             }
 
             if (this.entiteSelectionne instanceof Viande) {
@@ -209,6 +212,7 @@ public class EcranSimulation implements Screen {
 
             if (this.entiteSelectionne instanceof Fruit) {
                 textDeStats += "\nFruit ";
+                textDeStats += "\nAge : " + df.format(((Fruit) this.entiteSelectionne).getTempsDepuisChute());
             }
 
             if (this.entiteSelectionne instanceof Ressource) {
@@ -233,6 +237,7 @@ public class EcranSimulation implements Screen {
         textStatsCarte += "\nPourcentage d'humidité : " + this.gameWorld.getMeteo().getHumidite().getMoyenneHumidite();
         textStatsCarte += "\nDensité de nuage : " + this.gameWorld.getMeteo().getDensiteNuages();
         textStatsCarte += "\nMeteo : " + this.gameWorld.getMeteo().getMeteo();
+        textStatsCarte += "\nNombre de créatures : " + this.gameWorld.getCreatures().size();
         font.draw(this.carteStatsUI, textStatsCarte, 70, this.viewport.getWorldHeight() - 10);
         this.carteStatsUI.end();
     }
@@ -249,7 +254,6 @@ public class EcranSimulation implements Screen {
         if (nbRendus == ConstantesBiologiques.ratioAffichageSimulation) {
             nbRendus = 0;
             framePhysique();
-            System.out.println("frame physique");
         }
         rendus();
         affichageSelection();

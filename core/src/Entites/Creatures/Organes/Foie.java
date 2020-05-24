@@ -111,7 +111,7 @@ public class Foie extends Organe {
         if (this.getCapaciteDeSoin() < deltaPDV) {
             this.pointsDeVie = this.pointsDeVie + this.getCapaciteDeSoin() * dt;
         } else {
-            this.pointsDeVie = this.getPointsDeVieMax() * dt;
+            this.pointsDeVie = this.getPointsDeVieMax();
         }
     }
 
