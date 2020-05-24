@@ -50,7 +50,10 @@ public class InputsCerveau {
         for (Localisable crea : creaturesVisibles) {
             Vector2 pointeur = new Vector2(crea.getPosition());
             pointeur.sub(getCreatureHote().getPosition());
-            double k = (this.getCreatureHote().getMasse() / ((Creature) crea).getMasse()) / (1.0 + pointeur.len());
+            double k = 0;
+            if (((Creature) crea).getMasse() != 0) {
+                k = (this.getCreatureHote().getMasse() / ((Creature) crea).getMasse()) / (1.0 + pointeur.len());
+            }
             pointeur = pointeur.nor().scl((float) k);
             result = result.add(pointeur);
         }
