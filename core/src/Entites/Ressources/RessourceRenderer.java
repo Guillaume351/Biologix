@@ -59,7 +59,6 @@ public class RessourceRenderer {
     public void dessinerViande() {
 
         for (Ressource ressource : this.ressources) {
-            //TODO : faire un switch avec les différents types de ressources
             int x = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getPosition().x);
             int y = (int) (ConstantesBiologiques.PixelsParCoord * ressource.getPosition().y);
             int taille = (int) Math.max(10, (ConstantesBiologiques.PixelsParCoord * ressource.getTaille()));
@@ -87,7 +86,7 @@ public class RessourceRenderer {
                 if (((Arbre) ressource).estAquatique()) {
                     spriteBatchCreature.draw(textureArbreAquatique, x, y, taille, taille);
                 } else {
-                    spriteBatchCreature.draw(textureArbre, x, y, taille, taille);
+                    spriteBatchCreature.draw(textureArbre, x, y, taille/2, taille);
                 }
             }
 
