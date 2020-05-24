@@ -268,10 +268,12 @@ public class Creature extends Entite {
      */
     public double getTaille() {
         double result = 0;
+        double n = 0;
         for (Organe or : organes) {
-            result = Math.max(result, or.getTaille(age));
+            n++;
+            result += or.getTaille(age);
         }
-        return result;
+        return result / n;
     }
 
 
@@ -280,8 +282,7 @@ public class Creature extends Entite {
     }
 
     public double getValeurViande() {
-        //TODO !!!!
-        return this.getMasse() * ConstantesBiologiques.coutCroissanceRelatif;
+        return this.getGraisse().getEnergie();
     }
     public Vector2 getOrientation() {
         return orientation;

@@ -216,7 +216,7 @@ public class EcranSimulation implements Screen {
                 textDeStats += "\nEnergie : " + df.format(((Creature) this.entiteSelectionne).getGraisse().getEnergie());
                 textDeStats += "\nTempérature : " + df.format(((Creature) this.entiteSelectionne).getTemperatureInterne());
                 textDeStats += "\nTaille : " + df.format(((Creature) this.entiteSelectionne).getTaille());
-                textDeStats += "\nOxygene : " + df.format(((Creature) this.entiteSelectionne).getAppareilRespiratoire().getPourcentageOxygene());
+                textDeStats += "\nOxygene : " + df.format(((Creature) this.entiteSelectionne).getAppareilRespiratoire().getQuantiteOxygene());
                 textDeStats += ((Creature) this.entiteSelectionne).getEnVie() ? "" : "\nDécédée";
                 textDeStats += ((Creature) this.entiteSelectionne).getSexe().getEnceinte() ? "\nEnceinte" : "";
             }

@@ -11,7 +11,7 @@ public class ConstantesBiologiques {
     public static double rapportMasseProductionOxygene = 6;
 
     public static double tailleOrganeMin = 0.5;
-    public static double tailleOrganeMax = 1;
+    public static double tailleOrganeMax = 4;
 
     public static double tempsCroissanceMin = 100;
     public static double tempsCroissanceMax = 10000;
@@ -26,8 +26,8 @@ public class ConstantesBiologiques {
     public static double efficaciteReproductiveMax = 2;
 
     /* Appareil respiratoire */
-    public static double densiteOxygeneMin = 1;
-    public static double densiteOxygeneMax = 3;
+    public static double densiteOxygeneMin = 10;
+    public static double densiteOxygeneMax = 300;
 
     /* Bouche */
     public static double efficaciteVoracite = 1000;    // sera > 1 // avant  : 20
