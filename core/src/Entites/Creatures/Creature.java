@@ -24,8 +24,8 @@ public class Creature extends Entite {
 
     String nom;
     String prenom;
-    Creature pere;
-    Creature mere;
+    String pere;
+    String mere;
 
     List<Stat> Historique;
 
@@ -117,8 +117,8 @@ public class Creature extends Entite {
     public Creature(Creature mere, Creature pere, double mutation, Random r) {
         super(new Vector2(mere.getPosition()));
         resetStatistiques_();
-        this.pere = pere;
-        this.mere = mere;
+        this.pere = pere.getPrenom();
+        this.mere = mere.getPrenom();
         this.enVie = true;
         double alea = ConstantesBiologiques.tempInterneMin + (ConstantesBiologiques.tempInterneMax - ConstantesBiologiques.tempInterneMin) * r.nextDouble();
         this.temperatureInterne = (mere.temperatureInterne + pere.temperatureInterne + alea * mutation) / (2 + mutation);
@@ -441,6 +441,12 @@ public class Creature extends Entite {
         return energieGagneeManger;
     }
 
+    public static void perteEnergieEnfant(Creature crea) {
+        if (crea.getSexe().getGenre() == Genre.Male) {
+            crea.getGraisse().subEnergie(crea.getSexe().getDonEnergieEnfant());
+        }
+    }
+
     /**
      * Mettre à jour la reproduction avec une autre créature
      * @param creatureLaPlusProche
@@ -465,9 +471,9 @@ public class Creature extends Entite {
                         this.getSexe().setEnceinte(true);
                         this.getSexe().setTempsDerniereReproduction(0);
                         this.embryon = new Creature(this, creatureLaPlusProche, ConstantesBiologiques.mutationGenerale, new Random());
-                    } else if (this.getSexe().getGenre() == Genre.Male) {
-                        energiePerdueReproduction += this.getSexe().getDonEnergieEnfant();
                     }
+                    perteEnergieEnfant(this);
+                    perteEnergieEnfant(creatureLaPlusProche);
                 } else {
                     energiePerdueReproduction = 0;
                     reproduction_ = false;
