@@ -224,7 +224,7 @@ public class Statisticien {
     }
 
     public Texture getGraphiqueNbAccouchement(int xSize, int ySize) {
-        return graphique(nbAccouchement, Color.WHITE, Color.BLACK, xSize, ySize);
+        return graphique(nbAccouchement, Color.WHITE, Color.RED, xSize, ySize);
     }
 
     public Texture getGraphiquenbReproductions(int xSize, int ySize) {
