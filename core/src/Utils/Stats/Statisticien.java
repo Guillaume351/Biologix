@@ -83,36 +83,41 @@ public class Statisticien {
 
     public static Texture graphiqueStat(List<Stat> valeurs, Color fond, int xSize, int ySize) {
         int n = valeurs.size();
-        Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
+        try {
+            Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
 
-        if (n != 0) {
-            double min = customMin(valeurs);
-            double max = customMax(valeurs);
+            if (n != 0) {
+                double min = customMin(valeurs);
+                double max = customMax(valeurs);
 
-            pix.setColor(fond);
-            pix.fill();
+                pix.setColor(fond);
+                pix.fill();
 
-            //Courbe de depenses
-            double largeur = xSize / (double) valeurs.size();
+                //Courbe de depenses
+                double largeur = xSize / (double) valeurs.size();
 
-            for (int i = 0; i < valeurs.size(); i++) {
-                Stat st = valeurs.get(i);
-                double yd = 0;
-                int x0_ = (int) (i * largeur);
-                double sommeVal = 0;
-                for (int j = 0; j < 6; j++) {
-                    double val_double = st.getNiemeDepense(j);
-                    sommeVal += val_double;
-                    double upper = (sommeVal - min) / (max - min);
-                    double etendue = (val_double) / (max - min);
-                    pix.setColor(getColorN(j));
-                    pix.fillRectangle(x0_, (int) ((1.0 - upper) * (double) ySize), (int) largeur, (int) (etendue * ySize));
+                for (int i = 0; i < valeurs.size(); i++) {
+                    Stat st = valeurs.get(i);
+                    double yd = 0;
+                    int x0_ = (int) (i * largeur);
+                    double sommeVal = 0;
+                    for (int j = 0; j < 6; j++) {
+                        double val_double = st.getNiemeDepense(j);
+                        sommeVal += val_double;
+                        double upper = (sommeVal - min) / (max - min);
+                        double etendue = (val_double) / (max - min);
+                        pix.setColor(getColorN(j));
+                        pix.fillRectangle(x0_, (int) ((1.0 - upper) * (double) ySize), (int) largeur, (int) (etendue * ySize));
+                    }
                 }
             }
+            Texture retour = new Texture(pix);
+            pix.dispose();
+            return retour;
+        } catch (Exception e) {
+
         }
-        Texture retour = new Texture(pix);
-        pix.dispose();
-        return retour;
+        return null;
     }
 
     private static Color getColorN(int n) {
