@@ -177,7 +177,7 @@ public class EcranOptions implements Screen {
 
         @Override
         public void keyTyped(TextField textField, char c) {
-            if (c == '\t'){
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
                 try {
                     int nbCreat = Integer.parseInt(nombreCreatures.getText());
                     nbCreatureValide = true;

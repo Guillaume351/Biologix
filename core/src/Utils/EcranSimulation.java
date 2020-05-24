@@ -24,6 +24,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
@@ -76,11 +77,9 @@ public class EcranSimulation implements Screen {
     BitmapFont font = new BitmapFont();
 
     /**
-     * Gestion du bouton pause
+     * Mode pause
      */
-    private ImageButton boutonPause;
-    private TextureRegionDrawable imageBoutonPause;
-    private SpriteBatch spriteBatchPause;
+    private  boolean estPause;
 
     public EcranSimulation(){
         this(100);
@@ -130,13 +129,8 @@ public class EcranSimulation implements Screen {
         // Initilialisation de l'afficheur des stats de créature
         this.creatureStatsUI = new SpriteBatch();
 
-        // Initialisation du bouton pause
-        this.spriteBatchPause = new SpriteBatch();
-        this.imageBoutonPause = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/checkedOff.png")));
-        this.boutonPause = new ImageButton(this.imageBoutonPause);
-        this.boutonPause.setPosition(1000, 1000);
-        this.boutonPause.setSize(300, 300);
-        this.boutonPause.setTransform(true);
+        // Initialisation du booleen qui indique si la simulation est en pause
+        this.estPause = false;
 
         //Initialisation de l'afficheur des stats de la carte
         this.carteStatsUI = new SpriteBatch();
@@ -181,9 +175,12 @@ public class EcranSimulation implements Screen {
                         this.entiteSelectionne = entite;
                     }
                 }
-
             }
 
+        }
+        if (input.isKeyJustPressed(Input.Keys.SPACE)) {
+            System.out.println("pause !");
+            this.estPause = !this.estPause;
         }
 
         camera.update();
@@ -266,23 +263,31 @@ public class EcranSimulation implements Screen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        if (!this.estPause) {
+            Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        gestionCamera();
+            gestionCamera();
 
-        nbRendus++;
+            nbRendus++;
 
-        if (nbRendus == ConstantesBiologiques.ratioAffichageSimulation) {
-            nbRendus = 0;
-            framePhysique();
+            if (nbRendus == ConstantesBiologiques.ratioAffichageSimulation) {
+                nbRendus = 0;
+                framePhysique();
+            }
+            rendus();
+            affichageSelection();
+
+            affichageUI();
         }
-        rendus();
-        affichageSelection();
-        // TODO : faire les créatures se reproduire !!!!!!!!!!
-        // TODO : faire vivre les créatures plus longtemps
-
-        affichageUI();
+        else if (this.estPause) {
+            Gdx.gl.glClearColor(.5f, .7f, .9f, 1);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+            gestionCamera();
+            rendus();
+            affichageSelection();
+            affichageUI();
+        }
 
     }
 
@@ -312,10 +317,4 @@ public class EcranSimulation implements Screen {
         this.creatureStatsUI.dispose();
     }
 
-    public class GestionBoutonPause extends InputListener {
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
-            return true;
-        }
-    }
 }
