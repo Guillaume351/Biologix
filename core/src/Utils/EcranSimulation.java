@@ -14,6 +14,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapRenderer;
@@ -21,6 +22,11 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.CustomInputProcessor;
@@ -70,6 +76,13 @@ public class EcranSimulation implements Screen {
      */
     BitmapFont font = new BitmapFont();
 
+    /**
+     * Gestion du bouton pause
+     */
+    private ImageButton boutonPause;
+    private TextureRegionDrawable imageBoutonPause;
+    private SpriteBatch spriteBatchPause;
+
     public EcranSimulation(){
         this(100);
     }
@@ -117,6 +130,14 @@ public class EcranSimulation implements Screen {
 
         // Initilialisation de l'afficheur des stats de créature
         this.creatureStatsUI = new SpriteBatch();
+
+        // Initialisation du bouton pause
+        this.spriteBatchPause = new SpriteBatch();
+        this.imageBoutonPause = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/checkedOff.png")));
+        this.boutonPause = new ImageButton(this.imageBoutonPause);
+        this.boutonPause.setPosition(1000, 1000);
+        this.boutonPause.setSize(300, 300);
+        this.boutonPause.setTransform(true);
 
         //Initialisation de l'afficheur des stats de la carte
         this.carteStatsUI = new SpriteBatch();
@@ -288,5 +309,12 @@ public class EcranSimulation implements Screen {
     public void dispose() {
         batch.dispose();
         this.creatureStatsUI.dispose();
+    }
+
+    public class GestionBoutonPause extends InputListener {
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
+            return true;
+        }
     }
 }
