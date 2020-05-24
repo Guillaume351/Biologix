@@ -27,7 +27,6 @@ public class EcranDemarrage implements Screen {
     public GestionBoutonLancer gestionBoutonLancer;
     public ImageButton boutonLancer;
     public TextureRegionDrawable imageBoutonLancer;
-    private Texture petittest;
 
     public GestionBoutonOptions gestionBoutonOptions;
     public ImageButton boutonOptions;
