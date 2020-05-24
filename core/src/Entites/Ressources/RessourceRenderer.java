@@ -26,6 +26,7 @@ public class RessourceRenderer {
 
 
     private Texture textureArbre;
+    private Texture textureArbreAquatique;
 
 
     public RessourceRenderer(ArrayList<Ressource> tableauRessources, SpriteBatch batch) {
@@ -39,6 +40,7 @@ public class RessourceRenderer {
         this.textureFruitVert = new Texture(Gdx.files.internal("fruit_vert.png"));
         this.textureFruitJaune = new Texture(Gdx.files.internal("banane.png"));
         this.textureArbre = new Texture(Gdx.files.internal("arbre.png"));
+        this.textureArbreAquatique = new Texture(Gdx.files.internal("arbre_aquatique.png"));
     }
 
     public void setRessources(ArrayList<Ressource> nouvellesRessoures){this.ressources = nouvellesRessoures;}
@@ -81,7 +83,11 @@ public class RessourceRenderer {
                 }
             }
             if (ressource instanceof Arbre) {
-                spriteBatchCreature.draw(textureArbre, x, y, taille, taille);
+                if (((Arbre) ressource).estAquatique()) {
+                    spriteBatchCreature.draw(textureArbreAquatique, x, y, taille, taille);
+                } else {
+                    spriteBatchCreature.draw(textureArbre, x, y, taille, taille);
+                }
             }
 
         }

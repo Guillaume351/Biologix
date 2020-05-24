@@ -18,6 +18,7 @@ public class Arbre extends Vegetal {
     private double tempsDepuisProdFruit;
     private double tempsAvantChute;
     private double tempsDepuisChute;
+    private boolean aquatique;      // Un arbre peut être aquatique
 
     public ArrayList<Fruit> fruits;
 
@@ -35,6 +36,8 @@ public class Arbre extends Vegetal {
         this.fruits = new ArrayList<Fruit>();
         tempsDepuisProdFruit = 0;
         rand = r;
+        if (this.terrain.estDansEau(this)) {setAquatique(true);
+        } else { setAquatique(false);}
     }
 
     public Arbre(Random r, Fruit fruit) {
@@ -46,6 +49,8 @@ public class Arbre extends Vegetal {
         this.fruits = new ArrayList<Fruit>();
         tempsDepuisProdFruit = 0;
         rand = r;
+        if (this.terrain.estDansEau(this)) {setAquatique(true);
+        } else { setAquatique(false);}
     }
 
     void setTaille(double taille) {
@@ -61,6 +66,24 @@ public class Arbre extends Vegetal {
     }
 
     double getTailleMax() {return this.tailleMax;}
+
+    /**
+     * Pour savoit si un arbre est aquatique ou non
+     * @return
+     */
+    boolean estAquatique() {return this.aquatique;}
+
+    /**
+     * Définir l'état aquatique d'un arbre.
+     * @param bool
+     */
+    void setAquatique(boolean bool) {
+        if (bool) {
+            this.aquatique = true;
+        } else {
+            this.aquatique = false;
+        }
+    }
 
 
     private void grandir(double dt) {
