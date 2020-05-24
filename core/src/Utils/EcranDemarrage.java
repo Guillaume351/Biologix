@@ -80,7 +80,7 @@ public class EcranDemarrage implements Screen {
     public void show() {
         Gdx.input.setInputProcessor(this.stage);
         Gdx.gl.glClearColor((float) 0.2, (float) 0.2, (float) 0.2, 0);
-        stage.draw();
+        //stage.draw();
     }
 
     @Override
@@ -121,7 +121,7 @@ public class EcranDemarrage implements Screen {
     @Override
     public void hide() {
        // if (!this.jeu.ecranOptions.retourEcranDemarrage) {
-           Gdx.gl.glClearColor(0, 0, 0, 0);
+           Gdx.gl.glClearColor((float) 0.2, (float) 0.2, (float) 0.2, 0);
            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
        // }
     }
