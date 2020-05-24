@@ -1,6 +1,7 @@
 package Utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -55,7 +56,7 @@ public class EcranOptions implements Screen {
         /* Label "Nombre de créatures" */
         this.bitmapLabel = new BitmapFont(Gdx.files.internal("default.fnt"));
         this.styleLabel = new Label.LabelStyle(this.bitmapLabel, Color.WHITE);
-        this.labelNbCreatures = new Label("Nombre de créatures :", this.styleLabel);
+        this.labelNbCreatures = new Label("Nombre de creatures :", this.styleLabel);
 
         /* Style du champ à remplir "Nombre de créatures" */
         this.styleNombreCreatures = new TextField.TextFieldStyle(new BitmapFont(Gdx.files.internal("default.fnt")), Color.WHITE, null, null, null);
@@ -70,7 +71,7 @@ public class EcranOptions implements Screen {
         this.nombreCreatures.setTextFieldListener(new GestionNombreCreatures());
 
         /* Label "Nombre de créatures non valide !" */
-        this.labelNbCreaturesNonValide = new Label("Nombre de créatures non valide !", this.styleLabel);
+        this.labelNbCreaturesNonValide = new Label("Nombre de creatures non valide !", this.styleLabel);
         this.labelNbCreaturesNonValide.setVisible(false);
 
         /* Label "Affichage des altitudes" */

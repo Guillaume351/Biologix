@@ -52,10 +52,10 @@ public class Mouvement extends Organe {
      * @param vitesse : Vitesse de deplacement de la creature
      * @return Energie dépensée par unité de masse
      */
-    public double getEnergieDepenseeParUniteMasse(double dt, double vitesse) {
+    public double getEnergieDepenseeMouvementParUniteDeMasse(double dt, double vitesse) {
         //Energie = puissance*dt
         //Puissance = force*vitesse
         //force = coeffFrottement*vitesse^2
-        return dt * ConstantesBiologiques.coeffFrottement * Math.pow(Math.abs(vitesse), 3.0) / this.getMasse(this.getCreatureHote().getAge());
+        return dt * ConstantesBiologiques.coeffFrottement * Math.pow(Math.abs(vitesse), 3.0);
     }
 }
