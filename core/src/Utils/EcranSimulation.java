@@ -37,6 +37,11 @@ public class EcranSimulation implements Screen {
     SpriteBatch batch;
 
     /**
+     * Batch d'affichage des options de simulation
+     */
+    SpriteBatch optionsUI;
+
+    /**
      * Batch d'affichage des statistiques
      */
     SpriteBatch creatureStatsUI;
@@ -74,6 +79,11 @@ public class EcranSimulation implements Screen {
      * Mode pause
      */
     private  boolean estPause;
+
+    /**
+     * Fin de la simulation
+     */
+    private boolean finSimulation;
 
     public EcranSimulation(){
         this(100);
@@ -126,8 +136,14 @@ public class EcranSimulation implements Screen {
         // Initialisation du booleen qui indique si la simulation est en pause
         this.estPause = false;
 
-        //Initialisation de l'afficheur des stats de la carte
+        // Initialisation du booleen qui indique si la simulation est terminée
+        this.finSimulation = false;
+
+        // Initialisation de l'afficheur des stats de la carte
         this.carteStatsUI = new SpriteBatch();
+
+        // Initialisation de l'afficheur des options
+        this.optionsUI = new SpriteBatch();
 
         // Test créature & ressource
         batch = new SpriteBatch();
@@ -146,6 +162,10 @@ public class EcranSimulation implements Screen {
 
     }
 
+    public boolean getFinSimulation(){
+        return this.finSimulation;
+    }
+
 
     public void gestionCamera() {
         // Gestion du déplacement de la caméra. TODO: a déplacer
@@ -162,10 +182,17 @@ public class EcranSimulation implements Screen {
                 Vector3 touchPos = new Vector3();
                 touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
                 camera.unproject(touchPos);
-                System.out.println(touchPos.x / (float) ConstantesBiologiques.PixelsParCoord + ":" + touchPos.y / (float) ConstantesBiologiques.PixelsParCoord);
 
                 for (Entite entite : this.gameWorld.getEntites()) {
-                    if (entite.getPosition().dst2(new Vector2(touchPos.x / (float) ConstantesBiologiques.PixelsParCoord, touchPos.y / (float) ConstantesBiologiques.PixelsParCoord)) < 20) {
+                    double facteur = (ConstantesBiologiques.PixelsParCoord / 2);
+                    if (entite instanceof Creature) {
+                        facteur *= ((Creature) entite).getTaille();
+                    }
+                    //if(entite instanceof Ressource){
+                    //   facteur
+                    //}
+
+                    if (entite.getPosition().dst2(new Vector2((float) (touchPos.x - facteur) / (float) ConstantesBiologiques.PixelsParCoord, (float) (touchPos.y - facteur) / (float) ConstantesBiologiques.PixelsParCoord)) < 4) {
                         this.entiteSelectionne = entite;
                     }
                 }
@@ -173,8 +200,11 @@ public class EcranSimulation implements Screen {
 
         }
         if (input.isKeyJustPressed(Input.Keys.SPACE)) {
-            System.out.println("pause !");
             this.estPause = !this.estPause;
+        }
+
+        if (input.isKeyJustPressed(Input.Keys.TAB)){
+            this.finSimulation = true;
         }
 
         camera.update();
@@ -238,6 +268,13 @@ public class EcranSimulation implements Screen {
         }
     }
 
+    public void affichageOptionsSimulation(){
+        this.optionsUI.begin();
+        String textDesOptions = "Mettre en pause la simulation : Space" + "\nQuitter la simulation : Tab";
+        font.draw(this.optionsUI, textDesOptions, 300, 35);
+        this.optionsUI.end();
+    }
+
     public void framePhysique() {
         gameWorld.update(ConstantesBiologiques.deltaT);
     }
@@ -271,7 +308,7 @@ public class EcranSimulation implements Screen {
             }
             rendus();
             affichageSelection();
-
+            affichageOptionsSimulation();
             affichageUI();
         }
         else if (this.estPause) {
@@ -280,6 +317,7 @@ public class EcranSimulation implements Screen {
             gestionCamera();
             rendus();
             affichageSelection();
+            affichageOptionsSimulation();
             affichageUI();
         }
 
@@ -302,13 +340,16 @@ public class EcranSimulation implements Screen {
 
     @Override
     public void hide() {
-
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
     }
 
     @Override
     public void dispose() {
         batch.dispose();
         this.creatureStatsUI.dispose();
+        this.carteStatsUI.dispose();
+        this.optionsUI.dispose();
     }
 
 }

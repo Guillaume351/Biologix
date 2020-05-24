@@ -64,9 +64,6 @@ public class MyGdxGame extends Game {
             setScreen(this.ecranSimulation);
        }
        else if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && !this.ecranOptions.isNbCreatureValide()){
-           if (this.ecranOptions.getAltLayerChecked()){
-               ConstantesBiologiques.AltLayer = true;
-           }
            this.ecranSimulation = new EcranSimulation();
            setScreen(this.ecranSimulation);
        }
@@ -78,9 +75,17 @@ public class MyGdxGame extends Game {
         }
 
         if (this.getScreen() == this.ecranSimulation && i == 0){
-            this.ecranDemarrage.dispose();
+            //this.ecranDemarrage.dispose();
             this.ecranOptions.dispose();
             i++;
+        }
+
+        if (this.getScreen() == this.ecranSimulation && this.ecranSimulation.getFinSimulation()){
+            this.ecranSimulation.dispose();
+            this.ecranDemarrage = new EcranDemarrage(this);
+            this.ecranOptions = new EcranOptions();
+            ConstantesBiologiques.AltLayer = false;
+            this.setScreen(this.ecranDemarrage);
         }
     }
 }

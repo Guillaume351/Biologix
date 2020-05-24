@@ -44,6 +44,8 @@ public class EcranOptions implements Screen {
 
     public EcranOptions(){
 
+        ConstantesBiologiques.AltLayer = false;
+
         /* Initialisation des booléens */
         this.pasDeChangement = true;
         this.retourEcranDemarrage = false;
@@ -210,6 +212,7 @@ public class EcranOptions implements Screen {
 
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
+            ConstantesBiologiques.AltLayer = !ConstantesBiologiques.AltLayer;
             altLayerChecked = !altLayerChecked;
         }
     }
