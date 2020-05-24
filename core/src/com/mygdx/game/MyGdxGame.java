@@ -39,13 +39,9 @@ public class MyGdxGame extends Game {
 
     @Override
     public void create() {
-        //this.ecranDemarrage = new EcranDemarrage();
         this.ecranOptions = new EcranOptions();
         this.ecranDemarrage = new EcranDemarrage(this);
-        //this.ecranSimulation = new EcranSimulation();
-        //setScreen(ecranOptions);
         setScreen(ecranDemarrage);
-
     }
 
     @Override
@@ -58,12 +54,13 @@ public class MyGdxGame extends Game {
             this.ecranOptions.setRetourEcranDemarrage(false);
         }
 
-       if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && this.ecranOptions.isNbCreatureValide()){
+       if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && this.ecranOptions.isNbCreatureValide() && this.ecranOptions.isNbRessourceValide()){
             int nombreCreatures = Integer.parseInt(this.ecranOptions.getNombreCreatures().getText());
-            this.ecranSimulation = new EcranSimulation(nombreCreatures);
+            int nombreRessources = Integer.parseInt(this.ecranOptions.getNombreRessources().getText());
+            this.ecranSimulation = new EcranSimulation(nombreCreatures, nombreRessources);
             setScreen(this.ecranSimulation);
        }
-       else if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && !this.ecranOptions.isNbCreatureValide()){
+       else if (this.ecranDemarrage.lancerJeu && getScreen() == this.ecranDemarrage && (!this.ecranOptions.isNbCreatureValide() || !this.ecranOptions.isNbRessourceValide())){
            this.ecranSimulation = new EcranSimulation();
            setScreen(this.ecranSimulation);
        }
