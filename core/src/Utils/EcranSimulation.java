@@ -86,10 +86,10 @@ public class EcranSimulation implements Screen {
     private boolean finSimulation;
 
     public EcranSimulation(){
-        this(100);
+        this(100, 25);
     }
 
-    public EcranSimulation(int nombreCreatures) {
+    public EcranSimulation(int nombreCreatures, int nombreRessources) {
 
         // Nos parametres de génération de map pour le test
         int seed = new Random().nextInt(10000000);
@@ -97,7 +97,7 @@ public class EcranSimulation implements Screen {
         PerlinParams perlinParams = new PerlinParams(3, 0.01, 0.5, seed, 1);
 
         // On créer notre générateur de terrain
-        TerrainGenerator generator = new TerrainGenerator(perlinParams, nombreCreatures, 25, 25, 25, random);
+        TerrainGenerator generator = new TerrainGenerator(perlinParams, nombreCreatures, nombreRessources, nombreRessources, nombreRessources, random);
 
         // On génère le terrain
         this.gameWorld = generator.getGeneratedTerrain();

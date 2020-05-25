@@ -52,67 +52,76 @@ public class Statisticien {
 
     public static Texture graphique(List<Double> valeurs, Color fond, Color ligne, int xSize, int ySize) {
         int n = valeurs.size();
+        try {
+            Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
+            pix.setColor(fond);
+            pix.fill();
+            if (n != 0) {
+                double min = Collections.min(valeurs);
+                double max = Collections.max(valeurs);
+                pix.setColor(ligne);
+                double y0 = valeurs.get(0);
+                for (int i = 1; i < valeurs.size(); i++) {
+                    double progression = i / (double) (valeurs.size() - 1);
+                    double depart = (i - 1) / (double) (valeurs.size() - 1);
+                    double y1 = valeurs.get(i);
 
-        Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
-        pix.setColor(fond);
-        pix.fill();
-        if (n != 0) {
-            double min = Collections.min(valeurs);
-            double max = Collections.max(valeurs);
-            pix.setColor(ligne);
-            double y0 = valeurs.get(0);
-            for (int i = 1; i < valeurs.size(); i++) {
-                double progression = i / (double) (valeurs.size() - 1);
-                double depart = (i - 1) / (double) (valeurs.size() - 1);
-                double y1 = valeurs.get(i);
+                    int x0_ = (int) (depart * xSize);
+                    int x1_ = (int) (progression * xSize);
+                    int y0_ = (int) (ySize * (1.0 - (y0 - min) / (max - min)));
+                    int y1_ = (int) (ySize * (1.0 - (y1 - min) / (max - min)));
 
-                int x0_ = (int) (depart * xSize);
-                int x1_ = (int) (progression * xSize);
-                int y0_ = (int) (ySize * (1.0 - (y0 - min) / (max - min)));
-                int y1_ = (int) (ySize * (1.0 - (y1 - min) / (max - min)));
+                    pix.drawLine(x0_, y0_, x1_, y1_);
 
-                pix.drawLine(x0_, y0_, x1_, y1_);
-
-                y0 = y1;
+                    y0 = y1;
+                }
             }
+            Texture retour = new Texture(pix);
+            pix.dispose();
+            return retour;
+        } catch (Exception e) {
+
         }
-        Texture retour = new Texture(pix);
-        pix.dispose();
-        return retour;
+        return null;
     }
 
     public static Texture graphiqueStat(List<Stat> valeurs, Color fond, int xSize, int ySize) {
         int n = valeurs.size();
-        Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
+        try {
+            Pixmap pix = new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888);
 
-        if (n != 0) {
-            double min = customMin(valeurs);
-            double max = customMax(valeurs);
+            if (n != 0) {
+                double min = customMin(valeurs);
+                double max = customMax(valeurs);
 
-            pix.setColor(fond);
-            pix.fill();
+                pix.setColor(fond);
+                pix.fill();
 
-            //Courbe de depenses
-            double largeur = xSize / (double) valeurs.size();
+                //Courbe de depenses
+                double largeur = xSize / (double) valeurs.size();
 
-            for (int i = 0; i < valeurs.size(); i++) {
-                Stat st = valeurs.get(i);
-                double yd = 0;
-                int x0_ = (int) (i * largeur);
-                double sommeVal = 0;
-                for (int j = 0; j < 6; j++) {
-                    double val_double = st.getNiemeDepense(j);
-                    sommeVal += val_double;
-                    double upper = (sommeVal - min) / (max - min);
-                    double etendue = (val_double) / (max - min);
-                    pix.setColor(getColorN(j));
-                    pix.fillRectangle(x0_, (int) ((1.0 - upper) * (double) ySize), (int) largeur, (int) (etendue * ySize));
+                for (int i = 0; i < valeurs.size(); i++) {
+                    Stat st = valeurs.get(i);
+                    double yd = 0;
+                    int x0_ = (int) (i * largeur);
+                    double sommeVal = 0;
+                    for (int j = 0; j < 6; j++) {
+                        double val_double = st.getNiemeDepense(j);
+                        sommeVal += val_double;
+                        double upper = (sommeVal - min) / (max - min);
+                        double etendue = (val_double) / (max - min);
+                        pix.setColor(getColorN(j));
+                        pix.fillRectangle(x0_, (int) ((1.0 - upper) * (double) ySize), (int) largeur, (int) (etendue * ySize));
+                    }
                 }
             }
+            Texture retour = new Texture(pix);
+            pix.dispose();
+            return retour;
+        } catch (Exception e) {
+
         }
-        Texture retour = new Texture(pix);
-        pix.dispose();
-        return retour;
+        return null;
     }
 
     private static Color getColorN(int n) {
@@ -161,7 +170,7 @@ public class Statisticien {
 
     public Texture getHistogrameAges(int ancienete, int xSize, int ySize) {
         if (historiqueAges.size() > ancienete) {
-            return (graphique(histogramme(historiqueAges.get(historiqueAges.size() - ancienete - 1), 10), Color.WHITE, Color.BLACK, xSize, ySize));
+            return (graphique(histogramme(historiqueAges.get(historiqueAges.size() - ancienete - 1), 10), Color.WHITE, Color.RED, xSize, ySize));
         } else {
             return new Texture(new Pixmap(xSize, ySize, Pixmap.Format.RGBA8888));
         }

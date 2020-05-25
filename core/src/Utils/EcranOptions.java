@@ -16,29 +16,42 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 
 public class EcranOptions implements Screen {
 
+    /* La table et sa stage associée */
     private Stage stage;
     private Table table;
 
-    private TextField nombreCreatures;
-    private TextField.TextFieldStyle styleNombreCreatures;
-
-    private Label labelNbCreatures;
+    /* Le style utilisé pour les labels */
     private Label.LabelStyle styleLabel;
     private BitmapFont bitmapLabel;
 
-    private Label labelNbCreaturesNonValide;
+    /* Le style utilisé pour les champs à remplir */
+    private TextField.TextFieldStyle styleTextField;
 
+    /* Les champs à remplir */
+    private TextField nombreCreatures;
+    private TextField nombreRessources;
+
+    /* Les labels associés aux champs à remplir */
+    private Label labelNbCreatures;
+    private Label labelNbRessources;
+
+    /* Les labels s'affichant quand les champs à remplir ne sont pas corrects */
+    private Label labelNbCreaturesNonValide;
+    private Label labelNbRessourcesNonValide;
+
+    /* La checkbox, son style et son label */
+    private Label labelAltLayer;
+    private CheckBox.CheckBoxStyle styleAltLayer;
+    private CheckBox altLayer;
+
+    /* Le bouton */
     private ImageButton boutonValider;
 
-    private Label labelAltLayer;
-
-    private CheckBox altLayer;
-    private CheckBox.CheckBoxStyle styleAltLayer;
-
+    /* Les booleens d'état de la classe */
     private boolean nbCreatureValide;
+    private boolean nbRessourceValide;
     private boolean retourEcranDemarrage;
     private boolean pasDeChangement;
-    private boolean altLayerChecked;
 
 
 
@@ -50,31 +63,43 @@ public class EcranOptions implements Screen {
         this.pasDeChangement = true;
         this.retourEcranDemarrage = false;
         this.nbCreatureValide = false;
-        this.altLayerChecked = false;
 
+        /* Initialisation de la table et de la stage */
         this.table = new Table();
         this.stage = new Stage();
+
+        /* Style des champs à remplir */
+        this.styleTextField = new TextField.TextFieldStyle(new BitmapFont(Gdx.files.internal("default.fnt")), Color.WHITE, null, null, null);
+        this.styleTextField.fontColor = Color.BLACK;
+        this.styleTextField.background = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/case.png")));
+        this.styleTextField.cursor = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/curseur.png")));
 
         /* Label "Nombre de créatures" */
         this.bitmapLabel = new BitmapFont(Gdx.files.internal("default.fnt"));
         this.styleLabel = new Label.LabelStyle(this.bitmapLabel, Color.WHITE);
         this.labelNbCreatures = new Label("Nombre de creatures :", this.styleLabel);
 
-        /* Style du champ à remplir "Nombre de créatures" */
-        this.styleNombreCreatures = new TextField.TextFieldStyle(new BitmapFont(Gdx.files.internal("default.fnt")), Color.WHITE, null, null, null);
-        this.styleNombreCreatures.fontColor = Color.BLACK;
-        this.styleNombreCreatures.background = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/case_nb_creatures.png")));
-        this.styleNombreCreatures.cursor = new TextureRegionDrawable(new Texture(Gdx.files.internal("ui/curseur_nb_creatures.png")));
-
         /* Champ à remplir "Nombre de créatures */
-        this.nombreCreatures = new TextField("", this.styleNombreCreatures);
-        this.nombreCreatures.setWidth(200);
+        this.nombreCreatures = new TextField("", this.styleTextField);
+        //this.nombreCreatures.setWidth(200);
         this.nombreCreatures.setMessageText("100");  // nombre de créatures par défaut
         this.nombreCreatures.setTextFieldListener(new GestionNombreCreatures());
 
         /* Label "Nombre de créatures non valide !" */
         this.labelNbCreaturesNonValide = new Label("Nombre de creatures non valide !", this.styleLabel);
         this.labelNbCreaturesNonValide.setVisible(false);
+
+        /* Label "Nombre de ressources" */
+        this.labelNbRessources = new Label("Nombre de ressources :", this.styleLabel);
+
+        /* Champ à remplir "Nombre de ressources" */
+        this.nombreRessources = new TextField("", this.styleTextField);
+        this.nombreRessources.setMessageText("25");  // nombre de créatures par défaut
+        this.nombreRessources.setTextFieldListener(new GestionNombreRessources());
+
+        /* Label "Nombre de ressources non valide !" */
+        this.labelNbRessourcesNonValide = new Label("Nombre de ressources non valide !", this.styleLabel);
+        this.labelNbRessourcesNonValide.setVisible(false);
 
         /* Label "Affichage des altitudes" */
         this.labelAltLayer = new Label("Affichage des altitudes :", this.styleLabel);
@@ -94,35 +119,37 @@ public class EcranOptions implements Screen {
 
         /* Ajout des éléments à la table */
         this.table.setFillParent(true);
-        this.table.add(this.labelNbCreatures);
-        this.table.row();
+        this.table.left();
+        this.table.add(this.labelNbCreatures).width(0);
         this.table.add(this.nombreCreatures);
         this.table.row();
-        this.table.add(this.labelNbCreaturesNonValide);
+        this.table.add(this.labelNbCreaturesNonValide).width(0);
         this.table.row();
-        this.table.add(this.labelAltLayer).pad(50);
+        this.table.add(this.labelNbRessources).width(0);
+        this.table.add(this.nombreRessources);
         this.table.row();
-        this.table.add(this.altLayer).pad(-50);
+        this.table.add(this.labelNbRessourcesNonValide).width(0);
+        this.table.row();
+        this.table.add(this.labelAltLayer).width(0).pad(20);
+        //this.table.row();
+        this.table.add(this.altLayer);
         this.table.row();
         this.table.add(this.boutonValider).pad(100);
 
 
-
         /* Ajout de la table à la stage */
         this.stage.addActor(this.table);
-        //Gdx.input.setInputProcessor(stage);
-        //this.stage.
     }
 
     @Override
     public void show(){
         Gdx.input.setInputProcessor(this.stage);
+        Gdx.gl.glClearColor((float) 0.2, (float) 0.2, (float) 0.2, 0);
     }
 
     @Override
     public void render(float delta) {
-        //Gdx.input.setInputProcessor(this.stage);
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor((float) 0.2, (float) 0.2, (float) 0.2, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.draw();
     }
@@ -142,11 +169,13 @@ public class EcranOptions implements Screen {
 
     }
 
+    /**
+     * Méthode appelée lorsque l'écran n'est plus l'écran courant
+     */
     @Override
     public void hide() {
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor((float) 0.2, (float) 0.2, (float) 0.2, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        //this.stage.dispose();
     }
 
     @Override
@@ -154,13 +183,20 @@ public class EcranOptions implements Screen {
         this.stage.dispose();
     }
 
+
+    /* Section concernant les getters et les setters */
+
     public TextField getNombreCreatures() {
         return this.nombreCreatures;
     }
 
+    public TextField getNombreRessources(){return this.nombreRessources;}
+
     public boolean isNbCreatureValide() {
         return nbCreatureValide;
     }
+
+    public boolean isNbRessourceValide(){ return nbRessourceValide; }
 
 
     public boolean isRetourEcranDemarrage() {
@@ -171,12 +207,10 @@ public class EcranOptions implements Screen {
         this.retourEcranDemarrage = retourEcranDemarrage;
     }
 
-    public boolean getAltLayerChecked(){
-        return this.altLayerChecked;
-    }
-
+    /**
+     * Classe s'occupant de la gestion du champ à remplir "Nombre de créatures"
+     */
     public class GestionNombreCreatures implements TextField.TextFieldListener{
-
         @Override
         public void keyTyped(TextField textField, char c) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
@@ -195,8 +229,32 @@ public class EcranOptions implements Screen {
         }
     }
 
-    public class GestionBoutonValider extends InputListener {
+    /**
+     * Classe s'occupant de la gestion du champ "Nombre de ressources"
+     */
+    public class GestionNombreRessources implements TextField.TextFieldListener{
+        @Override
+        public void keyTyped(TextField textField, char c) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)){
+                try {
+                    int nbRessources = Integer.parseInt(nombreRessources.getText());
+                    nbRessourceValide = true;
+                    pasDeChangement = false;
+                    labelNbRessourcesNonValide.setVisible(false);
+                }
+                catch (NumberFormatException e)
+                {
+                    labelNbRessourcesNonValide.setVisible(true);
+                    nbRessourceValide = false;
+                }
+            }
+        }
+    }
 
+    /**
+     * Classe s'occupant de la gestion du bouton "Retour à l'écran de démarrage"
+     */
+    public class GestionBoutonValider extends InputListener {
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button){
             if (nbCreatureValide || pasDeChangement) {
@@ -204,17 +262,16 @@ public class EcranOptions implements Screen {
             }
             return true;
         }
-
-
     }
 
+    /**
+     * Classe d'occupant de la gestion de la checkbox "Affichage des altitudes"
+     */
     public class GestionCheckedBox extends ChangeListener {
 
         @Override
         public void changed(ChangeEvent changeEvent, Actor actor) {
             ConstantesBiologiques.AltLayer = !ConstantesBiologiques.AltLayer;
-            altLayerChecked = !altLayerChecked;
         }
     }
-
 }
