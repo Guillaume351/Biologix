@@ -83,7 +83,7 @@ public class Localisateur {
         for (Localisable item : autres) {
             //Vecteur de distance entre les deux objets
             Vector2 dist = new Vector2(item.getPosition());
-            dist.sub(item.getPosition());
+            dist.sub(position);
             //Angle absolu en rad entre la direction et le vecteur distance
             double angle = Math.abs(dist.angleRad(direction));
             //Si angle et distance ok, garder l'objet
